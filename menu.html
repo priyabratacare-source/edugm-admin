@@ -1,177 +1,395 @@
 
-<style>
-  .egm-menu {
-    width: 250px;
-    min-height: 100%;
-    padding: 24px 16px;
-    background: #fff;
-    border-right: 1px solid #e5edf7;
-    display: flex;
-    flex-direction: column;
-    font-family: Inter, Arial, sans-serif;
-    box-sizing: border-box;
-  }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="theme-color" content="#2563eb">
+  <title>EduGM Admin Menu</title>
 
-  .egm-menu * { box-sizing: border-box; }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  .egm-menu-brand {
-    display: flex;
-    align-items: center;
-    gap: 11px;
-    padding: 0 7px 24px;
-    border-bottom: 1px solid #edf2f8;
-  }
+  <style>
+    :root {
+      --blue: #2563eb;
+      --blue-dark: #1d4ed8;
+      --blue-light: #eff6ff;
+      --text: #172554;
+      --muted: #64748b;
+      --border: #e5edf7;
+      --white: #ffffff;
+    }
 
-  .egm-menu-brand img {
-    width: 43px;
-    height: 43px;
-    object-fit: contain;
-  }
+    * {
+      box-sizing: border-box;
+    }
 
-  .egm-menu-brand strong {
-    display: block;
-    color: #1d4ed8;
-    font-size: 20px;
-    font-weight: 800;
-  }
+    html {
+      scroll-behavior: smooth;
+    }
 
-  .egm-menu-brand small {
-    display: block;
-    color: #64748b;
-    font-size: 10px;
-    margin-top: 4px;
-  }
+    body {
+      margin: 0;
+      background: #f5f8ff;
+      color: var(--text);
+      font-family: Inter, Arial, sans-serif;
+    }
 
-  .egm-menu-label {
-    margin: 25px 10px 11px;
-    color: #94a3b8;
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 1.3px;
-    text-transform: uppercase;
-  }
-
-  .egm-menu nav {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-
-  .egm-menu a {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 13px 14px;
-    border-radius: 11px;
-    text-decoration: none;
-    color: #64748b;
-    font-size: 13px;
-    font-weight: 600;
-    transition: background .2s, color .2s, transform .2s;
-  }
-
-  .egm-menu a:hover {
-    background: #eff6ff;
-    color: #2563eb;
-    transform: translateX(2px);
-  }
-
-  .egm-menu a.active {
-    color: #2563eb;
-    background: #eaf1ff;
-  }
-
-  .egm-menu .menu-icon {
-    width: 22px;
-    text-align: center;
-    font-size: 17px;
-  }
-
-  .egm-menu-footer {
-    margin-top: auto;
-    padding: 25px 8px 4px;
-    color: #94a3b8;
-    font-size: 10px;
-    line-height: 1.8;
-  }
-
-  @media (max-width: 700px) {
     .egm-menu {
-      width: 100%;
-      min-height: auto;
-      padding: 12px 14px;
-      border-right: 0;
-      border-bottom: 1px solid #e5edf7;
+      width: 250px;
+      min-height: 100vh;
+      padding: 22px 15px 16px;
+      background: var(--white);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
     }
 
-    .egm-menu-brand {
-      padding: 0 4px 10px;
-      border: 0;
+    .egm-brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 3px 8px 22px;
+      border-bottom: 1px solid #edf2f8;
     }
 
-    .egm-menu-brand img {
-      width: 36px;
-      height: 36px;
-    }
-
-    .egm-menu-brand strong { font-size: 18px; }
-
-    .egm-menu-label,
-    .egm-menu-footer { display: none; }
-
-    .egm-menu nav {
-      flex-direction: row;
-      gap: 6px;
-      overflow-x: auto;
-      padding-top: 8px;
-    }
-
-    .egm-menu a {
+    .egm-brand-logo {
+      width: 45px;
+      height: 45px;
+      object-fit: contain;
       flex-shrink: 0;
-      padding: 10px 12px;
+    }
+
+    .egm-brand-name {
+      color: var(--blue-dark);
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -.7px;
+    }
+
+    .egm-brand-subtitle {
+      color: var(--muted);
+      font-size: 10px;
+      margin-top: 4px;
+    }
+
+    .egm-menu-label {
+      margin: 23px 10px 10px;
+      color: #94a3b8;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+    }
+
+    .egm-menu-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .egm-menu-nav a {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 43px;
+      padding: 11px 12px;
+      color: #64748b;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 11px;
+      transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease;
+    }
+
+    .egm-menu-nav a:hover {
+      background: var(--blue-light);
+      color: var(--blue);
+      transform: translateX(2px);
+    }
+
+    .egm-menu-nav a.active {
+      color: var(--blue-dark);
+      background: #eaf1ff;
+      font-weight: 700;
+    }
+
+    .egm-menu-nav a.active::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 10px;
+      bottom: 10px;
+      width: 3px;
+      background: var(--blue);
+      border-radius: 0 4px 4px 0;
+    }
+
+    .egm-menu-icon {
+      display: grid;
+      place-items: center;
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      font-size: 16px;
+    }
+
+    .egm-menu-text {
+      flex: 1;
+    }
+
+    .egm-menu-tag {
+      padding: 3px 6px;
+      border-radius: 6px;
+      background: #eff6ff;
+      color: var(--blue);
+      font-size: 9px;
+      font-weight: 800;
+    }
+
+    .egm-menu-divider {
+      height: 1px;
+      background: #edf2f8;
+      margin: 13px 5px 3px;
+    }
+
+    .egm-menu-footer {
+      margin-top: auto;
+      padding: 22px 9px 4px;
+      color: #94a3b8;
+      font-size: 10px;
+      line-height: 1.9;
+    }
+
+    .egm-menu-footer strong {
+      color: #64748b;
       font-size: 11px;
     }
-  }
-</style>
+
+    .egm-menu-version {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 4px 7px;
+      border-radius: 6px;
+      background: #f1f5f9;
+      color: #64748b;
+      font-size: 9px;
+    }
+
+    @media (max-width: 700px) {
+      .egm-menu {
+        width: 100%;
+        min-height: auto;
+        padding: 12px 13px;
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .egm-brand {
+        padding: 0 5px 10px;
+        border-bottom: 0;
+      }
+
+      .egm-brand-logo {
+        width: 37px;
+        height: 37px;
+      }
+
+      .egm-brand-name {
+        font-size: 18px;
+      }
+
+      .egm-menu-label,
+      .egm-menu-footer,
+      .egm-menu-divider {
+        display: none;
+      }
+
+      .egm-menu-nav {
+        flex-direction: row;
+        gap: 6px;
+        overflow-x: auto;
+        padding: 8px 0 3px;
+        scrollbar-width: thin;
+      }
+
+      .egm-menu-nav a {
+        flex: 0 0 auto;
+        min-height: 38px;
+        padding: 9px 11px;
+        font-size: 11px;
+        white-space: nowrap;
+      }
+
+      .egm-menu-nav a:hover {
+        transform: none;
+      }
+
+      .egm-menu-nav a.active::before {
+        display: none;
+      }
+
+      .egm-menu-icon {
+        width: auto;
+        height: auto;
+        font-size: 14px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
 
 <aside class="egm-menu">
-  <div class="egm-menu-brand">
+  <!-- EduGM Branding -->
+  <div class="egm-brand">
     <img
+      class="egm-brand-logo"
       src="https://i.ibb.co/1Y82N0n0/Edu-GM-Learning-Logo.png"
-      alt="EduGM"
+      alt="EduGM Learning Logo"
+      onerror="this.style.visibility='hidden'"
     >
+
     <div>
-      <strong>EduGM</strong>
-      <small>Learning · Admin Panel</small>
+      <div class="egm-brand-name">EduGM</div>
+      <div class="egm-brand-subtitle">Learning · Admin Panel</div>
     </div>
   </div>
 
+  <!-- Main Workspace -->
   <div class="egm-menu-label">Workspace</div>
 
-  <nav aria-label="Admin navigation">
+  <nav class="egm-menu-nav" aria-label="Main navigation">
     <a href="dashboard.html" data-page="dashboard.html">
-      <span class="menu-icon">⌂</span> Dashboard
+      <span class="egm-menu-icon">⌂</span>
+      <span class="egm-menu-text">Dashboard</span>
     </a>
 
     <a href="articles.html" data-page="articles.html">
-      <span class="menu-icon">▤</span> Articles
+      <span class="egm-menu-icon">▤</span>
+      <span class="egm-menu-text">Articles</span>
     </a>
 
     <a href="article-editor.html" data-page="article-editor.html">
-      <span class="menu-icon">✎</span> Write Article
+      <span class="egm-menu-icon">✎</span>
+      <span class="egm-menu-text">Write Article</span>
+      <span class="egm-menu-tag">NEW</span>
+    </a>
+
+    <a href="categories.html" data-page="categories.html">
+      <span class="egm-menu-icon">▦</span>
+      <span class="egm-menu-text">Categories</span>
     </a>
   </nav>
 
+  <!-- Website Management -->
+  <div class="egm-menu-label">Website Management</div>
+
+  <nav class="egm-menu-nav" aria-label="Website management">
+    <a href="pages.html" data-page="pages.html">
+      <span class="egm-menu-icon">📄</span>
+      <span class="egm-menu-text">Pages</span>
+    </a>
+
+    <a href="edugm-store.html" data-page="edugm-store.html">
+      <span class="egm-menu-icon">🛍️</span>
+      <span class="egm-menu-text">EduGM Store</span>
+    </a>
+
+    <a href="notices.html" data-page="notices.html">
+      <span class="egm-menu-icon">📢</span>
+      <span class="egm-menu-text">Notices</span>
+    </a>
+  </nav>
+
+  <div class="egm-menu-divider"></div>
+
+  <!-- Planning and Productivity -->
+  <div class="egm-menu-label">Productivity</div>
+
+  <nav class="egm-menu-nav" aria-label="Productivity">
+    <a href="calendar.html" data-page="calendar.html">
+      <span class="egm-menu-icon">📅</span>
+      <span class="egm-menu-text">Calendar</span>
+    </a>
+
+    <a href="todo.html" data-page="todo.html">
+      <span class="egm-menu-icon">✓</span>
+      <span class="egm-menu-text">To-Do List</span>
+    </a>
+
+    <a href="innovation.html" data-page="innovation.html">
+      <span class="egm-menu-icon">💡</span>
+      <span class="egm-menu-text">Innovation</span>
+    </a>
+  </nav>
+
+  <div class="egm-menu-divider"></div>
+
+  <!-- Organization -->
+  <div class="egm-menu-label">Organization</div>
+
+  <nav class="egm-menu-nav" aria-label="Organization">
+    <a href="users.html" data-page="users.html">
+      <span class="egm-menu-icon">♙</span>
+      <span class="egm-menu-text">Members</span>
+    </a>
+
+    <a href="earnings.html" data-page="earnings.html">
+      <span class="egm-menu-icon">₹</span>
+      <span class="egm-menu-text">Earnings</span>
+    </a>
+  </nav>
+
+  <div class="egm-menu-divider"></div>
+
+  <!-- Personal and Settings -->
+  <div class="egm-menu-label">Account</div>
+
+  <nav class="egm-menu-nav" aria-label="Account">
+    <a href="profile.html" data-page="profile.html">
+      <span class="egm-menu-icon">👤</span>
+      <span class="egm-menu-text">My Profile</span>
+    </a>
+
+    <a href="settings.html" data-page="settings.html">
+      <span class="egm-menu-icon">⚙</span>
+      <span class="egm-menu-text">Settings</span>
+    </a>
+  </nav>
+
+  <!-- Footer -->
   <div class="egm-menu-footer">
     <strong>EduGM Admin Panel</strong><br>
     Official Use Only<br>
     Secure staff workspace
+
+    <div>
+      <span class="egm-menu-version">EduGM · Admin</span>
+    </div>
   </div>
 </aside>
 
 <script>
   (() => {
-    const currentPage = location.pathname.split("/").pop() || "dashboard.html";
+    const currentPage =
+      window.location.pathname.split("/").pop() || "dashboard.html";
 
     document.querySelectorAll(".egm-menu [data-page]").forEach(link => {
       if (link.dataset.page === currentPage) {
@@ -181,3 +399,6 @@
     });
   })();
 </script>
+
+</body>
+</html>
