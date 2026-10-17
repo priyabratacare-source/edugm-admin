@@ -1,0 +1,778 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="theme-color" content="#2563eb">
+  <title>My Profile | EduGM Admin</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --blue: #2563eb;
+      --blue-dark: #1d4ed8;
+      --blue-soft: #eff6ff;
+      --bg: #f4f7fb;
+      --white: #fff;
+      --text: #172033;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --red: #dc2626;
+      --green: #15803d;
+      --radius: 16px;
+      --shadow: 0 8px 28px rgba(15, 23, 42, .05);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    button, input, textarea, select { font: inherit; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 22px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    .brand img {
+      width: 43px;
+      height: 43px;
+      object-fit: contain;
+    }
+
+    .brand strong { display: block; font-size: 16px; }
+    .brand small { color: var(--muted); font-size: 12px; }
+
+    .top-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 26px auto;
+      padding: 0 18px;
+    }
+
+    .heading { margin-bottom: 20px; }
+    .heading h1 { margin: 0 0 7px; font-size: 27px; }
+    .heading p { margin: 0; color: var(--muted); line-height: 1.6; font-size: 14px; }
+
+    .columns {
+      display: grid;
+      grid-template-columns: 310px minmax(0, 1fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      margin-bottom: 18px;
+      min-width: 0;
+    }
+
+    .card h2 { margin: 0 0 17px; font-size: 17px; }
+    .muted { color: var(--muted); font-size: 13px; line-height: 1.65; }
+
+    .avatar-wrap {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      gap: 10px;
+      padding: 8px 0 18px;
+    }
+
+    .avatar {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: var(--blue-soft);
+      border: 3px solid #dbeafe;
+      object-fit: cover;
+      display: grid;
+      place-items: center;
+      color: var(--blue);
+      font-size: 36px;
+      font-weight: 700;
+      overflow: hidden;
+    }
+
+    .avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .profile-name { font-size: 18px; font-weight: 700; overflow-wrap: anywhere; }
+    .email { font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
+
+    .role {
+      display: inline-flex;
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: var(--blue-dark);
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .field { margin-bottom: 16px; }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 12px;
+      color: var(--text);
+      background: #fff;
+      outline: none;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+    }
+
+    input:disabled {
+      background: #f8fafc;
+      color: #64748b;
+      cursor: not-allowed;
+    }
+
+    textarea { min-height: 100px; resize: vertical; }
+    .help { margin: 6px 0 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+
+    .btn {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: white;
+      color: var(--text);
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+    }
+
+    .btn:hover { background: #f8fafc; }
+    .btn.primary { background: var(--blue); border-color: var(--blue); color: white; }
+    .btn.primary:hover { background: var(--blue-dark); }
+    .btn.danger { color: var(--red); }
+    .btn:disabled { opacity: .55; cursor: not-allowed; }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 9px; }
+    .full { width: 100%; }
+
+    .notice {
+      display: none;
+      padding: 12px 14px;
+      border-radius: 10px;
+      margin-bottom: 18px;
+      font-size: 13px;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    .notice.show { display: block; }
+    .notice.info { color: #1d4ed8; background: #eff6ff; }
+    .notice.success { color: #166534; background: #f0fdf4; }
+    .notice.error { color: #b91c1c; background: #fef2f2; }
+
+    .section-divider {
+      border: 0;
+      border-top: 1px solid var(--border);
+      margin: 22px 0;
+    }
+
+    .stat {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 11px 0;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 13px;
+    }
+
+    .stat:last-child { border-bottom: 0; }
+    .stat span { color: var(--muted); }
+    .stat strong { text-align: right; overflow-wrap: anywhere; }
+
+    .locked {
+      border: 1px solid #bfdbfe;
+      background: #eff6ff;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #1e40af;
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px 12px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 800px) {
+      .columns { grid-template-columns: 1fr; }
+      .topbar { padding: 11px 13px; }
+      .container { margin-top: 18px; padding: 0 12px; }
+      .card { padding: 17px; }
+    }
+
+    @media (max-width: 480px) {
+      .brand small { display: none; }
+      .brand img { width: 36px; height: 36px; }
+      .top-actions .btn { padding: 8px; font-size: 12px; }
+      .heading h1 { font-size: 23px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img src="https://i.ibb.co/1Y82N0n0/Edu-GM-Learning-Logo.png" alt="EduGM">
+      <div>
+        <strong>EduGM Admin</strong>
+        <small>Profile and account settings</small>
+      </div>
+    </div>
+
+    <div class="top-actions">
+      <a class="btn" href="dashboard.html">Dashboard</a>
+      <button class="btn" id="logoutBtn" type="button">Log out</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="heading">
+      <h1>My Profile</h1>
+      <p>Manage your EduGM staff profile, display settings and account security.</p>
+    </div>
+
+    <div id="notice" class="notice" role="status" aria-live="polite"></div>
+
+    <div class="columns">
+      <aside>
+        <section class="card">
+          <div class="avatar-wrap">
+            <div class="avatar" id="avatar">E</div>
+            <div class="profile-name" id="cardName">Loading profile…</div>
+            <div class="email" id="cardEmail"></div>
+            <span class="role" id="cardRole">Loading</span>
+          </div>
+          <hr class="section-divider">
+          <div class="stat"><span>Account status</span><strong id="accountStatus">Checking…</strong></div>
+          <div class="stat"><span>Sign-in provider</span><strong>Email / Password</strong></div>
+          <div class="stat"><span>UID</span><strong id="uidShort">—</strong></div>
+        </section>
+
+        <section class="card">
+          <h2>Profile picture</h2>
+          <div class="field">
+            <label for="photoURL">Hosted image URL</label>
+            <input id="photoURL" type="url" placeholder="https://example.com/photo.jpg">
+            <p class="help">Use a publicly accessible HTTPS image URL. You can host the image in your website repository or another image host.</p>
+          </div>
+          <div class="actions">
+            <button class="btn primary" id="savePhotoBtn" type="button">Save picture</button>
+            <button class="btn" id="previewPhotoBtn" type="button">Preview</button>
+          </div>
+        </section>
+      </aside>
+
+      <div>
+        <section class="card">
+          <h2>Personal information</h2>
+
+          <div class="field">
+            <label for="displayName">Display name</label>
+            <input id="displayName" maxlength="80" placeholder="Your name">
+            <p id="nameHelp" class="help"></p>
+          </div>
+
+          <div class="field">
+            <label for="bio">Bio</label>
+            <textarea id="bio" maxlength="500" placeholder="Tell the team a little about yourself"></textarea>
+            <p class="help"><span id="bioCount">0</span>/500 characters</p>
+          </div>
+
+          <div class="field">
+            <label for="email">Email address</label>
+            <input id="email" type="email" disabled>
+            <p class="help">Email changes are managed through Firebase Authentication, not this profile form.</p>
+          </div>
+
+          <div class="actions">
+            <button class="btn primary" id="saveProfileBtn" type="button">Save profile</button>
+            <button class="btn" id="reloadBtn" type="button">Reload profile</button>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Account preferences</h2>
+
+          <div class="field">
+            <label for="preferredLanguage">Preferred language</label>
+            <select id="preferredLanguage">
+              <option value="en">English</option>
+              <option value="bn">বাংলা (Bengali)</option>
+              <option value="hi">हिन्दी (Hindi)</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="timezone">Timezone</label>
+            <select id="timezone">
+              <option value="Asia/Kolkata">India Standard Time (Asia/Kolkata)</option>
+              <option value="UTC">UTC</option>
+            </select>
+          </div>
+
+          <button class="btn primary" id="savePreferencesBtn" type="button">Save preferences</button>
+        </section>
+
+        <section class="card">
+          <h2>Change password</h2>
+          <p class="muted">For your security, enter your current password before choosing a new one. Firebase may require you to sign in again if your session is old.</p>
+
+          <div class="field">
+            <label for="currentPassword">Current password</label>
+            <input id="currentPassword" type="password" autocomplete="current-password" placeholder="Enter current password">
+          </div>
+
+          <div class="field">
+            <label for="newPassword">New password</label>
+            <input id="newPassword" type="password" autocomplete="new-password" minlength="8" placeholder="At least 8 characters">
+          </div>
+
+          <div class="field">
+            <label for="confirmPassword">Confirm new password</label>
+            <input id="confirmPassword" type="password" autocomplete="new-password" minlength="8" placeholder="Re-enter new password">
+          </div>
+
+          <button class="btn primary" id="changePasswordBtn" type="button">Update password</button>
+        </section>
+
+        <section class="card">
+          <h2>Security and session</h2>
+          <div class="locked">
+            Never share your password. Your account role and approval status are controlled by EduGM's staff records and Firebase Security Rules.
+          </div>
+          <div class="actions" style="margin-top:15px">
+            <button class="btn" id="refreshBtn" type="button">Refresh account</button>
+            <button class="btn danger" id="securityLogoutBtn" type="button">Sign out</button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    © <span id="year"></span> EduGM. All rights reserved.
+    EduGM Admin Panel — Official Use Only.
+  </footer>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut,
+      EmailAuthProvider,
+      reauthenticateWithCredential,
+      updatePassword,
+      updateProfile,
+      reload
+    } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      updateDoc,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA9yj3ikv7oIsBhU7IE9XPclY3vul5d9us",
+      authDomain: "edugm-bangla.firebaseapp.com",
+      projectId: "edugm-bangla",
+      storageBucket: "edugm-bangla.firebasestorage.app",
+      messagingSenderId: "236553092510",
+      appId: "1:236553092510:web:91f03b4434616c06846a8f"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const $ = id => document.getElementById(id);
+
+    let user = null;
+    let profile = null;
+    let role = null;
+    let loading = false;
+
+    $("year").textContent = new Date().getFullYear();
+
+    function notify(message, type = "info") {
+      const box = $("notice");
+      box.textContent = message;
+      box.className = "notice show " + type;
+    }
+
+    function clearNotice() {
+      $("notice").textContent = "";
+      $("notice").className = "notice";
+    }
+
+    function setBusy(button, busy, label) {
+      button.disabled = busy;
+      if (busy) {
+        button.dataset.originalText = button.textContent;
+        button.textContent = label || "Please wait…";
+      } else if (button.dataset.originalText) {
+        button.textContent = button.dataset.originalText;
+        delete button.dataset.originalText;
+      }
+    }
+
+    function safeImageURL(value) {
+      if (!value.trim()) return "";
+      try {
+        const url = new URL(value.trim());
+        return url.protocol === "https:" ? url.href : null;
+      } catch {
+        return null;
+      }
+    }
+
+    function renderAvatar(url, name) {
+      const avatar = $("avatar");
+      avatar.replaceChildren();
+
+      if (url) {
+        const img = document.createElement("img");
+        img.src = url;
+        img.alt = "Profile picture";
+        img.referrerPolicy = "no-referrer";
+        img.onerror = () => {
+          avatar.replaceChildren();
+          avatar.textContent = (name || "E").trim().charAt(0).toUpperCase();
+        };
+        avatar.appendChild(img);
+      } else {
+        avatar.textContent = (name || "E").trim().charAt(0).toUpperCase();
+      }
+    }
+
+    function renderProfile() {
+      const name = profile.displayName || user.displayName || "EduGM Staff";
+      const photo = profile.photoURL || user.photoURL || "";
+
+      $("cardName").textContent = name;
+      $("cardEmail").textContent = user.email || "";
+      $("cardRole").textContent = role || "staff";
+      $("accountStatus").textContent = profile.active === true ? "Active" : "Inactive";
+      $("uidShort").textContent = user.uid.slice(0, 8) + "…";
+
+      $("displayName").value = name;
+      $("bio").value = profile.bio || "";
+      $("email").value = user.email || "";
+      $("photoURL").value = photo;
+      $("preferredLanguage").value = ["en", "bn", "hi"].includes(profile.preferredLanguage)
+        ? profile.preferredLanguage : "en";
+      $("timezone").value = profile.timezone === "UTC" ? "UTC" : "Asia/Kolkata";
+      $("bioCount").textContent = $("bio").value.length;
+
+      renderAvatar(photo, name);
+
+      const owner = role === "owner";
+      $("displayName").disabled = !owner;
+      $("nameHelp").textContent = owner
+        ? "Owner permission: you can change your own display name."
+        : "Only the EduGM Owner can change a display name. Contact the Owner if it needs correction.";
+    }
+
+    async function loadProfile() {
+      if (!user) return;
+
+      const snap = await getDoc(doc(db, "users", user.uid));
+      if (!snap.exists()) {
+        await signOut(auth);
+        location.replace("index.html");
+        return;
+      }
+
+      profile = snap.data();
+      role = profile.role;
+
+      if (profile.active !== true || !["owner", "admin", "editor"].includes(role)) {
+        await signOut(auth);
+        location.replace("index.html");
+        return;
+      }
+
+      renderProfile();
+      clearNotice();
+    }
+
+    async function savePersonalProfile() {
+      if (loading) return;
+      const button = $("saveProfileBtn");
+
+      try {
+        const name = $("displayName").value.trim();
+        const bio = $("bio").value.trim();
+
+        if (role === "owner" && (!name || name.length > 80)) {
+          throw new Error("Enter a name between 1 and 80 characters.");
+        }
+
+        loading = true;
+        setBusy(button, true, "Saving…");
+
+        const changes = {
+          bio,
+          updatedAt: serverTimestamp()
+        };
+
+        if (role === "owner") {
+          changes.displayName = name;
+          await updateProfile(user, { displayName: name });
+        }
+
+        await updateDoc(doc(db, "users", user.uid), changes);
+
+        profile = { ...profile, ...changes, bio };
+        if (role === "owner") profile.displayName = name;
+
+        renderProfile();
+        notify("Profile saved successfully.", "success");
+      } catch (error) {
+        console.error(error);
+        notify(error.message || "Unable to save profile. Check your Firestore Security Rules.", "error");
+      } finally {
+        loading = false;
+        setBusy(button, false);
+      }
+    }
+
+    async function savePhoto() {
+      if (loading) return;
+      const button = $("savePhotoBtn");
+
+      try {
+        const url = safeImageURL($("photoURL").value);
+        if (url === null) throw new Error("Enter a valid HTTPS image URL.");
+        if (url && url.length > 2000) throw new Error("The image URL is too long.");
+
+        loading = true;
+        setBusy(button, true, "Saving…");
+
+        await updateDoc(doc(db, "users", user.uid), {
+          photoURL: url,
+          updatedAt: serverTimestamp()
+        });
+
+        await updateProfile(user, { photoURL: url || null });
+
+        profile.photoURL = url;
+        renderProfile();
+        notify("Profile picture URL saved.", "success");
+      } catch (error) {
+        console.error(error);
+        notify(error.message || "Unable to save profile picture. Check your Firestore rules.", "error");
+      } finally {
+        loading = false;
+        setBusy(button, false);
+      }
+    }
+
+    async function savePreferences() {
+      if (loading) return;
+      const button = $("savePreferencesBtn");
+
+      try {
+        loading = true;
+        setBusy(button, true, "Saving…");
+
+        const preferredLanguage = $("preferredLanguage").value;
+        const timezone = $("timezone").value;
+
+        await updateDoc(doc(db, "users", user.uid), {
+          preferredLanguage,
+          timezone,
+          updatedAt: serverTimestamp()
+        });
+
+        profile.preferredLanguage = preferredLanguage;
+        profile.timezone = timezone;
+        notify("Preferences saved.", "success");
+      } catch (error) {
+        console.error(error);
+        notify(error.message || "Unable to save preferences. Check your Firestore rules.", "error");
+      } finally {
+        loading = false;
+        setBusy(button, false);
+      }
+    }
+
+    async function changePassword() {
+      if (loading) return;
+      const button = $("changePasswordBtn");
+
+      try {
+        const currentPassword = $("currentPassword").value;
+        const newPassword = $("newPassword").value;
+        const confirmPassword = $("confirmPassword").value;
+
+        if (!user.email) throw new Error("This account does not have an email address.");
+        if (!currentPassword) throw new Error("Enter your current password.");
+        if (newPassword.length < 8) throw new Error("Your new password must be at least 8 characters.");
+        if (newPassword !== confirmPassword) throw new Error("The new passwords do not match.");
+        if (newPassword === currentPassword) throw new Error("Choose a different password.");
+
+        loading = true;
+        setBusy(button, true, "Updating password…");
+
+        const credential = EmailAuthProvider.credential(user.email, currentPassword);
+        await reauthenticateWithCredential(user, credential);
+        await updatePassword(user, newPassword);
+
+        $("currentPassword").value = "";
+        $("newPassword").value = "";
+        $("confirmPassword").value = "";
+
+        notify("Password changed successfully.", "success");
+      } catch (error) {
+        console.error(error);
+        let message = error.message || "Unable to update password.";
+
+        if (error.code === "auth/wrong-password" ||
+            error.code === "auth/invalid-credential") {
+          message = "Your current password is incorrect.";
+        } else if (error.code === "auth/weak-password") {
+          message = "Choose a stronger password.";
+        } else if (error.code === "auth/requires-recent-login") {
+          message = "Please sign out, sign back in, and try again.";
+        } else if (error.code === "auth/too-many-requests") {
+          message = "Too many attempts. Please wait before trying again.";
+        }
+
+        notify(message, "error");
+      } finally {
+        loading = false;
+        setBusy(button, false);
+      }
+    }
+
+    $("bio").addEventListener("input", () => {
+      $("bioCount").textContent = $("bio").value.length;
+    });
+
+    $("saveProfileBtn").addEventListener("click", savePersonalProfile);
+    $("savePhotoBtn").addEventListener("click", savePhoto);
+    $("savePreferencesBtn").addEventListener("click", savePreferences);
+    $("changePasswordBtn").addEventListener("click", changePassword);
+
+    $("previewPhotoBtn").addEventListener("click", () => {
+      const url = safeImageURL($("photoURL").value);
+      if (url === null) {
+        notify("Enter a valid HTTPS image URL first.", "error");
+        return;
+      }
+      renderAvatar(url, $("displayName").value || profile?.displayName || "E");
+      notify(url ? "Picture preview updated. Save it to keep this change." : "Picture preview cleared. Save to remove your profile picture.", "info");
+    });
+
+    $("reloadBtn").addEventListener("click", async () => {
+      try {
+        await loadProfile();
+        notify("Profile reloaded.", "success");
+      } catch (error) {
+        notify(error.message || "Unable to reload profile.", "error");
+      }
+    });
+
+    async function logout() {
+      await signOut(auth);
+      location.replace("index.html");
+    }
+
+    $("logoutBtn").addEventListener("click", async () => {
+      try { await logout(); }
+      catch (error) { notify(error.message || "Unable to sign out.", "error"); }
+    });
+
+    $("securityLogoutBtn").addEventListener("click", async () => {
+      try { await logout(); }
+      catch (error) { notify(error.message || "Unable to sign out.", "error"); }
+    });
+
+    $("refreshBtn").addEventListener("click", async () => {
+      try {
+        await reload(user);
+        await loadProfile();
+        notify("Account refreshed.", "success");
+      } catch (error) {
+        notify(error.message || "Unable to refresh account.", "error");
+      }
+    });
+
+    onAuthStateChanged(auth, async signedInUser => {
+      if (!signedInUser) {
+        location.replace("index.html");
+        return;
+      }
+
+      user = signedInUser;
+
+      try {
+        await loadProfile();
+      } catch (error) {
+        console.error(error);
+        notify(error.message || "Unable to load profile.", "error");
+      }
+    });
+  </script>
+</body>
+</html>
+```
