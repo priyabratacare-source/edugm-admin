@@ -1,0 +1,10 @@
+import { db } from "./firebase.js"; import { $, requireStaff, esc, fmtDate } from "./common.js";
+import { collection,getDocs,query,orderBy,limit } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
+const {user,profile}=await requireStaff("dashboard.html");
+try{
+ const [allSnap,recentSnap]=await Promise.all([getDocs(collection(db,"articles")),getDocs(query(collection(db,"articles"),orderBy("updatedAt","desc"),limit(8)))]);
+ const articles=allSnap.docs.map(d=>({id:d.id,...d.data()}));
+ $("#stat-all").textContent=articles.length;$("#stat-published").textContent=articles.filter(a=>a.status==="published").length;$("#stat-drafts").textContent=articles.filter(a=>a.status!=="published").length;
+ $("#recent-articles").innerHTML=recentSnap.empty?'<div class="empty-state">No articles yet. Write your first article.</div>':`<table><thead><tr><th>Article</th><th>Status</th><th>Author / publisher</th><th>Updated</th><th></th></tr></thead><tbody>${recentSnap.docs.map(d=>{const a=d.data();return `<tr><td><strong>${esc(a.title)}</strong><small>${esc(a.categoryName||"Uncategorised")}</small></td><td><span class="pill ${a.status==="published"?"green":"amber"}">${esc(a.status||"draft")}</span></td><td>${esc(a.authorEmail||"—")}<small>Published by: ${esc(a.publishedByEmail||"—")}</small></td><td>${fmtDate(a.updatedAt)}</td><td><a class="mini-btn" href="editor.html?id=${d.id}">Edit</a></td></tr>`}).join("")}</tbody></table>`;
+ if(profile.role==="owner"){const pending=articles.length>=0?(await getDocs(query(collection(db,"users")))).docs.filter(d=>d.data().active!==true):[];$("#stat-pending").textContent=pending.length;$("#pending-users").innerHTML=pending.length?pending.map(d=>`<div class="user-item"><div><strong>${esc(d.data().email||d.id)}</strong><small>${esc(d.data().role||"No role")} · ${esc(d.id)}</small></div><a class="mini-btn" href="users.html">Review</a></div>`).join(""):'<p class="muted">No pending accounts.</p>';}
+}catch(e){$("#recent-articles").innerHTML=`<p class="notice error">Could not load dashboard. Check Firestore rules: ${esc(e.message)}</p>`;}
