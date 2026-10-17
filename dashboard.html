@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex,nofollow,noarchive">
   <meta name="theme-color" content="#2563eb">
-  <title>EduGM Admin Dashboard</title>
+  <title>Dashboard | EduGM Admin</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,125 +17,70 @@
       --blue: #2563eb;
       --blue-dark: #1d4ed8;
       --blue-light: #eff6ff;
-      --ink: #172554;
+      --text: #172554;
       --muted: #64748b;
-      --border: #e5eaf3;
-      --surface: #ffffff;
-      --background: #f5f8ff;
-      --red: #dc2626;
+      --border: #e5edf7;
+      --bg: #f5f8ff;
+      --white: #fff;
       --green: #15803d;
-      --shadow: 0 12px 40px rgba(30, 64, 175, .08);
+      --shadow: 0 8px 30px rgba(30, 64, 175, .06);
     }
 
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      background: var(--background);
-      color: var(--ink);
+      background: var(--bg);
+      color: var(--text);
       font-family: Inter, Arial, sans-serif;
     }
 
-    button, input, select {
-      font: inherit;
+    button, a { font: inherit; }
+    a { color: inherit; text-decoration: none; }
+
+    .layout {
+      display: flex;
+      min-height: 100vh;
     }
 
-    button { cursor: pointer; }
-
-    .topbar {
-      height: 76px;
+    .sidebar {
+      width: 250px;
+      flex-shrink: 0;
+      background: white;
+      border-right: 1px solid var(--border);
+      padding: 25px 17px;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 0 28px;
-      background: #fff;
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 10;
+      flex-direction: column;
     }
 
     .brand {
       display: flex;
       align-items: center;
       gap: 12px;
-      min-width: 0;
+      padding: 0 8px 28px;
+      border-bottom: 1px solid var(--border);
     }
 
     .brand img {
-      width: 45px;
-      height: 45px;
+      width: 48px;
+      height: 48px;
       object-fit: contain;
-      border-radius: 12px;
     }
 
     .brand-name {
-      font-size: 19px;
+      font-size: 20px;
       font-weight: 800;
-      letter-spacing: -.5px;
+      letter-spacing: -.7px;
     }
 
-    .brand-subtitle {
-      margin-top: 4px;
+    .brand-sub {
       font-size: 11px;
       color: var(--muted);
+      margin-top: 4px;
     }
 
-    .top-actions {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 9px;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      border: 1px solid var(--border);
-      border-radius: 11px;
-      background: white;
-      color: var(--ink);
-      padding: 10px 14px;
-      font-size: 13px;
-      font-weight: 700;
-      transition: .18s ease;
-    }
-
-    .btn:hover { transform: translateY(-1px); }
-
-    .btn-primary {
-      background: var(--blue);
-      color: white;
-      border-color: var(--blue);
-    }
-
-    .btn-primary:hover { background: var(--blue-dark); }
-
-    .btn-danger {
-      color: var(--red);
-      border-color: #fecaca;
-      background: #fff;
-    }
-
-    .btn-small {
-      padding: 7px 10px;
-      font-size: 12px;
-    }
-
-    .layout {
-      display: grid;
-      grid-template-columns: 245px minmax(0, 1fr);
-      min-height: calc(100vh - 76px);
-    }
-
-    .sidebar {
-      background: #fff;
-      border-right: 1px solid var(--border);
-      padding: 24px 14px;
-    }
-
-    .side-heading {
-      padding: 0 12px 12px;
+    .nav-label {
+      margin: 26px 10px 12px;
       color: #94a3b8;
       font-size: 10px;
       font-weight: 800;
@@ -143,1228 +88,922 @@
       text-transform: uppercase;
     }
 
-    .nav {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
     .nav-link {
       display: flex;
       align-items: center;
-      gap: 11px;
-      width: 100%;
-      padding: 12px;
-      border: 1px solid transparent;
-      border-radius: 11px;
-      background: transparent;
-      color: #475569;
-      text-decoration: none;
-      text-align: left;
+      gap: 12px;
+      padding: 13px 14px;
+      margin: 4px 0;
+      color: #64748b;
       font-size: 13px;
       font-weight: 600;
-      overflow-wrap: anywhere;
+      border-radius: 12px;
+      transition: .2s ease;
     }
 
-    .nav-link:hover, .nav-link.active {
+    .nav-link:hover {
+      color: var(--blue);
       background: var(--blue-light);
-      color: var(--blue-dark);
-      border-color: #dbeafe;
+      transform: translateX(2px);
+    }
+
+    .nav-link.active {
+      color: var(--blue);
+      background: #eaf1ff;
     }
 
     .nav-icon {
-      width: 23px;
+      width: 22px;
       text-align: center;
       font-size: 17px;
-      flex-shrink: 0;
     }
 
-    .side-note {
-      margin: 30px 5px 0;
-      padding: 14px;
-      border: 1px solid #dbeafe;
-      border-radius: 13px;
-      background: #f8fbff;
+    .sidebar-bottom {
+      margin-top: auto;
+      padding: 17px 8px 0;
+      color: #94a3b8;
       font-size: 11px;
-      line-height: 1.7;
-      color: var(--muted);
+      line-height: 1.8;
     }
 
-    main {
-      padding: 30px;
+    .main {
+      flex: 1;
       min-width: 0;
     }
 
-    .welcome {
+    .topbar {
+      min-height: 88px;
+      background: rgba(255,255,255,.94);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 30px;
       display: flex;
-      align-items: flex-start;
       justify-content: space-between;
-      gap: 18px;
-      margin-bottom: 24px;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(24px, 3vw, 32px);
-      letter-spacing: -1px;
-    }
-
-    h2 {
-      margin: 0;
-      font-size: 17px;
-    }
-
-    .muted {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.7;
-    }
-
-    .eyebrow {
-      margin-bottom: 9px;
-      color: var(--blue);
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 1.3px;
-      text-transform: uppercase;
-    }
-
-    .role-pill {
-      display: inline-flex;
       align-items: center;
-      gap: 6px;
-      border-radius: 30px;
-      padding: 7px 11px;
-      background: #eff6ff;
-      color: #1d4ed8;
-      font-size: 11px;
+      gap: 18px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+    }
+
+    .page-heading {
+      font-size: 21px;
       font-weight: 800;
-      text-transform: capitalize;
+      letter-spacing: -.6px;
+    }
+
+    .page-subheading {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .top-right {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .clock {
+      text-align: right;
       white-space: nowrap;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
+    .clock-time {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--blue);
+      font-variant-numeric: tabular-nums;
     }
 
-    .card {
+    .clock-date {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 5px;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-left: 18px;
+      border-left: 1px solid var(--border);
       min-width: 0;
-      background: var(--surface);
+    }
+
+    .avatar {
+      width: 43px;
+      height: 43px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: #dbeafe;
+      color: var(--blue);
+      font-size: 16px;
+      font-weight: 800;
+      object-fit: cover;
+    }
+
+    .profile-name {
+      max-width: 170px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .profile-role {
+      margin-top: 5px;
+      color: var(--blue);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: capitalize;
+    }
+
+    .logout {
+      border: 1px solid #fee2e2;
+      color: #dc2626;
+      background: #fff;
+      padding: 10px 13px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .logout:hover {
+      background: #fef2f2;
+    }
+
+    .content {
+      max-width: 1450px;
+      padding: 30px;
+      margin: 0 auto;
+    }
+
+    .welcome {
+      position: relative;
+      overflow: hidden;
+      border-radius: 22px;
+      padding: 32px;
+      color: white;
+      background: linear-gradient(120deg, #1d4ed8, #3b82f6 65%, #60a5fa);
+      box-shadow: 0 15px 35px rgba(37,99,235,.17);
+    }
+
+    .welcome::after {
+      content: "";
+      position: absolute;
+      width: 230px;
+      height: 230px;
+      right: -55px;
+      top: -100px;
+      border: 35px solid rgba(255,255,255,.10);
+      border-radius: 50%;
+    }
+
+    .welcome-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      opacity: .8;
+    }
+
+    .welcome h1 {
+      margin: 12px 0 10px;
+      font-size: clamp(25px, 3vw, 35px);
+      letter-spacing: -1.2px;
+    }
+
+    .welcome p {
+      margin: 0;
+      max-width: 550px;
+      font-size: 13px;
+      line-height: 1.8;
+      color: #eaf2ff;
+    }
+
+    .welcome-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 23px;
+    }
+
+    .action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      transition: .2s;
+    }
+
+    .action.primary {
+      background: white;
+      color: var(--blue-dark);
+    }
+
+    .action.secondary {
+      color: white;
+      border: 1px solid rgba(255,255,255,.45);
+      background: rgba(255,255,255,.08);
+    }
+
+    .action:hover { transform: translateY(-2px); }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin: 31px 0 17px;
+    }
+
+    .section-heading h2 {
+      font-size: 17px;
+      margin: 0;
+      letter-spacing: -.4px;
+    }
+
+    .section-heading span {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 17px;
+    }
+
+    .stat-card {
+      background: white;
       border: 1px solid var(--border);
       border-radius: 17px;
-      padding: 20px;
+      padding: 21px;
       box-shadow: var(--shadow);
+      transition: .2s ease;
+      min-width: 0;
     }
 
-    .stat-label {
+    .stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 13px 30px rgba(30,64,175,.09);
+    }
+
+    .stat-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stat-title {
       color: var(--muted);
       font-size: 12px;
       font-weight: 600;
     }
 
-    .stat-value {
-      margin-top: 12px;
-      font-size: 25px;
-      font-weight: 800;
-      letter-spacing: -.7px;
-    }
-
-    .stat-foot {
-      margin-top: 7px;
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.6;
-    }
-
-    .section {
-      margin-top: 22px;
-    }
-
-    .section-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-
-    .quick-grid {
+    .stat-icon {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: var(--blue-light);
+      font-size: 17px;
+    }
+
+    .stat-value {
+      margin-top: 19px;
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      overflow-wrap: anywhere;
+    }
+
+    .stat-note {
+      color: #94a3b8;
+      font-size: 10px;
+      margin-top: 7px;
+    }
+
+    .lower-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .panel {
+      min-width: 0;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 23px;
+      box-shadow: var(--shadow);
+    }
+
+    .panel h3 {
+      margin: 0 0 6px;
+      font-size: 14px;
+    }
+
+    .panel-subtitle {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 20px;
+      line-height: 1.7;
     }
 
     .quick-link {
       display: flex;
       align-items: center;
-      gap: 12px;
-      min-width: 0;
-      padding: 16px;
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      color: var(--ink);
-      text-decoration: none;
-      transition: .18s ease;
+      gap: 13px;
+      padding: 14px 0;
+      border-top: 1px solid #f0f4fa;
     }
 
-    .quick-link:hover {
-      border-color: #93c5fd;
-      transform: translateY(-2px);
-    }
+    .quick-link:first-of-type { border-top: 0; }
 
     .quick-icon {
+      width: 42px;
+      height: 42px;
       display: grid;
       place-items: center;
-      width: 43px;
-      height: 43px;
-      border-radius: 12px;
-      background: var(--blue-light);
-      font-size: 21px;
-      flex-shrink: 0;
-    }
-
-    .quick-link strong {
-      display: block;
-      font-size: 13px;
-      overflow-wrap: anywhere;
-    }
-
-    .quick-link small {
-      display: block;
-      margin-top: 5px;
-      color: var(--muted);
-      font-size: 11px;
-    }
-
-    .status-box {
-      margin-top: 20px;
-      padding: 14px 16px;
-      border: 1px solid var(--border);
+      background: #eff6ff;
       border-radius: 13px;
-      background: #fff;
-      font-size: 12px;
-      line-height: 1.7;
-      overflow-wrap: anywhere;
-    }
-
-    .status-box.error {
-      color: #991b1b;
-      background: #fef2f2;
-      border-color: #fecaca;
-    }
-
-    .status-box.success {
-      color: #166534;
-      background: #f0fdf4;
-      border-color: #bbf7d0;
-    }
-
-    .hidden { display: none !important; }
-
-    footer {
-      padding: 26px 12px 10px;
-      color: #94a3b8;
-      font-size: 11px;
-      line-height: 1.8;
-      text-align: center;
-    }
-
-    /* Modal */
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 18px;
-      background: rgba(15, 23, 42, .55);
-      backdrop-filter: blur(5px);
-    }
-
-    .modal {
-      width: min(650px, 100%);
-      max-height: 90vh;
-      overflow-y: auto;
-      border: 1px solid #e2e8f0;
-      border-radius: 20px;
-      background: white;
-      box-shadow: 0 25px 100px rgba(15, 23, 42, .3);
-    }
-
-    .modal-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 14px;
-      padding: 22px 24px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .modal-body { padding: 22px 24px; }
-
-    .modal-footer {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-      padding: 16px 24px;
-      border-top: 1px solid var(--border);
-    }
-
-    .close-btn {
-      width: 34px;
-      height: 34px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: white;
-      color: var(--muted);
-      font-size: 20px;
+      font-size: 18px;
       flex-shrink: 0;
     }
 
-    .field { margin-bottom: 17px; }
-
-    .field label, .field-label {
-      display: block;
-      margin-bottom: 8px;
-      color: #334155;
+    .quick-title {
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 700;
     }
 
-    .field input, .field select {
-      width: 100%;
-      min-height: 43px;
-      padding: 11px 12px;
-      border: 1px solid #cbd5e1;
-      border-radius: 10px;
-      background: #fff;
-      color: var(--ink);
-      outline: none;
-    }
-
-    .field input:focus, .field select:focus {
-      border-color: var(--blue);
-      box-shadow: 0 0 0 3px #dbeafe;
-    }
-
-    .help {
-      margin-top: 6px;
+    .quick-desc {
+      font-size: 10px;
       color: var(--muted);
-      font-size: 11px;
-      line-height: 1.6;
+      margin-top: 5px;
     }
 
-    .check-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 9px;
+    .quick-arrow {
+      margin-left: auto;
+      color: #94a3b8;
+      font-size: 18px;
     }
 
-    .check-option {
+    .status-row {
       display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 11px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: #f8fafc;
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    .check-option input { accent-color: var(--blue); }
-
-    .user-picker {
-      display: grid;
-      gap: 8px;
-      max-height: 170px;
-      overflow-y: auto;
-      padding: 10px;
-      border: 1px solid var(--border);
-      border-radius: 11px;
-    }
-
-    .user-option {
-      display: flex;
-      align-items: flex-start;
-      gap: 9px;
-      padding: 8px;
-      border-radius: 8px;
-      background: #f8fafc;
-      font-size: 12px;
-      overflow-wrap: anywhere;
-    }
-
-    .user-option input { margin-top: 2px; accent-color: var(--blue); }
-
-    .menu-manager-list {
-      display: grid;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .menu-manager-item {
-      display: flex;
-      align-items: center;
       justify-content: space-between;
       gap: 12px;
-      padding: 13px;
-      border: 1px solid var(--border);
+      padding: 13px 0;
+      border-bottom: 1px solid #f0f4fa;
+      font-size: 12px;
+    }
+
+    .status-row:last-child { border-bottom: 0; }
+
+    .status-label { color: var(--muted); }
+
+    .status-value {
+      color: var(--green);
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .message {
+      display: none;
+      margin: 0 0 18px;
+      padding: 13px 15px;
       border-radius: 12px;
+      background: #fff7ed;
+      color: #9a3412;
+      font-size: 12px;
+      line-height: 1.7;
     }
 
-    .menu-manager-item strong {
-      display: block;
-      font-size: 13px;
-      overflow-wrap: anywhere;
-    }
-
-    .menu-manager-item small {
-      display: block;
-      margin-top: 5px;
-      color: var(--muted);
-      font-size: 11px;
-      overflow-wrap: anywhere;
-    }
-
-    .item-actions {
-      display: flex;
-      gap: 7px;
-      flex-shrink: 0;
-    }
-
-    .empty {
-      padding: 20px;
-      border: 1px dashed #cbd5e1;
-      border-radius: 12px;
+    .loading {
       color: var(--muted);
       font-size: 12px;
-      text-align: center;
     }
 
-    @media (max-width: 1000px) {
-      .layout { grid-template-columns: 205px minmax(0, 1fr); }
-      main { padding: 22px; }
-      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .quick-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    footer {
+      padding: 25px 10px 8px;
+      text-align: center;
+      font-size: 10px;
+      color: #94a3b8;
+      line-height: 1.8;
+    }
+
+    @media (max-width: 1050px) {
+      .sidebar { width: 215px; }
+      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .topbar { padding: 16px 22px; }
+      .content { padding: 22px; }
+      .lower-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 700px) {
-      .topbar {
-        height: auto;
-        min-height: 72px;
-        padding: 13px 15px;
-        align-items: flex-start;
-      }
-
-      .brand-name { font-size: 16px; }
-      .brand-subtitle { display: none; }
-      .brand img { width: 38px; height: 38px; }
-
-      .top-actions { gap: 6px; }
-      .top-actions .btn { padding: 9px 10px; font-size: 11px; }
-
       .layout { display: block; }
-
       .sidebar {
-        padding: 12px;
+        width: 100%;
+        padding: 12px 15px;
         border-right: 0;
         border-bottom: 1px solid var(--border);
       }
-
-      .side-heading, .side-note { display: none; }
-
-      .nav {
-        flex-direction: row;
+      .brand { padding: 0 5px; border: 0; }
+      .brand img { width: 39px; height: 39px; }
+      .brand-name { font-size: 18px; }
+      .nav-label, .sidebar-bottom { display: none; }
+      .sidebar nav {
+        display: flex;
+        gap: 7px;
         overflow-x: auto;
-        padding-bottom: 3px;
+        margin-top: 12px;
       }
-
       .nav-link {
-        width: auto;
-        min-width: max-content;
-        padding: 10px;
+        white-space: nowrap;
+        padding: 10px 12px;
+        margin: 0;
+        font-size: 11px;
       }
+      .topbar {
+        position: static;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        padding: 18px 16px;
+      }
+      .page-heading { font-size: 18px; }
+      .top-right { width: 100%; justify-content: space-between; gap: 9px; }
+      .profile { padding-left: 10px; }
+      .profile-name { max-width: 110px; }
+      .avatar { width: 38px; height: 38px; border-radius: 12px; }
+      .clock-time { font-size: 12px; }
+      .clock-date { font-size: 10px; }
+      .logout { padding: 10px; }
+      .content { padding: 16px; }
+      .welcome { padding: 24px 20px; border-radius: 17px; }
+      .welcome h1 { font-size: 26px; }
+      .stats { gap: 10px; }
+      .stat-card { padding: 15px; border-radius: 14px; }
+      .stat-title { font-size: 10px; }
+      .stat-icon { width: 32px; height: 32px; font-size: 14px; }
+      .stat-value { font-size: 25px; margin-top: 15px; }
+      .panel { padding: 18px; }
+    }
 
-      main { padding: 20px 14px; }
-      .welcome { flex-direction: column; }
-      .grid { grid-template-columns: 1fr; }
-      .quick-grid { grid-template-columns: 1fr; }
-      .check-grid { grid-template-columns: 1fr; }
-      .modal-header, .modal-body { padding: 18px; }
-      .modal-footer { padding: 14px 18px; }
-      .menu-manager-item { align-items: flex-start; }
+    @media (max-width: 370px) {
+      .stats { grid-template-columns: 1fr; }
+      .profile-name { max-width: 85px; }
     }
   </style>
 </head>
 
 <body>
-  <header class="topbar">
+<div class="layout">
+
+  <aside class="sidebar">
     <div class="brand">
-      <img src="https://i.ibb.co/1Y82N0n0/Edu-GM-Learning-Logo.png"
-           alt="EduGM logo">
+      <img
+        src="https://i.ibb.co/1Y82N0n0/Edu-GM-Learning-Logo.png"
+        alt="EduGM Logo"
+        onerror="this.style.display='none'"
+      >
       <div>
-        <div class="brand-name">EduGM Admin</div>
-        <div class="brand-subtitle">Official management dashboard</div>
+        <div class="brand-name">EduGM</div>
+        <div class="brand-sub">Learning · Admin Panel</div>
       </div>
     </div>
 
-    <div class="top-actions">
-      <!-- Always visible for a logged-in Owner. -->
-      <button id="editMenuButton" class="btn btn-primary hidden" type="button">
-        ⚙ Edit Menu
-      </button>
-      <button id="refreshButton" class="btn" type="button">↻ Refresh</button>
-      <button id="logoutButton" class="btn btn-danger" type="button">
-        Logout
-      </button>
+    <div class="nav-label">Workspace</div>
+    <nav>
+      <a class="nav-link active" href="dashboard.html">
+        <span class="nav-icon">⌂</span> Dashboard
+      </a>
+      <a class="nav-link" href="articles.html">
+        <span class="nav-icon">▤</span> Articles
+      </a>
+      <a class="nav-link" href="article-editor.html">
+        <span class="nav-icon">✎</span> Write Article
+      </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <strong>EduGM Admin Panel</strong><br>
+      Official Use Only<br>
+      Secure staff workspace
     </div>
-  </header>
+  </aside>
 
-  <div class="layout">
-    <aside class="sidebar">
-      <div class="side-heading">Workspace</div>
-      <nav id="sidebarNav" class="nav" aria-label="Dashboard navigation">
-        <a class="nav-link active" href="dashboard.html">
-          <span class="nav-icon">⌂</span> Overview
-        </a>
-      </nav>
-      <div class="side-note">
-        <strong>EduGM Official Panel</strong><br>
-        Authorized staff access only. Your account permissions control the
-        menu options displayed here.
-      </div>
-    </aside>
-
-    <main>
-      <div class="welcome">
-        <div>
-          <div class="eyebrow">EduGM / Workspace</div>
-          <h1>Welcome back</h1>
-          <p id="welcomeText" class="muted">Checking your account...</p>
-        </div>
-        <div id="roleBadge" class="role-pill">Verifying account</div>
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <div class="page-heading">Dashboard</div>
+        <div class="page-subheading">Welcome to your EduGM workspace.</div>
       </div>
 
-      <div id="pageStatus" class="status-box">Connecting to Firebase...</div>
-
-      <section class="grid section" aria-label="Account overview">
-        <div class="card">
-          <div class="stat-label">Account status</div>
-          <div id="accountStatus" class="stat-value">Checking</div>
-          <div class="stat-foot">Firebase authentication and profile check</div>
+      <div class="top-right">
+        <div class="clock">
+          <div class="clock-time" id="clockTime">Loading IST…</div>
+          <div class="clock-date" id="clockDate">Loading date…</div>
         </div>
 
-        <div class="card">
-          <div class="stat-label">Your role</div>
-          <div id="accountRole" class="stat-value">—</div>
-          <div class="stat-foot">Based on your Firestore user profile</div>
-        </div>
-
-        <div class="card">
-          <div class="stat-label">Menu items available</div>
-          <div id="menuCount" class="stat-value">—</div>
-          <div class="stat-foot">Items visible to your account</div>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="section-head">
+        <div class="profile">
+          <img id="profilePhoto" class="avatar" alt="Profile photo" hidden>
+          <div id="profileInitial" class="avatar">E</div>
           <div>
-            <h2>Your workspace</h2>
-            <div class="muted">Open an authorized dashboard section.</div>
+            <div class="profile-name" id="profileName">Loading user…</div>
+            <div class="profile-role" id="profileRole">Verifying account</div>
           </div>
         </div>
 
-        <div id="quickLinks" class="quick-grid">
-          <div class="empty">Loading workspace menu...</div>
+        <button class="logout" id="logoutBtn" type="button">↗ Logout</button>
+      </div>
+    </header>
+
+    <section class="content">
+      <div class="message" id="message"></div>
+
+      <section class="welcome">
+        <div class="welcome-label">EduGM · Official Workspace</div>
+        <h1 id="welcomeTitle">Welcome to EduGM 👋</h1>
+        <p>
+          Manage educational content and keep your publishing workflow
+          organized from one simple dashboard.
+        </p>
+        <div class="welcome-actions">
+          <a class="action primary" href="articles.html">View Articles&nbsp; →</a>
+          <a class="action secondary" href="article-editor.html">＋ Write an Article</a>
         </div>
+      </section>
+
+      <div class="section-heading">
+        <h2>Content Overview</h2>
+        <span id="statsUpdated">Loading database data…</span>
+      </div>
+
+      <section class="stats">
+        <article class="stat-card">
+          <div class="stat-top">
+            <div class="stat-title">Total Articles</div>
+            <div class="stat-icon">▤</div>
+          </div>
+          <div class="stat-value" id="totalArticles">—</div>
+          <div class="stat-note">Articles visible to your account</div>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-top">
+            <div class="stat-title">Published</div>
+            <div class="stat-icon">✓</div>
+          </div>
+          <div class="stat-value" id="publishedArticles">—</div>
+          <div class="stat-note">Published articles in your accessible data</div>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-top">
+            <div class="stat-title">Drafts</div>
+            <div class="stat-icon">✎</div>
+          </div>
+          <div class="stat-value" id="draftArticles">—</div>
+          <div class="stat-note">Unpublished articles in your accessible data</div>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-top">
+            <div class="stat-title">Your Role</div>
+            <div class="stat-icon">♙</div>
+          </div>
+          <div class="stat-value" id="roleCard" style="font-size:22px">—</div>
+          <div class="stat-note">Role assigned in your EduGM profile</div>
+        </article>
+      </section>
+
+      <section class="lower-grid">
+        <article class="panel">
+          <h3>Quick Access</h3>
+          <div class="panel-subtitle">Jump directly to your main workspace.</div>
+
+          <a class="quick-link" href="articles.html">
+            <div class="quick-icon">📚</div>
+            <div>
+              <div class="quick-title">Manage Articles</div>
+              <div class="quick-desc">Review your accessible article records.</div>
+            </div>
+            <div class="quick-arrow">›</div>
+          </a>
+
+          <a class="quick-link" href="article-editor.html">
+            <div class="quick-icon">📝</div>
+            <div>
+              <div class="quick-title">Create Content</div>
+              <div class="quick-desc">Open the article editor.</div>
+            </div>
+            <div class="quick-arrow">›</div>
+          </a>
+
+          <a class="quick-link" href="index.html">
+            <div class="quick-icon">🔐</div>
+            <div>
+              <div class="quick-title">Login Page</div>
+              <div class="quick-desc">Return to the admin login page.</div>
+            </div>
+            <div class="quick-arrow">›</div>
+          </a>
+        </article>
+
+        <article class="panel">
+          <h3>Account & System</h3>
+          <div class="panel-subtitle">Current account and dashboard status.</div>
+
+          <div class="status-row">
+            <span class="status-label">Authentication</span>
+            <span class="status-value" id="authStatus">Checking…</span>
+          </div>
+          <div class="status-row">
+            <span class="status-label">Account approval</span>
+            <span class="status-value" id="approvalStatus">Checking…</span>
+          </div>
+          <div class="status-row">
+            <span class="status-label">Database</span>
+            <span class="status-value" id="dbStatus">Connecting…</span>
+          </div>
+          <div class="status-row">
+            <span class="status-label">Time zone</span>
+            <span class="status-value">Asia/Kolkata · IST</span>
+          </div>
+          <div class="status-row">
+            <span class="status-label">Organization</span>
+            <span class="status-value">EduGM</span>
+          </div>
+        </article>
       </section>
 
       <footer>
         © <span id="year"></span> EduGM. All rights reserved.<br>
         EduGM Admin Panel — Official Use Only.
       </footer>
-    </main>
-  </div>
+    </section>
+  </main>
+</div>
 
-  <!-- Owner menu editor modal -->
-  <div id="menuModal" class="modal-backdrop hidden"
-       role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="modal">
-      <div class="modal-header">
-        <div>
-          <div class="eyebrow">Owner controls</div>
-          <h2 id="modalTitle">Menu Manager</h2>
-          <div class="muted">Create and manage dashboard navigation.</div>
-        </div>
-        <button id="closeModalButton" class="close-btn"
-                type="button" aria-label="Close">×</button>
-      </div>
+<script type="module">
+  import { initializeApp } from
+    "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
 
-      <div class="modal-body">
-        <div id="modalStatus" class="status-box hidden"></div>
+  import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
 
-        <form id="menuForm">
-          <input id="editingId" type="hidden">
+  import {
+    getFirestore,
+    doc,
+    getDoc,
+    collection,
+    getDocs,
+    query,
+    where
+  } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
 
-          <div class="field">
-            <label for="menuLabel">Menu label</label>
-            <input id="menuLabel" maxlength="60" required
-                   placeholder="Example: Articles">
-          </div>
+  const firebaseConfig = {
+    apiKey: "AIzaSyA9yj3ikv7oIsBhU7IE9XPclY3vul5d9us",
+    authDomain: "edugm-bangla.firebaseapp.com",
+    projectId: "edugm-bangla",
+    storageBucket: "edugm-bangla.firebasestorage.app",
+    messagingSenderId: "236553092510",
+    appId: "1:236553092510:web:91f03b4434616c06846a8f"
+  };
 
-          <div class="field">
-            <label for="menuIcon">Menu icon (emoji or short symbol)</label>
-            <input id="menuIcon" maxlength="8" value="📄"
-                   placeholder="📄">
-          </div>
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
 
-          <div class="field">
-            <label for="menuPage">Page filename</label>
-            <input id="menuPage" maxlength="120" required
-                   placeholder="articles.html">
-            <div class="help">
-              Enter a local HTML filename, such as articles.html.
-              Only safe relative filenames are accepted.
-            </div>
-          </div>
+  const $ = (id) => document.getElementById(id);
 
-          <div class="field">
-            <span class="field-label">Visible to roles</span>
-            <div class="check-grid">
-              <label class="check-option">
-                <input type="checkbox" name="menuRole" value="owner" checked>
-                Owner
-              </label>
-              <label class="check-option">
-                <input type="checkbox" name="menuRole" value="admin">
-                Admin
-              </label>
-              <label class="check-option">
-                <input type="checkbox" name="menuRole" value="editor">
-                Editor
-              </label>
-            </div>
-            <div class="help">
-              Role access and selected-user access are combined using OR.
-              The Owner can always see every menu item.
-            </div>
-          </div>
+  $("year").textContent = new Date().getFullYear();
 
-          <div class="field">
-            <span class="field-label">Or allow specific users</span>
-            <div id="userPicker" class="user-picker">
-              <div class="muted">Loading authorized user directory...</div>
-            </div>
-            <div class="help">
-              Selecting a user allows that account to see this menu item
-              even if its role is not selected above.
-            </div>
-          </div>
+  // Live Indian Standard Time, independent of the computer's time zone.
+  function updateClock() {
+    const now = new Date();
 
-          <div class="modal-footer" style="padding:16px 0 0">
-            <button id="cancelEditButton" class="btn" type="button">
-              Cancel
-            </button>
-            <button class="btn btn-primary" type="submit">
-              Save Menu Item
-            </button>
-          </div>
-        </form>
+    $("clockTime").textContent = new Intl.DateTimeFormat("en-IN", {
+      timeZone: "Asia/Kolkata",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true
+    }).format(now) + " IST";
 
-        <div class="section-head" style="margin-top:28px">
-          <div>
-            <h2>Existing menu items</h2>
-            <div class="muted">Edit or remove saved menu entries.</div>
-          </div>
-          <button id="newMenuButton" class="btn btn-primary btn-small"
-                  type="button">+ Add Menu</button>
-        </div>
+    $("clockDate").textContent = new Intl.DateTimeFormat("en-IN", {
+      timeZone: "Asia/Kolkata",
+      weekday: "short",
+      day: "2-digit",
+      month: "short",
+      year: "numeric"
+    }).format(now);
+  }
 
-        <div id="menuManagerList" class="menu-manager-list">
-          <div class="empty">Loading saved menu...</div>
-        </div>
-      </div>
+  updateClock();
+  setInterval(updateClock, 1000);
 
-      <div class="modal-footer">
-        <button id="closeModalFooterButton" class="btn" type="button">
-          Close
-        </button>
-      </div>
-    </div>
-  </div>
+  function showMessage(message) {
+    $("message").textContent = message;
+    $("message").style.display = "block";
+  }
 
-  <script type="module">
-    import { initializeApp } from
-      "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+  function hideMessage() {
+    $("message").style.display = "none";
+  }
 
-    import {
-      getAuth,
-      onAuthStateChanged,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+  function safeText(value, fallback = "") {
+    return typeof value === "string" && value.trim()
+      ? value.trim()
+      : fallback;
+  }
 
-    import {
-      getFirestore,
-      doc,
-      getDoc,
-      getDocs,
-      collection,
-      setDoc,
-      serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
+  function displayProfile(profile, user) {
+    const name = safeText(
+      profile.displayName ||
+      profile.name ||
+      profile.fullName ||
+      profile.username,
+      safeText(user.displayName || user.email, "EduGM User")
+    );
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyA9yj3ikv7oIsBhU7IE9XPclY3vul5d9us",
-      authDomain: "edugm-bangla.firebaseapp.com",
-      projectId: "edugm-bangla",
-      storageBucket: "edugm-bangla.firebasestorage.app",
-      messagingSenderId: "236553092510",
-      appId: "1:236553092510:web:91f03b4434616c06846a8f"
-    };
+    const role = safeText(profile.role, "staff").toLowerCase();
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+    $("profileName").textContent = name;
+    $("profileRole").textContent = role;
+    $("roleCard").textContent = role.charAt(0).toUpperCase() + role.slice(1);
+    $("welcomeTitle").textContent = `Welcome back, ${name.split(" ")[0]} 👋`;
 
-    const $ = (id) => document.getElementById(id);
+    const initial = name.charAt(0).toUpperCase() || "E";
+    $("profileInitial").textContent = initial;
 
-    const DEFAULT_MENU = [
-      { id: "articles", label: "Articles", icon: "📝",
-        page: "articles.html", roles: ["owner", "admin", "editor"], userIds: [] },
-      { id: "store", label: "EduGM Store", icon: "🛍️",
-        page: "store.html", roles: ["owner", "admin"], userIds: [] },
-      { id: "notices", label: "Notices", icon: "📢",
-        page: "notices.html", roles: ["owner", "admin"], userIds: [] },
-      { id: "calendar", label: "Calendar", icon: "📅",
-        page: "calendar.html", roles: ["owner", "admin", "editor"], userIds: [] },
-      { id: "todo", label: "ToDo", icon: "✅",
-        page: "todo.html", roles: ["owner", "admin", "editor"], userIds: [] },
-      { id: "innovation", label: "Innovation", icon: "💡",
-        page: "innovation.html", roles: ["owner", "admin", "editor"], userIds: [] },
-      { id: "earning", label: "Earning", icon: "📈",
-        page: "earning.html", roles: ["owner"], userIds: [] },
-      { id: "pages", label: "Pages", icon: "📑",
-        page: "pages.html", roles: ["owner", "admin"], userIds: [] },
-      { id: "more", label: "More", icon: "☰",
-        page: "more.html", roles: ["owner", "admin", "editor"], userIds: [] }
-    ];
+    // Supports common profile-photo field names in users/{uid}.
+    const photoURL = safeText(
+      profile.photoURL ||
+      profile.photoUrl ||
+      profile.profilePhoto ||
+      profile.profilePhotoURL ||
+      profile.avatar ||
+      profile.avatarUrl ||
+      profile.imageUrl ||
+      user.photoURL,
+      ""
+    );
 
-    let currentUser = null;
-    let currentProfile = null;
-    let currentRole = "";
-    let menuItems = [];
-    let staffUsers = [];
-    let isOwner = false;
-    let menuLoaded = false;
+    if (photoURL) {
+      $("profilePhoto").src = photoURL;
+      $("profilePhoto").hidden = false;
+      $("profileInitial").hidden = true;
 
-    $("year").textContent = new Date().getFullYear();
-
-    function showStatus(message, type = "") {
-      const el = $("pageStatus");
-      el.textContent = message;
-      el.className = "status-box" + (type ? " " + type : "");
-    }
-
-    function showModalStatus(message, type = "") {
-      const el = $("modalStatus");
-      el.textContent = message;
-      el.className = "status-box" + (type ? " " + type : "");
-    }
-
-    function normalizeRole(value) {
-      return typeof value === "string" ? value.trim().toLowerCase() : "";
-    }
-
-    function safePageFilename(value) {
-      if (typeof value !== "string") return false;
-
-      // Local .html pages only; no protocols, slashes, query strings,
-      // parent paths, or executable URL schemes.
-      return /^[a-zA-Z0-9_-]+\.html$/.test(value);
-    }
-
-    function escapeHtml(value) {
-      return String(value ?? "").replace(/[&<>"']/g, (char) => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-      })[char]);
-    }
-
-    function normalizeMenuItem(item, index) {
-      return {
-        id: typeof item.id === "string" && item.id
-          ? item.id : "menu-" + index,
-        label: String(item.label || "Menu item").slice(0, 60),
-        icon: String(item.icon || "📄").slice(0, 8),
-        page: String(item.page || ""),
-        roles: Array.isArray(item.roles)
-          ? item.roles.map(normalizeRole).filter(
-              role => ["owner", "admin", "editor"].includes(role)
-            ) : [],
-        userIds: Array.isArray(item.userIds)
-          ? item.userIds.filter(id => typeof id === "string").slice(0, 500)
-          : []
+      $("profilePhoto").onerror = () => {
+        $("profilePhoto").hidden = true;
+        $("profileInitial").hidden = false;
       };
+    } else {
+      $("profilePhoto").hidden = true;
+      $("profileInitial").hidden = false;
     }
+  }
 
-    function canSeeItem(item) {
-      // Owner always sees all configured items and always has the editor button.
-      if (isOwner) return true;
+  async function loadArticleStats(user, role) {
+    $("dbStatus").textContent = "Loading…";
 
-      const allowedByRole = item.roles.includes(currentRole);
-      const allowedByUser = item.userIds.includes(currentUser.uid);
-      return allowedByRole || allowedByUser;
-    }
+    try {
+      let snapshot;
 
-    function visibleItems() {
-      return menuItems.filter(canSeeItem);
-    }
-
-    function renderNavigation() {
-      const visible = visibleItems();
-      $("menuCount").textContent = visible.length;
-
-      const validItems = visible.filter(item => safePageFilename(item.page));
-
-      $("sidebarNav").innerHTML = `
-        <a class="nav-link active" href="dashboard.html">
-          <span class="nav-icon">⌂</span> Overview
-        </a>
-        ${validItems.map(item => `
-          <a class="nav-link" href="${escapeHtml(item.page)}">
-            <span class="nav-icon">${escapeHtml(item.icon)}</span>
-            ${escapeHtml(item.label)}
-          </a>
-        `).join("")}
-      `;
-
-      $("quickLinks").innerHTML = validItems.length
-        ? validItems.map(item => `
-          <a class="quick-link" href="${escapeHtml(item.page)}">
-            <span class="quick-icon">${escapeHtml(item.icon)}</span>
-            <span>
-              <strong>${escapeHtml(item.label)}</strong>
-              <small>Open section →</small>
-            </span>
-          </a>
-        `).join("")
-        : `<div class="empty">No menu items are available to this account.</div>`;
-    }
-
-    async function loadMenu() {
-      const ref = doc(db, "panelSettings", "menuConfig");
-      const snapshot = await getDoc(ref);
-
-      if (snapshot.exists()) {
-        const data = snapshot.data();
-        menuItems = Array.isArray(data.items)
-          ? data.items.map(normalizeMenuItem)
-          : [];
+      if (role === "owner" || role === "admin") {
+        // Owner/Admin can read all article records under the supplied rules.
+        snapshot = await getDocs(collection(db, "articles"));
       } else {
-        // Defaults remain local until the Owner saves the menu.
-        menuItems = DEFAULT_MENU.map(normalizeMenuItem);
-      }
-
-      menuLoaded = true;
-      renderNavigation();
-    }
-
-    async function loadStaffDirectory() {
-      if (!isOwner) {
-        staffUsers = [];
-        return;
-      }
-
-      const snapshot = await getDocs(collection(db, "users"));
-
-      staffUsers = snapshot.docs.map(profileDoc => {
-        const data = profileDoc.data();
-        return {
-          uid: profileDoc.id,
-          email: typeof data.email === "string" ? data.email : "",
-          displayName: typeof data.displayName === "string"
-            ? data.displayName
-            : (typeof data.name === "string" ? data.name : ""),
-          role: normalizeRole(data.role),
-          active: data.active === true
-        };
-      });
-
-      renderUserPicker([]);
-    }
-
-    function renderUserPicker(selectedIds = []) {
-      const picker = $("userPicker");
-
-      if (!isOwner) {
-        picker.innerHTML = '<div class="muted">Owner access required.</div>';
-        return;
-      }
-
-      if (!staffUsers.length) {
-        picker.innerHTML = '<div class="muted">No user profiles were found.</div>';
-        return;
-      }
-
-      picker.innerHTML = staffUsers.map(user => {
-        const name = user.displayName || user.email || user.uid;
-        const detail = [
-          user.email && user.email !== name ? user.email : "",
-          user.role || "no role",
-          user.active ? "active" : "inactive"
-        ].filter(Boolean).join(" · ");
-
-        return `
-          <label class="user-option">
-            <input type="checkbox" name="menuUser"
-                   value="${escapeHtml(user.uid)}"
-                   ${selectedIds.includes(user.uid) ? "checked" : ""}>
-            <span>
-              <strong>${escapeHtml(name)}</strong><br>
-              <span class="muted">${escapeHtml(detail)}</span>
-            </span>
-          </label>
-        `;
-      }).join("");
-    }
-
-    function renderManagerList() {
-      const container = $("menuManagerList");
-
-      if (!menuItems.length) {
-        container.innerHTML = '<div class="empty">No menu items yet. Select Add Menu to create one.</div>';
-        return;
-      }
-
-      container.innerHTML = menuItems.map(item => `
-        <div class="menu-manager-item">
-          <div>
-            <strong>${escapeHtml(item.icon)} ${escapeHtml(item.label)}</strong>
-            <small>${escapeHtml(item.page)}</small>
-            <small>
-              Roles: ${escapeHtml(item.roles.join(", ") || "none")}
-              · Selected users: ${item.userIds.length}
-            </small>
-          </div>
-          <div class="item-actions">
-            <button class="btn btn-small" type="button"
-                    data-edit-menu="${escapeHtml(item.id)}">Edit</button>
-            <button class="btn btn-danger btn-small" type="button"
-                    data-delete-menu="${escapeHtml(item.id)}">Delete</button>
-          </div>
-        </div>
-      `).join("");
-    }
-
-    function openModal() {
-      if (!isOwner) {
-        showStatus("Only the Owner can edit the dashboard menu.", "error");
-        return;
-      }
-
-      $("menuModal").classList.remove("hidden");
-      showModalStatus("");
-      renderManagerList();
-      renderUserPicker([]);
-    }
-
-    function closeModal() {
-      $("menuModal").classList.add("hidden");
-      resetForm();
-    }
-
-    function resetForm() {
-      $("menuForm").reset();
-      $("editingId").value = "";
-      $("menuIcon").value = "📄";
-      $("modalTitle").textContent = "Menu Manager";
-
-      document.querySelectorAll('input[name="menuRole"]').forEach(input => {
-        input.checked = input.value === "owner";
-      });
-
-      renderUserPicker([]);
-    }
-
-    function startNewItem() {
-      resetForm();
-      $("menuLabel").focus();
-    }
-
-    function editMenuItem(id) {
-      const item = menuItems.find(entry => entry.id === id);
-      if (!item) return;
-
-      $("editingId").value = item.id;
-      $("menuLabel").value = item.label;
-      $("menuIcon").value = item.icon;
-      $("menuPage").value = item.page;
-      $("modalTitle").textContent = "Edit Menu Item";
-
-      document.querySelectorAll('input[name="menuRole"]').forEach(input => {
-        input.checked = item.roles.includes(input.value);
-      });
-
-      renderUserPicker(item.userIds);
-      $("menuLabel").focus();
-    }
-
-    async function saveMenu() {
-      if (!isOwner) throw new Error("Only the Owner can save menu settings.");
-
-      if (!menuLoaded) throw new Error("Menu settings have not loaded yet.");
-
-      const label = $("menuLabel").value.trim();
-      const icon = $("menuIcon").value.trim() || "📄";
-      const page = $("menuPage").value.trim();
-
-      if (!label || label.length > 60) {
-        throw new Error("Enter a menu label of 1–60 characters.");
-      }
-
-      if (!safePageFilename(page)) {
-        throw new Error("Use a safe HTML filename, such as articles.html.");
-      }
-
-      const roles = Array.from(
-        document.querySelectorAll('input[name="menuRole"]:checked')
-      ).map(input => input.value);
-
-      const userIds = Array.from(
-        document.querySelectorAll('input[name="menuUser"]:checked')
-      ).map(input => input.value);
-
-      const editingId = $("editingId").value;
-      const id = editingId || (
-        "menu-" + Date.now().toString(36) +
-        "-" + Math.random().toString(36).slice(2, 8)
-      );
-
-      const item = { id, label, icon, page, roles, userIds };
-      const existingIndex = menuItems.findIndex(entry => entry.id === id);
-
-      const updated = [...menuItems];
-
-      if (existingIndex >= 0) {
-        updated[existingIndex] = item;
-      } else {
-        updated.push(item);
-      }
-
-      showModalStatus("Saving menu configuration...");
-
-      // Firestore rules must permit Owner create/update on this document.
-      await setDoc(doc(db, "panelSettings", "menuConfig"), {
-        items: updated,
-        updatedAt: serverTimestamp(),
-        updatedBy: currentUser.uid
-      });
-
-      menuItems = updated;
-      renderNavigation();
-      renderManagerList();
-      resetForm();
-      showModalStatus("Menu saved successfully.", "success");
-      showStatus("Menu configuration saved.", "success");
-    }
-
-    async function deleteMenuItem(id) {
-      if (!isOwner) return;
-
-      const item = menuItems.find(entry => entry.id === id);
-      if (!item) return;
-
-      if (!confirm(`Delete the "${item.label}" menu item?`)) return;
-
-      const updated = menuItems.filter(entry => entry.id !== id);
-
-      try {
-        await setDoc(doc(db, "panelSettings", "menuConfig"), {
-          items: updated,
-          updatedAt: serverTimestamp(),
-          updatedBy: currentUser.uid
-        });
-
-        menuItems = updated;
-        renderNavigation();
-        renderManagerList();
-        showModalStatus("Menu item deleted.", "success");
-        showStatus("Menu item deleted.", "success");
-      } catch (error) {
-        showModalStatus("Unable to delete: " + error.message, "error");
-      }
-    }
-
-    async function initializeDashboard(user) {
-      currentUser = user;
-
-      if (!user) {
-        location.replace("index.html");
-        return;
-      }
-
-      showStatus("Verifying your EduGM profile...");
-
-      try {
-        const profileRef = doc(db, "users", user.uid);
-        const profileSnapshot = await getDoc(profileRef);
-
-        if (!profileSnapshot.exists()) {
-          await signOut(auth);
-          location.replace("index.html");
-          return;
-        }
-
-        currentProfile = profileSnapshot.data();
-        currentRole = normalizeRole(currentProfile.role);
-
-        if (currentProfile.active !== true ||
-            !["owner", "admin", "editor"].includes(currentRole)) {
-          await signOut(auth);
-          alert("Your account is not approved or does not have a valid role. Contact the EduGM Owner.");
-          location.replace("index.html");
-          return;
-        }
-
-        isOwner = currentRole === "owner";
-
-        $("editMenuButton").classList.toggle("hidden", !isOwner);
-        $("welcomeText").textContent =
-          "Signed in as " +
-          (currentProfile.displayName || currentProfile.name || user.email || "EduGM staff") +
-          ". Your authorized workspace is ready.";
-
-        $("roleBadge").textContent = currentRole;
-        $("accountRole").textContent =
-          currentRole.charAt(0).toUpperCase() + currentRole.slice(1);
-        $("accountStatus").textContent = "Active";
-
-        showStatus("Account verified. Loading menu settings...", "success");
-
-        await loadMenu();
-
-        if (isOwner) {
-          try {
-            await loadStaffDirectory();
-          } catch (error) {
-            // The Owner menu editor stays available even if directory access fails.
-            staffUsers = [];
-            renderUserPicker([]);
-            showStatus(
-              "Dashboard loaded, but the staff directory could not be read. Check the users collection rules: " +
-              error.message,
-              "error"
-            );
-          }
-        }
-
-        renderNavigation();
-
-        if (!isOwner) {
-          $("editMenuButton").classList.add("hidden");
-        }
-
-        if (!document.querySelector("#pageStatus.error")) {
-          showStatus("Dashboard ready. Your account permissions have been loaded.", "success");
-        }
-      } catch (error) {
-        console.error("Dashboard initialization error:", error);
-        showStatus(
-          "Dashboard access failed: " + error.message +
-          " Check Firebase Authentication, Firestore rules, and users/" +
-          user.uid + ".",
-          "error"
+        // Editors can query their own records under the supplied rules.
+        snapshot = await getDocs(
+          query(
+            collection(db, "articles"),
+            where("authorId", "==", user.uid)
+          )
         );
-
-        $("accountStatus").textContent = "Error";
-        $("accountRole").textContent = "—";
-
-        // Keep the Owner menu button visible if the profile was successfully
-        // verified as Owner but another subsequent dashboard request failed.
-        if (isOwner) {
-          $("editMenuButton").classList.remove("hidden");
-        }
       }
+
+      let published = 0;
+      let drafts = 0;
+
+      snapshot.forEach((articleDoc) => {
+        const data = articleDoc.data();
+
+        if (data.status === "published") published++;
+        if (data.status === "draft") drafts++;
+      });
+
+      $("totalArticles").textContent = snapshot.size;
+      $("publishedArticles").textContent = published;
+      $("draftArticles").textContent = drafts;
+      $("statsUpdated").textContent = "Live Firestore data";
+      $("dbStatus").textContent = "Connected";
+      $("dbStatus").style.color = "#15803d";
+    } catch (error) {
+      console.error("Article stats error:", error);
+      $("totalArticles").textContent = "—";
+      $("publishedArticles").textContent = "—";
+      $("draftArticles").textContent = "—";
+      $("statsUpdated").textContent = "Data unavailable";
+      $("dbStatus").textContent = "Access unavailable";
+      $("dbStatus").style.color = "#b45309";
+
+      showMessage(
+        "Your profile is loaded, but article statistics could not be read. " +
+        "Check your Firestore articles rules and account permissions."
+      );
+    }
+  }
+
+  let currentUser = null;
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      window.location.replace("index.html");
+      return;
     }
 
-    $("editMenuButton").addEventListener("click", openModal);
-    $("closeModalButton").addEventListener("click", closeModal);
-    $("closeModalFooterButton").addEventListener("click", closeModal);
-    $("cancelEditButton").addEventListener("click", startNewItem);
-    $("newMenuButton").addEventListener("click", startNewItem);
+    currentUser = user;
+    $("authStatus").textContent = "Signed in";
+    $("authStatus").style.color = "#15803d";
 
-    $("menuModal").addEventListener("click", event => {
-      if (event.target === $("menuModal")) closeModal();
-    });
+    try {
+      const profileRef = doc(db, "users", user.uid);
+      const profileSnap = await getDoc(profileRef);
 
-    document.addEventListener("keydown", event => {
-      if (event.key === "Escape" && !$("menuModal").classList.contains("hidden")) {
-        closeModal();
-      }
-    });
-
-    $("menuManagerList").addEventListener("click", event => {
-      const editButton = event.target.closest("[data-edit-menu]");
-      const deleteButton = event.target.closest("[data-delete-menu]");
-
-      if (editButton) editMenuItem(editButton.dataset.editMenu);
-      if (deleteButton) deleteMenuItem(deleteButton.dataset.deleteMenu);
-    });
-
-    $("menuForm").addEventListener("submit", async event => {
-      event.preventDefault();
-
-      try {
-        await saveMenu();
-      } catch (error) {
-        console.error("Menu save error:", error);
-        showModalStatus("Could not save menu: " + error.message, "error");
-      }
-    });
-
-    $("refreshButton").addEventListener("click", async () => {
-      if (!currentUser) return;
-
-      $("refreshButton").disabled = true;
-      try {
-        await loadMenu();
-
-        if (isOwner) {
-          await loadStaffDirectory();
-        }
-
-        showStatus("Dashboard refreshed successfully.", "success");
-      } catch (error) {
-        showStatus("Unable to refresh: " + error.message, "error");
-      } finally {
-        $("refreshButton").disabled = false;
-      }
-    });
-
-    $("logoutButton").addEventListener("click", async () => {
-      $("logoutButton").disabled = true;
-
-      try {
+      if (!profileSnap.exists()) {
         await signOut(auth);
-        location.replace("index.html");
-      } catch (error) {
-        $("logoutButton").disabled = false;
-        showStatus("Logout failed: " + error.message, "error");
+        window.location.replace("index.html");
+        return;
       }
-    });
 
-    onAuthStateChanged(auth, user => {
-      initializeDashboard(user);
-    });
-  </script>
+      const profile = profileSnap.data();
+
+      if (profile.active !== true) {
+        await signOut(auth);
+        alert("Your account has not been approved. Contact the EduGM Owner.");
+        window.location.replace("index.html");
+        return;
+      }
+
+      const role = safeText(profile.role, "").toLowerCase();
+
+      if (!["owner", "admin", "editor"].includes(role)) {
+        await signOut(auth);
+        alert("Your account role is not authorized for the admin panel.");
+        window.location.replace("index.html");
+        return;
+      }
+
+      hideMessage();
+      displayProfile(profile, user);
+      $("approvalStatus").textContent = "Approved";
+      $("approvalStatus").style.color = "#15803d";
+
+      await loadArticleStats(user, role);
+
+    } catch (error) {
+      console.error("Dashboard account error:", error);
+      $("approvalStatus").textContent = "Could not verify";
+      $("approvalStatus").style.color = "#b45309";
+      showMessage(
+        "Unable to verify your account profile. Check your internet connection " +
+        "and Firestore rules. The dashboard will not bypass account approval."
+      );
+    }
+  });
+
+  $("logoutBtn").addEventListener("click", async () => {
+    const button = $("logoutBtn");
+    button.disabled = true;
+    button.textContent = "Signing out…";
+
+    try {
+      await signOut(auth);
+      window.location.replace("index.html");
+    } catch (error) {
+      console.error("Logout error:", error);
+      button.disabled = false;
+      button.textContent = "↗ Logout";
+      showMessage("Logout failed. Please check your connection and try again.");
+    }
+  });
+</script>
 </body>
 </html>
