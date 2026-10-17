@@ -1,433 +1,651 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow,noarchive">
-  <meta name="theme-color" content="#2563eb">
+  <meta name="theme-color" content="#1769e0">
   <title>My Profile | EduGM Admin</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --blue: #2563eb;
-      --blue-dark: #1d4ed8;
-      --blue-soft: #eff6ff;
-      --bg: #f4f7fb;
+      --blue: #1769e0;
+      --blue-dark: #1052bd;
+      --blue-light: #edf5ff;
+      --ink: #18253b;
+      --muted: #718096;
+      --line: #e7edf5;
+      --bg: #f5f8fc;
       --white: #fff;
-      --text: #172033;
-      --muted: #64748b;
-      --border: #e2e8f0;
-      --red: #dc2626;
-      --green: #15803d;
-      --radius: 16px;
-      --shadow: 0 8px 28px rgba(15, 23, 42, .05);
+      --green: #138a58;
+      --red: #c53535;
+      --sidebar: 258px;
+      --radius: 17px;
     }
 
     * { box-sizing: border-box; }
-
     body {
       margin: 0;
-      font-family: Inter, sans-serif;
+      font-family: Inter, Arial, sans-serif;
       background: var(--bg);
-      color: var(--text);
+      color: var(--ink);
     }
-
     button, input, textarea, select { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; text-decoration: none; }
 
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 14px;
+    .sidebar {
+      position: fixed;
+      inset: 0 auto 0 0;
+      width: var(--sidebar);
       background: #fff;
-      border-bottom: 1px solid var(--border);
-      padding: 12px 22px;
+      border-right: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      padding: 23px 15px;
+      z-index: 20;
+      overflow-y: auto;
+      transition: transform .25s ease;
     }
-
     .brand {
       display: flex;
       align-items: center;
       gap: 11px;
+      padding: 0 9px 23px;
+      border-bottom: 1px solid var(--line);
     }
-
     .brand img {
-      width: 43px;
-      height: 43px;
+      width: 46px;
+      height: 46px;
       object-fit: contain;
+      border-radius: 12px;
     }
-
-    .brand strong { display: block; font-size: 16px; }
-    .brand small { color: var(--muted); font-size: 12px; }
-
-    .top-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
+    .brand-name { font-weight: 800; font-size: 19px; }
+    .brand-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+    .nav-label {
+      font-size: 10px;
+      font-weight: 800;
+      color: #9aa7b8;
+      letter-spacing: 1.2px;
+      margin: 25px 11px 10px;
     }
-
-    .container {
-      max-width: 1100px;
-      margin: 26px auto;
-      padding: 0 18px;
-    }
-
-    .heading { margin-bottom: 20px; }
-    .heading h1 { margin: 0 0 7px; font-size: 27px; }
-    .heading p { margin: 0; color: var(--muted); line-height: 1.6; font-size: 14px; }
-
-    .columns {
+    .nav {
       display: grid;
-      grid-template-columns: 310px minmax(0, 1fr);
-      gap: 20px;
-      align-items: start;
+      gap: 5px;
     }
-
-    .card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 22px;
-      margin-bottom: 18px;
+    .nav a, .logout {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      padding: 12px 13px;
+      border: 0;
+      border-radius: 11px;
+      background: transparent;
+      color: #64748b;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      transition: .2s;
+    }
+    .nav a:hover, .logout:hover {
+      color: var(--blue);
+      background: #f2f7ff;
+    }
+    .nav a.active {
+      color: var(--blue);
+      background: var(--blue-light);
+      font-weight: 700;
+    }
+    .nav-icon { width: 21px; text-align: center; font-size: 16px; }
+    .sidebar-bottom { margin-top: auto; padding-top: 22px; }
+    .account-mini {
+      background: #f5f8fd;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 9px;
       min-width: 0;
     }
-
-    .card h2 { margin: 0 0 17px; font-size: 17px; }
-    .muted { color: var(--muted); font-size: 13px; line-height: 1.65; }
-
-    .avatar-wrap {
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-      text-align: center;
-      gap: 10px;
-      padding: 8px 0 18px;
-    }
-
-    .avatar {
-      width: 110px;
-      height: 110px;
-      border-radius: 50%;
-      background: var(--blue-soft);
-      border: 3px solid #dbeafe;
-      object-fit: cover;
+    .mini-avatar, .avatar {
       display: grid;
       place-items: center;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: var(--blue-light);
       color: var(--blue);
-      font-size: 36px;
-      font-weight: 700;
+      font-weight: 800;
       overflow: hidden;
     }
-
-    .avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .profile-name { font-size: 18px; font-weight: 700; overflow-wrap: anywhere; }
-    .email { font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
-
-    .role {
-      display: inline-flex;
-      border-radius: 999px;
-      background: var(--blue-soft);
-      color: var(--blue-dark);
-      padding: 6px 10px;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-
-    .field { margin-bottom: 16px; }
-
-    label {
-      display: block;
-      margin-bottom: 7px;
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    input, textarea, select {
+    .mini-avatar { width: 38px; height: 38px; }
+    .mini-avatar img, .avatar img {
       width: 100%;
-      border: 1px solid #cbd5e1;
-      border-radius: 10px;
-      padding: 12px;
-      color: var(--text);
-      background: #fff;
-      outline: none;
+      height: 100%;
+      object-fit: cover;
     }
-
-    input:focus, textarea:focus, select:focus {
-      border-color: var(--blue);
-      box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+    .mini-info { min-width: 0; }
+    .mini-name {
+      font-size: 12px;
+      font-weight: 700;
+      overflow-wrap: anywhere;
     }
+    .mini-role { font-size: 11px; color: var(--muted); margin-top: 4px; }
+    .logout { color: #b63737; }
 
-    input:disabled {
-      background: #f8fafc;
-      color: #64748b;
-      cursor: not-allowed;
+    .main {
+      margin-left: var(--sidebar);
+      min-height: 100vh;
     }
-
-    textarea { min-height: 100px; resize: vertical; }
-    .help { margin: 6px 0 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
-
-    .btn {
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: white;
-      color: var(--text);
-      padding: 10px 14px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
+    .topbar {
+      height: 76px;
+      background: rgba(255,255,255,.94);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 0 34px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(12px);
+    }
+    .topbar-left { display: flex; align-items: center; gap: 13px; }
+    .topbar h1 { font-size: 18px; margin: 0; font-weight: 800; }
+    .topbar-sub { color: var(--muted); font-size: 12px; margin-top: 4px; }
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
+    .status-pill {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
       gap: 7px;
+      background: #eaf8f1;
+      color: var(--green);
+      padding: 8px 11px;
+      border-radius: 30px;
+      font-size: 11px;
+      font-weight: 700;
     }
-
-    .btn:hover { background: #f8fafc; }
-    .btn.primary { background: var(--blue); border-color: var(--blue); color: white; }
-    .btn.primary:hover { background: var(--blue-dark); }
-    .btn.danger { color: var(--red); }
-    .btn:disabled { opacity: .55; cursor: not-allowed; }
-
-    .actions { display: flex; flex-wrap: wrap; gap: 9px; }
-    .full { width: 100%; }
-
+    .status-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%; background: currentColor;
+    }
+    .menu-toggle {
+      display: none;
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 10px;
+      padding: 9px 12px;
+      cursor: pointer;
+    }
+    .content { max-width: 1250px; padding: 30px 34px 22px; margin: auto; }
+    .welcome {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+    .welcome h2 { font-size: 25px; margin: 0; letter-spacing: -.7px; }
+    .welcome p { color: var(--muted); font-size: 13px; line-height: 1.7; margin: 9px 0 0; }
+    .eyebrow {
+      color: var(--blue);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      margin-bottom: 9px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(270px, .75fr);
+      gap: 22px;
+      align-items: start;
+    }
+    .column { display: grid; gap: 22px; min-width: 0; }
+    .card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: 0 5px 24px rgba(24,52,91,.025);
+      min-width: 0;
+    }
+    .card-heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+    .card-heading h3 { margin: 0; font-size: 15px; font-weight: 800; }
+    .card-heading p { color: var(--muted); font-size: 12px; line-height: 1.6; margin: 6px 0 0; }
+    .tag {
+      padding: 6px 9px;
+      border-radius: 8px;
+      background: var(--blue-light);
+      color: var(--blue);
+      font-size: 10px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .profile-banner {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 18px;
+      background: linear-gradient(115deg,#edf5ff,#f8fbff);
+      border: 1px solid #e2edff;
+      border-radius: 14px;
+      margin-bottom: 24px;
+    }
+    .avatar { width: 76px; height: 76px; font-size: 26px; border: 3px solid white; box-shadow: 0 2px 8px #b5c9e8; }
+    .profile-banner h3 { margin: 0; font-size: 17px; overflow-wrap: anywhere; }
+    .profile-banner p { color: var(--muted); font-size: 12px; margin: 6px 0 0; overflow-wrap: anywhere; }
+    .profile-badge { display: inline-block; margin-top: 9px; color: var(--blue); font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .7px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 17px; }
+    .field { min-width: 0; }
+    .field.full { grid-column: 1 / -1; }
+    .field label {
+      display: block; font-size: 12px; font-weight: 700; margin-bottom: 8px;
+    }
+    .field input, .field textarea, .field select {
+      width: 100%;
+      border: 1px solid #dfe6ef;
+      background: #fff;
+      border-radius: 10px;
+      padding: 12px 13px;
+      color: var(--ink);
+      outline: none;
+      font-size: 12px;
+      transition: border .2s, box-shadow .2s;
+    }
+    .field input:focus, .field textarea:focus, .field select:focus {
+      border-color: #6da4f7;
+      box-shadow: 0 0 0 3px #1769e014;
+    }
+    .field input:disabled {
+      background: #f5f7fa;
+      color: #738096;
+      cursor: not-allowed;
+    }
+    .field textarea { resize: vertical; min-height: 95px; line-height: 1.6; }
+    .hint { font-size: 10px; color: var(--muted); line-height: 1.6; margin-top: 7px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 21px; }
+    .btn {
+      border: 1px solid transparent;
+      border-radius: 10px;
+      padding: 11px 15px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
+      transition: .2s;
+    }
+    .btn-primary { background: var(--blue); color: white; }
+    .btn-primary:hover { background: var(--blue-dark); transform: translateY(-1px); }
+    .btn-light { background: #fff; border-color: #dfe6ef; color: #475569; }
+    .btn-light:hover { background: #f7faff; }
+    .btn:disabled { opacity: .6; cursor: wait; transform: none; }
+    .info-list { display: grid; gap: 0; }
+    .info-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid #eef2f7;
+      font-size: 12px;
+    }
+    .info-row:last-child { border-bottom: 0; }
+    .info-label { color: var(--muted); }
+    .info-value { font-weight: 700; text-align: right; overflow-wrap: anywhere; max-width: 60%; }
+    .role-label { color: var(--blue); text-transform: capitalize; }
+    .security-note {
+      border-radius: 12px;
+      background: #f0f7ff;
+      border: 1px solid #dfedff;
+      padding: 14px;
+      font-size: 11px;
+      color: #42628e;
+      line-height: 1.7;
+      margin-top: 16px;
+    }
+    .security-note strong { color: #1c4e94; }
     .notice {
       display: none;
       padding: 12px 14px;
       border-radius: 10px;
       margin-bottom: 18px;
-      font-size: 13px;
-      line-height: 1.6;
-      overflow-wrap: anywhere;
-    }
-
-    .notice.show { display: block; }
-    .notice.info { color: #1d4ed8; background: #eff6ff; }
-    .notice.success { color: #166534; background: #f0fdf4; }
-    .notice.error { color: #b91c1c; background: #fef2f2; }
-
-    .section-divider {
-      border: 0;
-      border-top: 1px solid var(--border);
-      margin: 22px 0;
-    }
-
-    .stat {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 11px 0;
-      border-bottom: 1px solid #f1f5f9;
-      font-size: 13px;
-    }
-
-    .stat:last-child { border-bottom: 0; }
-    .stat span { color: var(--muted); }
-    .stat strong { text-align: right; overflow-wrap: anywhere; }
-
-    .locked {
-      border: 1px solid #bfdbfe;
-      background: #eff6ff;
-      padding: 12px;
-      border-radius: 10px;
       font-size: 12px;
       line-height: 1.6;
-      color: #1e40af;
     }
-
-    footer {
+    .notice.success { display: block; color: #12643f; background: #eaf8f1; border: 1px solid #cceedd; }
+    .notice.error { display: block; color: #a72d2d; background: #fff0f0; border: 1px solid #ffd9d9; }
+    .footer {
+      padding: 22px 10px 6px;
       text-align: center;
-      padding: 24px 12px;
+      font-size: 10px;
+      color: #8b98aa;
+      line-height: 1.8;
+    }
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(14,29,53,.35);
+      z-index: 15;
+    }
+    .overlay.show { display: block; }
+    .loading {
+      min-height: 50vh;
+      display: grid;
+      place-items: center;
       color: var(--muted);
-      font-size: 12px;
+      font-size: 13px;
     }
-
-    @media (max-width: 800px) {
-      .columns { grid-template-columns: 1fr; }
-      .topbar { padding: 11px 13px; }
-      .container { margin-top: 18px; padding: 0 12px; }
-      .card { padding: 17px; }
+    .spinner {
+      display: inline-block;
+      width: 17px; height: 17px;
+      border: 2px solid #d6e5fa;
+      border-top-color: var(--blue);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
     }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-    @media (max-width: 480px) {
-      .brand small { display: none; }
-      .brand img { width: 36px; height: 36px; }
-      .top-actions .btn { padding: 8px; font-size: 12px; }
-      .heading h1 { font-size: 23px; }
+    @media (max-width: 1050px) {
+      .grid { grid-template-columns: 1fr; }
+      .content { padding: 25px 22px; }
+    }
+    @media (max-width: 760px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.open { transform: translateX(0); }
+      .main { margin-left: 0; }
+      .menu-toggle { display: block; }
+      .topbar { padding: 0 17px; height: 68px; }
+      .topbar h1 { font-size: 16px; }
+      .content { padding: 23px 15px; }
+      .welcome h2 { font-size: 22px; }
+      .card { padding: 19px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .field.full { grid-column: auto; }
+      .status-pill { display: none; }
+    }
+    @media (max-width: 420px) {
+      .profile-banner { align-items: flex-start; gap: 12px; padding: 13px; }
+      .avatar { width: 60px; height: 60px; }
+      .profile-banner h3 { font-size: 14px; }
+      .card-heading { flex-direction: column; }
     }
   </style>
 </head>
 
 <body>
-  <header class="topbar">
-    <div class="brand">
-      <img src="https://i.ibb.co/1Y82N0n0/Edu-GM-Learning-Logo.png" alt="EduGM">
+  <div class="overlay" id="overlay"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="dashboard.html">
+      <img src="https://i.ibb.co/1Y82N0n0/Edu-GM-Learning-Logo.png" alt="EduGM logo">
       <div>
-        <strong>EduGM Admin</strong>
-        <small>Profile and account settings</small>
+        <div class="brand-name">EduGM</div>
+        <div class="brand-sub">Admin Workspace</div>
       </div>
-    </div>
+    </a>
 
-    <div class="top-actions">
-      <a class="btn" href="dashboard.html">Dashboard</a>
-      <button class="btn" id="logoutBtn" type="button">Log out</button>
-    </div>
-  </header>
+    <div class="nav-label">WORKSPACE</div>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="dashboard.html"><span class="nav-icon">⌂</span>Dashboard</a>
+      <a href="articles.html"><span class="nav-icon">▤</span>Articles</a>
+      <a href="article-editor.html"><span class="nav-icon">✎</span>Article Editor</a>
+      <a href="store.html"><span class="nav-icon">▣</span>EduGM Store</a>
+    </nav>
 
-  <main class="container">
-    <div class="heading">
-      <h1>My Profile</h1>
-      <p>Manage your EduGM staff profile, display settings and account security.</p>
-    </div>
+    <div class="nav-label">PRODUCTIVITY</div>
+    <nav class="nav" aria-label="Productivity navigation">
+      <a href="calendar.html"><span class="nav-icon">▦</span>Calendar</a>
+      <a href="todo.html"><span class="nav-icon">☑</span>To-Do</a>
+      <a href="innovation.html"><span class="nav-icon">✧</span>Innovation</a>
+      <a href="earning.html"><span class="nav-icon">₹</span>Earning</a>
+      <a href="pages.html"><span class="nav-icon">▧</span>Pages</a>
+    </nav>
 
-    <div id="notice" class="notice" role="status" aria-live="polite"></div>
+    <div class="nav-label">ACCOUNT</div>
+    <nav class="nav">
+      <a class="active" href="profile.html" aria-current="page"><span class="nav-icon">◎</span>My Profile</a>
+    </nav>
 
-    <div class="columns">
-      <aside>
-        <section class="card">
-          <div class="avatar-wrap">
-            <div class="avatar" id="avatar">E</div>
-            <div class="profile-name" id="cardName">Loading profile…</div>
-            <div class="email" id="cardEmail"></div>
-            <span class="role" id="cardRole">Loading</span>
-          </div>
-          <hr class="section-divider">
-          <div class="stat"><span>Account status</span><strong id="accountStatus">Checking…</strong></div>
-          <div class="stat"><span>Sign-in provider</span><strong>Email / Password</strong></div>
-          <div class="stat"><span>UID</span><strong id="uidShort">—</strong></div>
-        </section>
-
-        <section class="card">
-          <h2>Profile picture</h2>
-          <div class="field">
-            <label for="photoURL">Hosted image URL</label>
-            <input id="photoURL" type="url" placeholder="https://example.com/photo.jpg">
-            <p class="help">Use a publicly accessible HTTPS image URL. You can host the image in your website repository or another image host.</p>
-          </div>
-          <div class="actions">
-            <button class="btn primary" id="savePhotoBtn" type="button">Save picture</button>
-            <button class="btn" id="previewPhotoBtn" type="button">Preview</button>
-          </div>
-        </section>
-      </aside>
-
-      <div>
-        <section class="card">
-          <h2>Personal information</h2>
-
-          <div class="field">
-            <label for="displayName">Display name</label>
-            <input id="displayName" maxlength="80" placeholder="Your name">
-            <p id="nameHelp" class="help"></p>
-          </div>
-
-          <div class="field">
-            <label for="bio">Bio</label>
-            <textarea id="bio" maxlength="500" placeholder="Tell the team a little about yourself"></textarea>
-            <p class="help"><span id="bioCount">0</span>/500 characters</p>
-          </div>
-
-          <div class="field">
-            <label for="email">Email address</label>
-            <input id="email" type="email" disabled>
-            <p class="help">Email changes are managed through Firebase Authentication, not this profile form.</p>
-          </div>
-
-          <div class="actions">
-            <button class="btn primary" id="saveProfileBtn" type="button">Save profile</button>
-            <button class="btn" id="reloadBtn" type="button">Reload profile</button>
-          </div>
-        </section>
-
-        <section class="card">
-          <h2>Account preferences</h2>
-
-          <div class="field">
-            <label for="preferredLanguage">Preferred language</label>
-            <select id="preferredLanguage">
-              <option value="en">English</option>
-              <option value="bn">বাংলা (Bengali)</option>
-              <option value="hi">हिन्दी (Hindi)</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="timezone">Timezone</label>
-            <select id="timezone">
-              <option value="Asia/Kolkata">India Standard Time (Asia/Kolkata)</option>
-              <option value="UTC">UTC</option>
-            </select>
-          </div>
-
-          <button class="btn primary" id="savePreferencesBtn" type="button">Save preferences</button>
-        </section>
-
-        <section class="card">
-          <h2>Change password</h2>
-          <p class="muted">For your security, enter your current password before choosing a new one. Firebase may require you to sign in again if your session is old.</p>
-
-          <div class="field">
-            <label for="currentPassword">Current password</label>
-            <input id="currentPassword" type="password" autocomplete="current-password" placeholder="Enter current password">
-          </div>
-
-          <div class="field">
-            <label for="newPassword">New password</label>
-            <input id="newPassword" type="password" autocomplete="new-password" minlength="8" placeholder="At least 8 characters">
-          </div>
-
-          <div class="field">
-            <label for="confirmPassword">Confirm new password</label>
-            <input id="confirmPassword" type="password" autocomplete="new-password" minlength="8" placeholder="Re-enter new password">
-          </div>
-
-          <button class="btn primary" id="changePasswordBtn" type="button">Update password</button>
-        </section>
-
-        <section class="card">
-          <h2>Security and session</h2>
-          <div class="locked">
-            Never share your password. Your account role and approval status are controlled by EduGM's staff records and Firebase Security Rules.
-          </div>
-          <div class="actions" style="margin-top:15px">
-            <button class="btn" id="refreshBtn" type="button">Refresh account</button>
-            <button class="btn danger" id="securityLogoutBtn" type="button">Sign out</button>
-          </div>
-        </section>
+    <div class="sidebar-bottom">
+      <div class="account-mini">
+        <div class="mini-avatar" id="miniAvatar">E</div>
+        <div class="mini-info">
+          <div class="mini-name" id="miniName">Loading profile…</div>
+          <div class="mini-role" id="miniRole">Checking account</div>
+        </div>
       </div>
+      <button class="logout" id="logoutBtn" type="button">
+        <span class="nav-icon">↪</span>Logout
+      </button>
     </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+        <div>
+          <h1>My Profile</h1>
+          <div class="topbar-sub">Manage your EduGM account</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <span class="status-pill"><span class="status-dot"></span>Admin workspace</span>
+      </div>
+    </header>
+
+    <section class="content">
+      <div class="welcome">
+        <div>
+          <div class="eyebrow">ACCOUNT SETTINGS</div>
+          <h2>Profile &amp; Security</h2>
+          <p>Manage your personal information, preferences and account password.</p>
+        </div>
+      </div>
+
+      <div id="notice" class="notice" role="status" aria-live="polite"></div>
+
+      <div id="loading" class="loading">
+        <div><span class="spinner"></span>Checking your account…</div>
+      </div>
+
+      <div id="profileApp" hidden>
+        <div class="grid">
+          <div class="column">
+            <section class="card">
+              <div class="card-heading">
+                <div>
+                  <h3>Personal information</h3>
+                  <p>Keep your profile details up to date.</p>
+                </div>
+                <span class="tag">PROFILE</span>
+              </div>
+
+              <div class="profile-banner">
+                <div class="avatar" id="largeAvatar">E</div>
+                <div>
+                  <h3 id="bannerName">EduGM Member</h3>
+                  <p id="bannerEmail">Loading email…</p>
+                  <div class="profile-badge" id="bannerRole">Staff member</div>
+                </div>
+              </div>
+
+              <form id="profileForm">
+                <div class="form-grid">
+                  <div class="field full">
+                    <label for="displayName">Display name</label>
+                    <input id="displayName" maxlength="80" autocomplete="name" required disabled>
+                    <div class="hint" id="nameHint">Only the Owner can change the display name.</div>
+                  </div>
+
+                  <div class="field full">
+                    <label for="email">Email address</label>
+                    <input id="email" type="email" disabled>
+                    <div class="hint">Your login email is shown for reference and cannot be changed here.</div>
+                  </div>
+
+                  <div class="field full">
+                    <label for="bio">Bio</label>
+                    <textarea id="bio" maxlength="500" placeholder="Write a short introduction (maximum 500 characters)…"></textarea>
+                    <div class="hint">Maximum 500 characters.</div>
+                  </div>
+
+                  <div class="field full">
+                    <label for="photoURL">Profile picture URL</label>
+                    <input id="photoURL" type="url" maxlength="2000" placeholder="https://example.com/profile.jpg">
+                    <div class="hint">Use a direct HTTPS image URL hosted somewhere you trust.</div>
+                  </div>
+
+                  <div class="field">
+                    <label for="language">Preferred language</label>
+                    <select id="language">
+                      <option value="en">English</option>
+                      <option value="bn">বাংলা (Bengali)</option>
+                      <option value="hi">हिन्दी (Hindi)</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label for="timezone">Timezone</label>
+                    <select id="timezone">
+                      <option value="Asia/Kolkata">India (Asia/Kolkata)</option>
+                      <option value="UTC">UTC</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="actions">
+                  <button class="btn btn-primary" id="saveProfileBtn" type="submit">Save changes</button>
+                  <button class="btn btn-light" id="resetProfileBtn" type="button">Reset</button>
+                </div>
+              </form>
+            </section>
+
+            <section class="card">
+              <div class="card-heading">
+                <div>
+                  <h3>Change password</h3>
+                  <p>Confirm your current password before choosing a new one.</p>
+                </div>
+                <span class="tag">SECURITY</span>
+              </div>
+
+              <form id="passwordForm">
+                <div class="form-grid">
+                  <div class="field full">
+                    <label for="currentPassword">Current password</label>
+                    <input id="currentPassword" type="password" autocomplete="current-password" required>
+                  </div>
+                  <div class="field">
+                    <label for="newPassword">New password</label>
+                    <input id="newPassword" type="password" minlength="8" autocomplete="new-password" required>
+                    <div class="hint">Use at least 8 characters.</div>
+                  </div>
+                  <div class="field">
+                    <label for="confirmPassword">Confirm new password</label>
+                    <input id="confirmPassword" type="password" minlength="8" autocomplete="new-password" required>
+                  </div>
+                </div>
+                <div class="actions">
+                  <button class="btn btn-primary" id="changePasswordBtn" type="submit">Update password</button>
+                </div>
+                <div class="hint">This form requires an email/password Firebase account. If your account uses another sign-in provider, use that provider's account recovery process.</div>
+              </form>
+            </section>
+          </div>
+
+          <div class="column">
+            <section class="card">
+              <div class="card-heading">
+                <div>
+                  <h3>Account overview</h3>
+                  <p>Your current account details.</p>
+                </div>
+              </div>
+              <div class="info-list">
+                <div class="info-row">
+                  <span class="info-label">Account role</span>
+                  <span class="info-value role-label" id="accountRole">—</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Account status</span>
+                  <span class="info-value" style="color:var(--green)">Active</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Email verified</span>
+                  <span class="info-value" id="emailVerified">—</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Sign-in provider</span>
+                  <span class="info-value" id="provider">—</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">User ID</span>
+                  <span class="info-value" id="uidValue">—</span>
+                </div>
+              </div>
+              <div class="security-note">
+                <strong>Account safety</strong><br>
+                Never share your password or Firebase account credentials with other staff members.
+              </div>
+            </section>
+
+            <section class="card">
+              <div class="card-heading">
+                <div>
+                  <h3>Profile picture preview</h3>
+                  <p>Check your image URL before saving it.</p>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:16px">
+                <div class="avatar" id="previewAvatar" style="width:68px;height:68px">E</div>
+                <div style="min-width:0">
+                  <div style="font-size:12px;font-weight:700">Your profile photo</div>
+                  <div style="font-size:11px;color:var(--muted);line-height:1.7;margin-top:6px">
+                    The image should be publicly viewable through its HTTPS URL.
+                  </div>
+                </div>
+              </div>
+              <div class="actions">
+                <button class="btn btn-light" type="button" id="previewBtn">Preview image</button>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer">
+        © <span id="year"></span> EduGM. All rights reserved.<br>
+        EduGM Admin Panel — Official Use Only.
+      </footer>
+    </section>
   </main>
-
-  <footer>
-    © <span id="year"></span> EduGM. All rights reserved.
-    EduGM Admin Panel — Official Use Only.
-  </footer>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
     import {
-      getAuth,
-      onAuthStateChanged,
-      signOut,
-      EmailAuthProvider,
-      reauthenticateWithCredential,
-      updatePassword,
-      updateProfile,
-      reload
+      getAuth, onAuthStateChanged, signOut, updatePassword,
+      EmailAuthProvider, reauthenticateWithCredential
     } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
     import {
-      getFirestore,
-      doc,
-      getDoc,
-      updateDoc,
-      serverTimestamp
+      getFirestore, doc, getDoc, updateDoc, serverTimestamp
     } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -442,19 +660,20 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    const $ = id => document.getElementById(id);
 
-    let user = null;
-    let profile = null;
-    let role = null;
-    let loading = false;
+    const $ = id => document.getElementById(id);
+    let currentUser = null;
+    let profileData = {};
+    let currentRole = "";
+    let originalForm = null;
 
     $("year").textContent = new Date().getFullYear();
 
-    function notify(message, type = "info") {
+    function showNotice(message, type = "success") {
       const box = $("notice");
       box.textContent = message;
-      box.className = "notice show " + type;
+      box.className = "notice " + type;
+      box.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
 
     function clearNotice() {
@@ -462,314 +681,316 @@
       $("notice").className = "notice";
     }
 
-    function setBusy(button, busy, label) {
-      button.disabled = busy;
-      if (busy) {
-        button.dataset.originalText = button.textContent;
-        button.textContent = label || "Please wait…";
-      } else if (button.dataset.originalText) {
-        button.textContent = button.dataset.originalText;
-        delete button.dataset.originalText;
-      }
+    function initials(name) {
+      const clean = (name || "EduGM Member").trim();
+      return clean.charAt(0).toUpperCase() || "E";
     }
 
-    function safeImageURL(value) {
-      if (!value.trim()) return "";
-      try {
-        const url = new URL(value.trim());
-        return url.protocol === "https:" ? url.href : null;
-      } catch {
-        return null;
-      }
-    }
-
-    function renderAvatar(url, name) {
-      const avatar = $("avatar");
-      avatar.replaceChildren();
-
+    function setAvatar(element, url, name) {
+      element.replaceChildren();
       if (url) {
         const img = document.createElement("img");
-        img.src = url;
         img.alt = "Profile picture";
         img.referrerPolicy = "no-referrer";
+        img.src = url;
         img.onerror = () => {
-          avatar.replaceChildren();
-          avatar.textContent = (name || "E").trim().charAt(0).toUpperCase();
+          element.textContent = initials(name);
         };
-        avatar.appendChild(img);
+        element.appendChild(img);
       } else {
-        avatar.textContent = (name || "E").trim().charAt(0).toUpperCase();
+        element.textContent = initials(name);
       }
     }
 
-    function renderProfile() {
-      const name = profile.displayName || user.displayName || "EduGM Staff";
-      const photo = profile.photoURL || user.photoURL || "";
+    function paintProfile(name, photoURL) {
+      const email = currentUser?.email || "No email available";
+      $("bannerName").textContent = name || "EduGM Member";
+      $("bannerEmail").textContent = email;
+      $("bannerRole").textContent = currentRole + " account";
+      $("miniName").textContent = name || email;
+      $("miniRole").textContent = currentRole;
+      setAvatar($("largeAvatar"), photoURL, name);
+      setAvatar($("miniAvatar"), photoURL, name);
+      setAvatar($("previewAvatar"), photoURL, name);
+    }
 
-      $("cardName").textContent = name;
-      $("cardEmail").textContent = user.email || "";
-      $("cardRole").textContent = role || "staff";
-      $("accountStatus").textContent = profile.active === true ? "Active" : "Inactive";
-      $("uidShort").textContent = user.uid.slice(0, 8) + "…";
+    function readFormSnapshot() {
+      return {
+        displayName: $("displayName").value,
+        bio: $("bio").value,
+        photoURL: $("photoURL").value.trim(),
+        preferredLanguage: $("language").value,
+        timezone: $("timezone").value
+      };
+    }
+
+    function restoreFormSnapshot() {
+      if (!originalForm) return;
+      $("displayName").value = originalForm.displayName;
+      $("bio").value = originalForm.bio;
+      $("photoURL").value = originalForm.photoURL;
+      $("language").value = originalForm.preferredLanguage;
+      $("timezone").value = originalForm.timezone;
+      paintProfile(originalForm.displayName, originalForm.photoURL);
+    }
+
+    function validateHttpsUrl(value) {
+      if (!value) return true;
+      try {
+        return new URL(value).protocol === "https:";
+      } catch {
+        return false;
+      }
+    }
+
+    async function loadProfile(user) {
+      currentUser = user;
+      const ref = doc(db, "users", user.uid);
+      const snapshot = await getDoc(ref);
+
+      if (!snapshot.exists()) {
+        await signOut(auth);
+        throw new Error("Your account has not been approved. Contact the EduGM Owner.");
+      }
+
+      profileData = snapshot.data();
+      currentRole = String(profileData.role || "").toLowerCase();
+
+      if (profileData.active !== true ||
+          !["owner", "admin", "editor"].includes(currentRole)) {
+        await signOut(auth);
+        throw new Error("Your account has not been approved. Contact the EduGM Owner.");
+      }
+
+      const name = String(profileData.displayName || user.displayName || "");
+      const photoURL = String(profileData.photoURL || user.photoURL || "");
 
       $("displayName").value = name;
-      $("bio").value = profile.bio || "";
       $("email").value = user.email || "";
-      $("photoURL").value = photo;
-      $("preferredLanguage").value = ["en", "bn", "hi"].includes(profile.preferredLanguage)
-        ? profile.preferredLanguage : "en";
-      $("timezone").value = profile.timezone === "UTC" ? "UTC" : "Asia/Kolkata";
-      $("bioCount").textContent = $("bio").value.length;
+      $("bio").value = String(profileData.bio || "");
+      $("photoURL").value = photoURL;
+      $("language").value = ["en", "bn", "hi"].includes(profileData.preferredLanguage)
+        ? profileData.preferredLanguage : "en";
+      $("timezone").value = ["Asia/Kolkata", "UTC"].includes(profileData.timezone)
+        ? profileData.timezone : "Asia/Kolkata";
 
-      renderAvatar(photo, name);
-
-      const owner = role === "owner";
+      const owner = currentRole === "owner";
       $("displayName").disabled = !owner;
-      $("nameHelp").textContent = owner
-        ? "Owner permission: you can change your own display name."
-        : "Only the EduGM Owner can change a display name. Contact the Owner if it needs correction.";
+      $("nameHint").textContent = owner
+        ? "Owner accounts can update the display name."
+        : "Only the Owner can change the display name.";
+
+      $("accountRole").textContent = currentRole;
+      $("emailVerified").textContent = user.emailVerified ? "Verified" : "Not verified";
+      $("emailVerified").style.color = user.emailVerified ? "var(--green)" : "var(--red)";
+      $("uidValue").textContent = user.uid;
+      $("uidValue").title = user.uid;
+
+      const providerIds = (user.providerData || []).map(p => p.providerId);
+      $("provider").textContent = providerIds.length
+        ? providerIds.join(", ").replace("password", "Email/password")
+        : "Unknown";
+
+      paintProfile(name, photoURL);
+      originalForm = readFormSnapshot();
+
+      $("loading").hidden = true;
+      $("profileApp").hidden = false;
     }
 
-    async function loadProfile() {
-      if (!user) return;
-
-      const snap = await getDoc(doc(db, "users", user.uid));
-      if (!snap.exists()) {
-        await signOut(auth);
-        location.replace("index.html");
-        return;
-      }
-
-      profile = snap.data();
-      role = profile.role;
-
-      if (profile.active !== true || !["owner", "admin", "editor"].includes(role)) {
-        await signOut(auth);
-        location.replace("index.html");
-        return;
-      }
-
-      renderProfile();
+    onAuthStateChanged(auth, async user => {
+      $("loading").hidden = false;
+      $("profileApp").hidden = true;
       clearNotice();
-    }
 
-    async function savePersonalProfile() {
-      if (loading) return;
-      const button = $("saveProfileBtn");
-
-      try {
-        const name = $("displayName").value.trim();
-        const bio = $("bio").value.trim();
-
-        if (role === "owner" && (!name || name.length > 80)) {
-          throw new Error("Enter a name between 1 and 80 characters.");
-        }
-
-        loading = true;
-        setBusy(button, true, "Saving…");
-
-        const changes = {
-          bio,
-          updatedAt: serverTimestamp()
-        };
-
-        if (role === "owner") {
-          changes.displayName = name;
-          await updateProfile(user, { displayName: name });
-        }
-
-        await updateDoc(doc(db, "users", user.uid), changes);
-
-        profile = { ...profile, ...changes, bio };
-        if (role === "owner") profile.displayName = name;
-
-        renderProfile();
-        notify("Profile saved successfully.", "success");
-      } catch (error) {
-        console.error(error);
-        notify(error.message || "Unable to save profile. Check your Firestore Security Rules.", "error");
-      } finally {
-        loading = false;
-        setBusy(button, false);
-      }
-    }
-
-    async function savePhoto() {
-      if (loading) return;
-      const button = $("savePhotoBtn");
-
-      try {
-        const url = safeImageURL($("photoURL").value);
-        if (url === null) throw new Error("Enter a valid HTTPS image URL.");
-        if (url && url.length > 2000) throw new Error("The image URL is too long.");
-
-        loading = true;
-        setBusy(button, true, "Saving…");
-
-        await updateDoc(doc(db, "users", user.uid), {
-          photoURL: url,
-          updatedAt: serverTimestamp()
-        });
-
-        await updateProfile(user, { photoURL: url || null });
-
-        profile.photoURL = url;
-        renderProfile();
-        notify("Profile picture URL saved.", "success");
-      } catch (error) {
-        console.error(error);
-        notify(error.message || "Unable to save profile picture. Check your Firestore rules.", "error");
-      } finally {
-        loading = false;
-        setBusy(button, false);
-      }
-    }
-
-    async function savePreferences() {
-      if (loading) return;
-      const button = $("savePreferencesBtn");
-
-      try {
-        loading = true;
-        setBusy(button, true, "Saving…");
-
-        const preferredLanguage = $("preferredLanguage").value;
-        const timezone = $("timezone").value;
-
-        await updateDoc(doc(db, "users", user.uid), {
-          preferredLanguage,
-          timezone,
-          updatedAt: serverTimestamp()
-        });
-
-        profile.preferredLanguage = preferredLanguage;
-        profile.timezone = timezone;
-        notify("Preferences saved.", "success");
-      } catch (error) {
-        console.error(error);
-        notify(error.message || "Unable to save preferences. Check your Firestore rules.", "error");
-      } finally {
-        loading = false;
-        setBusy(button, false);
-      }
-    }
-
-    async function changePassword() {
-      if (loading) return;
-      const button = $("changePasswordBtn");
-
-      try {
-        const currentPassword = $("currentPassword").value;
-        const newPassword = $("newPassword").value;
-        const confirmPassword = $("confirmPassword").value;
-
-        if (!user.email) throw new Error("This account does not have an email address.");
-        if (!currentPassword) throw new Error("Enter your current password.");
-        if (newPassword.length < 8) throw new Error("Your new password must be at least 8 characters.");
-        if (newPassword !== confirmPassword) throw new Error("The new passwords do not match.");
-        if (newPassword === currentPassword) throw new Error("Choose a different password.");
-
-        loading = true;
-        setBusy(button, true, "Updating password…");
-
-        const credential = EmailAuthProvider.credential(user.email, currentPassword);
-        await reauthenticateWithCredential(user, credential);
-        await updatePassword(user, newPassword);
-
-        $("currentPassword").value = "";
-        $("newPassword").value = "";
-        $("confirmPassword").value = "";
-
-        notify("Password changed successfully.", "success");
-      } catch (error) {
-        console.error(error);
-        let message = error.message || "Unable to update password.";
-
-        if (error.code === "auth/wrong-password" ||
-            error.code === "auth/invalid-credential") {
-          message = "Your current password is incorrect.";
-        } else if (error.code === "auth/weak-password") {
-          message = "Choose a stronger password.";
-        } else if (error.code === "auth/requires-recent-login") {
-          message = "Please sign out, sign back in, and try again.";
-        } else if (error.code === "auth/too-many-requests") {
-          message = "Too many attempts. Please wait before trying again.";
-        }
-
-        notify(message, "error");
-      } finally {
-        loading = false;
-        setBusy(button, false);
-      }
-    }
-
-    $("bio").addEventListener("input", () => {
-      $("bioCount").textContent = $("bio").value.length;
-    });
-
-    $("saveProfileBtn").addEventListener("click", savePersonalProfile);
-    $("savePhotoBtn").addEventListener("click", savePhoto);
-    $("savePreferencesBtn").addEventListener("click", savePreferences);
-    $("changePasswordBtn").addEventListener("click", changePassword);
-
-    $("previewPhotoBtn").addEventListener("click", () => {
-      const url = safeImageURL($("photoURL").value);
-      if (url === null) {
-        notify("Enter a valid HTTPS image URL first.", "error");
+      if (!user) {
+        location.replace("index.html");
         return;
       }
-      renderAvatar(url, $("displayName").value || profile?.displayName || "E");
-      notify(url ? "Picture preview updated. Save it to keep this change." : "Picture preview cleared. Save to remove your profile picture.", "info");
-    });
 
-    $("reloadBtn").addEventListener("click", async () => {
       try {
-        await loadProfile();
-        notify("Profile reloaded.", "success");
+        await loadProfile(user);
       } catch (error) {
-        notify(error.message || "Unable to reload profile.", "error");
+        $("loading").innerHTML = "";
+        showNotice(error.message || "Unable to load your profile.", "error");
       }
     });
 
-    async function logout() {
-      await signOut(auth);
-      location.replace("index.html");
-    }
+    $("profileForm").addEventListener("submit", async event => {
+      event.preventDefault();
+      clearNotice();
+
+      const btn = $("saveProfileBtn");
+      const values = readFormSnapshot();
+
+      if (values.displayName.trim().length > 80) {
+        showNotice("Display name must be 80 characters or fewer.", "error");
+        return;
+      }
+      if (values.bio.length > 500) {
+        showNotice("Bio must be 500 characters or fewer.", "error");
+        return;
+      }
+      if (!validateHttpsUrl(values.photoURL)) {
+        showNotice("Profile picture URL must be a valid HTTPS URL.", "error");
+        return;
+      }
+
+      const updates = {
+        bio: values.bio.trim(),
+        photoURL: values.photoURL,
+        preferredLanguage: values.preferredLanguage,
+        timezone: values.timezone,
+        updatedAt: serverTimestamp()
+      };
+
+      if (currentRole === "owner") {
+        updates.displayName = values.displayName.trim();
+      }
+
+      btn.disabled = true;
+      btn.textContent = "Saving…";
+
+      try {
+        // Firestore Rules must permit only the approved profile fields.
+        await updateDoc(doc(db, "users", currentUser.uid), updates);
+
+        profileData = { ...profileData, ...updates };
+        originalForm = {
+          ...values,
+          displayName: currentRole === "owner"
+            ? values.displayName.trim()
+            : $("displayName").value
+        };
+        paintProfile(originalForm.displayName, values.photoURL);
+        showNotice("Your profile has been saved successfully.");
+      } catch (error) {
+        console.error("Profile update failed:", error);
+        showNotice(
+          error.code === "permission-denied"
+            ? "Permission denied. Check your Firestore Security Rules and user profile fields."
+            : "Could not save your profile. Please try again.",
+          "error"
+        );
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Save changes";
+      }
+    });
+
+    $("resetProfileBtn").addEventListener("click", () => {
+      restoreFormSnapshot();
+      clearNotice();
+    });
+
+    $("photoURL").addEventListener("input", () => {
+      paintProfile($("displayName").value, $("photoURL").value.trim());
+    });
+
+    $("displayName").addEventListener("input", () => {
+      paintProfile($("displayName").value, $("photoURL").value.trim());
+    });
+
+    $("previewBtn").addEventListener("click", () => {
+      const url = $("photoURL").value.trim();
+      if (!url) {
+        showNotice("Enter an HTTPS image URL first.", "error");
+        return;
+      }
+      if (!validateHttpsUrl(url)) {
+        showNotice("Please use a valid HTTPS image URL.", "error");
+        return;
+      }
+      setAvatar($("previewAvatar"), url, $("displayName").value);
+      showNotice("Image preview updated. Save changes to keep this URL.");
+    });
+
+    $("passwordForm").addEventListener("submit", async event => {
+      event.preventDefault();
+      clearNotice();
+
+      const current = $("currentPassword").value;
+      const next = $("newPassword").value;
+      const confirm = $("confirmPassword").value;
+      const btn = $("changePasswordBtn");
+
+      if (!currentUser?.email) {
+        showNotice("Your account does not have an email address available for password re-authentication.", "error");
+        return;
+      }
+      if (next.length < 8) {
+        showNotice("Your new password must contain at least 8 characters.", "error");
+        return;
+      }
+      if (next !== confirm) {
+        showNotice("The new password and confirmation do not match.", "error");
+        return;
+      }
+      if (current === next) {
+        showNotice("Choose a new password different from your current password.", "error");
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = "Updating…";
+
+      try {
+        const credential = EmailAuthProvider.credential(currentUser.email, current);
+        await reauthenticateWithCredential(currentUser, credential);
+        await updatePassword(currentUser, next);
+
+        $("passwordForm").reset();
+        showNotice("Password updated successfully.");
+      } catch (error) {
+        console.error("Password update failed:", error);
+        let message = "Could not update your password. Please try again.";
+        if (error.code === "auth/invalid-credential" ||
+            error.code === "auth/wrong-password" ||
+            error.code === "auth/invalid-login-credentials") {
+          message = "The current password is incorrect.";
+        } else if (error.code === "auth/weak-password") {
+          message = "Firebase rejected the password as too weak. Choose a stronger password.";
+        } else if (error.code === "auth/requires-recent-login") {
+          message = "Please sign in again, then retry changing your password.";
+        } else if (error.code === "auth/operation-not-allowed") {
+          message = "Email/password sign-in is not enabled for this account in Firebase Authentication.";
+        }
+        showNotice(message, "error");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Update password";
+      }
+    });
 
     $("logoutBtn").addEventListener("click", async () => {
-      try { await logout(); }
-      catch (error) { notify(error.message || "Unable to sign out.", "error"); }
-    });
-
-    $("securityLogoutBtn").addEventListener("click", async () => {
-      try { await logout(); }
-      catch (error) { notify(error.message || "Unable to sign out.", "error"); }
-    });
-
-    $("refreshBtn").addEventListener("click", async () => {
+      $("logoutBtn").disabled = true;
       try {
-        await reload(user);
-        await loadProfile();
-        notify("Account refreshed.", "success");
-      } catch (error) {
-        notify(error.message || "Unable to refresh account.", "error");
-      }
-    });
-
-    onAuthStateChanged(auth, async signedInUser => {
-      if (!signedInUser) {
+        await signOut(auth);
         location.replace("index.html");
-        return;
-      }
-
-      user = signedInUser;
-
-      try {
-        await loadProfile();
       } catch (error) {
-        console.error(error);
-        notify(error.message || "Unable to load profile.", "error");
+        showNotice("Could not log out. Please try again.", "error");
+        $("logoutBtn").disabled = false;
       }
+    });
+
+    const sidebar = $("sidebar");
+    const overlay = $("overlay");
+    const menuToggle = $("menuToggle");
+
+    function closeMenu() {
+      sidebar.classList.remove("open");
+      overlay.classList.remove("show");
+      menuToggle.setAttribute("aria-expanded", "false");
+    }
+
+    menuToggle.addEventListener("click", () => {
+      const isOpen = sidebar.classList.toggle("open");
+      overlay.classList.toggle("show", isOpen);
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+    });
+    overlay.addEventListener("click", closeMenu);
+    document.querySelectorAll(".nav a").forEach(link => {
+      link.addEventListener("click", closeMenu);
     });
   </script>
 </body>
