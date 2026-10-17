@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Article Editor | EduGM Admin Panel</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --blue: #2563eb;
+      --blue-dark: #1747b5;
+      --blue-light: #eff6ff;
+      --bg: #f5f8ff;
+      --white: #fff;
+      --text: #172554;
+      --muted: #718096;
+      --border: #e5eaf4;
+      --green: #15803d;
+      --red: #b91c1c;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Poppins, sans-serif;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+
+    #menuContainer {
+      position: fixed;
+      z-index: 1000;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 270px;
+      height: 100vh;
+      height: 100dvh;
+      overflow-y: auto;
+      overflow-x: hidden;
+      background: white;
+      border-right: 1px solid var(--border);
+      scrollbar-width: thin;
+    }
+
+    .main {
+      margin-left: 270px;
+      min-height: 100vh;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      min-height: 76px;
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      background: rgba(255,255,255,.95);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .heading {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .clock {
+      color: var(--muted);
+      font-size: 10px;
+      text-align: right;
+      line-height: 1.8;
+    }
+
+    .clock strong {
+      display: block;
+      color: var(--blue-dark);
+      font-size: 12px;
+    }
+
+    .mobile-menu-button {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--blue);
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    .content {
+      max-width: 1250px;
+      margin: auto;
+      padding: 25px 28px 38px;
+    }
+
+    .intro {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .intro h2 {
+      margin: 0;
+      font-size: 19px;
+    }
+
+    .intro p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 10px 15px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: white;
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .btn-primary {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: white;
+    }
+
+    .btn-primary:hover { background: var(--blue-dark); }
+
+    .btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .editor-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 280px;
+      align-items: start;
+      gap: 20px;
+    }
+
+    .card {
+      min-width: 0;
+      padding: 22px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: 0 7px 24px rgba(37,99,235,.045);
+    }
+
+    .card h3 {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .card-description {
+      margin: 5px 0 20px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.7;
+    }
+
+    .form-group { margin-bottom: 19px; }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .required { color: var(--red); }
+
+    .field {
+      display: block;
+      width: 100%;
+      min-width: 0;
+      padding: 12px 13px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      outline: none;
+      background: white;
+      color: var(--text);
+      font-size: 12px;
+      transition: .2s;
+    }
+
+    .field:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 0 3px #dbeafe;
+    }
+
+    .field::placeholder { color: #a0aec0; }
+
+    textarea.field {
+      resize: vertical;
+      line-height: 1.8;
+    }
+
+    #title { font-size: 16px; font-weight: 600; }
+    #excerpt { min-height: 95px; }
+    #content { min-height: 360px; }
+
+    .field-help {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.7;
+    }
+
+    .counter {
+      text-align: right;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .two-columns {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 15px;
+    }
+
+    .category-input-row {
+      display: flex;
+      align-items: stretch;
+      gap: 8px;
+    }
+
+    .category-input-row .field { flex: 1; }
+
+    .side-card { margin-bottom: 16px; }
+
+    .side-card h3 { margin-bottom: 17px; }
+
+    .status-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 13px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    .status-option:has(input:checked) {
+      border-color: #93c5fd;
+      background: #f8fbff;
+    }
+
+    .status-option input {
+      margin-top: 4px;
+      accent-color: var(--blue);
+    }
+
+    .status-option strong {
+      display: block;
+      font-size: 11px;
+    }
+
+    .status-option small {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.6;
+    }
+
+    .publish-actions {
+      display: grid;
+      gap: 9px;
+      margin-top: 17px;
+    }
+
+    .publish-actions .btn { width: 100%; }
+
+    .info-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 10px;
+      line-height: 1.7;
+    }
+
+    .info-row span { color: var(--muted); }
+    .info-row strong { text-align: right; overflow-wrap: anywhere; }
+
+    .message {
+      display: none;
+      margin-bottom: 17px;
+      padding: 12px 15px;
+      border: 1px solid #bfdbfe;
+      border-radius: 11px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .message.show { display: block; }
+
+    .message.error {
+      color: var(--red);
+      background: #fef2f2;
+      border-color: #fecaca;
+    }
+
+    .message.success {
+      color: var(--green);
+      background: #f0fdf4;
+      border-color: #bbf7d0;
+    }
+
+    .editor-tip {
+      padding: 12px;
+      border-radius: 11px;
+      background: var(--blue-light);
+      color: var(--blue-dark);
+      font-size: 10px;
+      line-height: 1.8;
+    }
+
+    .footer {
+      padding: 24px 10px 8px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.8;
+    }
+
+    .overlay { display: none; }
+
+    @media (max-width: 1150px) {
+      .editor-layout { grid-template-columns: minmax(0, 1fr) 250px; }
+      .content { padding: 22px 20px 30px; }
+    }
+
+    @media (max-width: 900px) {
+      #menuContainer {
+        transform: translateX(-100%);
+        transition: transform .25s ease;
+        box-shadow: 15px 0 40px rgba(15,23,42,.1);
+      }
+
+      #menuContainer.menu-open { transform: translateX(0); }
+      .main { margin-left: 0; }
+
+      .mobile-menu-button {
+        display: inline-grid;
+        place-items: center;
+      }
+
+      .overlay.show {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 900;
+        background: rgba(15,23,42,.4);
+      }
+
+      .editor-layout { grid-template-columns: 1fr; }
+      .editor-sidebar {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .side-card { margin-bottom: 0; }
+      .topbar { padding: 14px 18px; }
+    }
+
+    @media (max-width: 560px) {
+      .content { padding: 17px 12px 25px; }
+      .topbar { padding: 12px; }
+      .heading { font-size: 17px; }
+      .subtitle { font-size: 10px; }
+      .two-columns { grid-template-columns: 1fr; gap: 0; }
+      .editor-sidebar { grid-template-columns: 1fr; }
+      .card { padding: 17px; }
+      #content { min-height: 280px; }
+      .intro h2 { font-size: 17px; }
+      .intro .btn { width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+  <aside id="menuContainer" aria-label="Admin navigation">
+    <div style="padding:24px;color:#718096;font-size:12px;">Loading menu...</div>
+  </aside>
+
+  <div class="overlay" id="overlay"></div>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button id="mobileMenuButton" class="mobile-menu-button"
+          type="button" aria-label="Open menu" aria-expanded="false">☰</button>
+        <div>
+          <h1 class="heading">Article Editor</h1>
+          <p class="subtitle">Create and manage educational content</p>
+        </div>
+      </div>
+      <div class="clock">
+        <strong id="clockTime">Loading...</strong>
+        <span id="clockDate">India Standard Time</span>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="intro">
+        <div>
+          <h2 id="pageTitle">Write a New Article</h2>
+          <p id="pageDescription">Prepare an educational article for EduGM students.</p>
+        </div>
+        <a href="articles.html" class="btn">← Back to Articles</a>
+      </div>
+
+      <div id="message" class="message" role="status" aria-live="polite"></div>
+
+      <form id="articleForm">
+        <div class="editor-layout">
+          <section class="card">
+            <h3>Article Content</h3>
+            <p class="card-description">
+              Write clear, original and accurate educational content.
+            </p>
+
+            <div class="form-group">
+              <label for="title">Article title <span class="required">*</span></label>
+              <input class="field" id="title" name="title" type="text"
+                maxlength="160" required
+                placeholder="Enter a clear and descriptive title">
+              <div class="counter"><span id="titleCount">0</span>/160</div>
+            </div>
+
+            <div class="two-columns">
+              <div class="form-group">
+                <label for="category">Category <span class="required">*</span></label>
+                <input class="field" id="category" name="category" type="text"
+                  maxlength="80" list="categoryOptions" required
+                  placeholder="e.g. Madhyamik">
+                <datalist id="categoryOptions"></datalist>
+                <div class="field-help">
+                  Select an existing category or type a new one.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="excerpt">Short description</label>
+                <textarea class="field" id="excerpt" name="excerpt"
+                  maxlength="240" placeholder="Briefly describe this article"></textarea>
+                <div class="counter"><span id="excerptCount">0</span>/240</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="content">Article body <span class="required">*</span></label>
+              <textarea class="field" id="content" name="content"
+                maxlength="100000" required
+                placeholder="Write your article here. You can use plain text and line breaks."></textarea>
+              <div class="counter"><span id="contentCount">0</span>/100000 characters</div>
+              <div class="field-help">
+                This editor saves plain text. It does not interpret HTML or provide a rich-text toolbar.
+              </div>
+            </div>
+
+            <div class="editor-tip">
+              💡 Tip: Check spelling, exam dates, eligibility conditions and source information before publishing.
+            </div>
+          </section>
+
+          <aside class="editor-sidebar">
+            <section class="card side-card">
+              <h3>Publication Settings</h3>
+
+              <label class="status-option">
+                <input type="radio" name="status" value="draft" checked>
+                <span>
+                  <strong>Save as Draft</strong>
+                  <small>Keep the article unpublished for further editing.</small>
+                </span>
+              </label>
+
+              <label class="status-option">
+                <input type="radio" name="status" value="published">
+                <span>
+                  <strong>Publish Article</strong>
+                  <small>Mark the article as published. Your public website must also read published articles.</small>
+                </span>
+              </label>
+
+              <div class="publish-actions">
+                <button id="saveDraftBtn" class="btn" type="button">Save Draft</button>
+                <button id="publishBtn" class="btn btn-primary" type="button">Publish Article</button>
+              </div>
+
+              <div class="field-help">
+                Publishing here updates Firestore status. It does not automatically create a public page.
+              </div>
+            </section>
+
+            <section class="card side-card">
+              <h3>Article Information</h3>
+              <div class="info-list">
+                <div class="info-row">
+                  <span>Author</span>
+                  <strong id="authorInfo">Verifying...</strong>
+                </div>
+                <div class="info-row">
+                  <span>Role</span>
+                  <strong id="roleInfo">—</strong>
+                </div>
+                <div class="info-row">
+                  <span>Created</span>
+                  <strong id="createdInfo">New article</strong>
+                </div>
+                <div class="info-row">
+                  <span>Last updated</span>
+                  <strong id="updatedInfo">Not saved</strong>
+                </div>
+                <div class="info-row">
+                  <span>Current status</span>
+                  <strong id="currentStatus">Draft</strong>
+                </div>
+              </div>
+            </section>
+          </aside>
+        </div>
+      </form>
+
+      <footer class="footer">
+        © <span id="footerYear"></span> EduGM. All rights reserved.<br>
+        EduGM Admin Panel — Official Use Only.
+      </footer>
+    </main>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from
+      "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      collection,
+      getDocs,
+      query,
+      where,
+      addDoc,
+      updateDoc,
+      serverTimestamp,
+      Timestamp
+    } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA9yj3ikv7oIsBhU7IE9XPclY3vul5d9us",
+      authDomain: "edugm-bangla.firebaseapp.com",
+      projectId: "edugm-bangla",
+      storageBucket: "edugm-bangla.firebasestorage.app",
+      messagingSenderId: "236553092510",
+      appId: "1:236553092510:web:91f03b4434616c06846a8f"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const $ = id => document.getElementById(id);
+
+    const articleId = new URLSearchParams(location.search).get("id");
+
+    let currentUser = null;
+    let currentProfile = null;
+    let currentRole = "";
+    let originalArticle = null;
+    let savedCategoryNames = [];
+    let isSaving = false;
+
+    function showMessage(text, type = "info") {
+      const element = $("message");
+      element.textContent = text;
+      element.className = "message show" +
+        (type === "error" ? " error" : type === "success" ? " success" : "");
+      element.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    function clearMessage() {
+      $("message").textContent = "";
+      $("message").className = "message";
+    }
+
+    function updateClock() {
+      const now = new Date();
+
+      $("clockTime").textContent = new Intl.DateTimeFormat("en-IN", {
+        timeZone: "Asia/Kolkata",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true
+      }).format(now);
+
+      $("clockDate").textContent = new Intl.DateTimeFormat("en-IN", {
+        timeZone: "Asia/Kolkata",
+        weekday: "short",
+        day: "2-digit",
+        month: "short",
+        year: "numeric"
+      }).format(now) + " · IST";
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+    $("footerYear").textContent = new Date().getFullYear();
+
+    function formatDate(value) {
+      if (!value) return "—";
+
+      const date = typeof value.toDate === "function"
+        ? value.toDate()
+        : new Date(value);
+
+      if (Number.isNaN(date.getTime())) return "—";
+
+      return new Intl.DateTimeFormat("en-IN", {
+        timeZone: "Asia/Kolkata",
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+      }).format(date);
+    }
+
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[char]);
+    }
+
+    async function loadMenu() {
+      const container = $("menuContainer");
+
+      try {
+        const response = await fetch("menu.html", { cache: "no-cache" });
+        if (!response.ok) throw new Error("Could not load menu.html");
+
+        const html = await response.text();
+        const parsed = new DOMParser().parseFromString(html, "text/html");
+
+        container.innerHTML =
+          parsed.body.innerHTML +
+          Array.from(parsed.head.querySelectorAll("style"))
+            .map(style => style.outerHTML).join("");
+
+        Object.assign(container.style, {
+          position: "fixed",
+          top: "0",
+          left: "0",
+          bottom: "0",
+          height: "100dvh",
+          overflowY: "auto",
+          overflowX: "hidden"
+        });
+
+        const currentPage = location.pathname.split("/").pop() || "article-editor.html";
+
+        container.querySelectorAll("[data-page]").forEach(link => {
+          if (link.dataset.page === currentPage) {
+            link.classList.add("active");
+            link.setAttribute("aria-current", "page");
+          }
+        });
+
+        container.querySelectorAll(
+          "#logoutBtn, [data-action='logout'], .logout-button"
+        ).forEach(button => {
+          button.addEventListener("click", async event => {
+            event.preventDefault();
+            await logout();
+          });
+        });
+
+        container.querySelectorAll("a").forEach(link => {
+          const label = (link.textContent || "").trim().toLowerCase();
+          if (["logout", "log out", "sign out"].includes(label)) {
+            link.addEventListener("click", async event => {
+              event.preventDefault();
+              await logout();
+            });
+          }
+        });
+      } catch (error) {
+        console.error(error);
+        container.innerHTML = `
+          <div style="padding:22px;color:#b91c1c;font-size:12px;line-height:1.8">
+            Menu could not load. Make sure menu.html is in this folder.
+            <br><button id="retryMenu" type="button">Retry</button>
+          </div>`;
+        $("retryMenu")?.addEventListener("click", loadMenu);
+      }
+    }
+
+    async function logout() {
+      await signOut(auth);
+      location.replace("index.html");
+    }
+
+    function getDisplayName(user, profile) {
+      return profile.displayName ||
+        profile.name ||
+        profile.fullName ||
+        profile.username ||
+        user.displayName ||
+        user.email ||
+        "EduGM Staff";
+    }
+
+    async function loadCategories() {
+      try {
+        const snapshot = await getDocs(collection(db, "articles"));
+        const categories = new Set();
+
+        snapshot.forEach(documentSnapshot => {
+          const category = documentSnapshot.data().category;
+          if (typeof category === "string" && category.trim()) {
+            categories.add(category.trim());
+          }
+        });
+
+        savedCategoryNames = [...categories].sort((a, b) => a.localeCompare(b));
+
+        $("categoryOptions").innerHTML = savedCategoryNames
+          .map(category => `<option value="${escapeHTML(category)}"></option>`)
+          .join("");
+      } catch (error) {
+        // Category suggestions are optional; entering a category manually still works.
+        console.warn("Category suggestions unavailable:", error);
+      }
+    }
+
+    function updateCounters() {
+      $("titleCount").textContent = $("title").value.length;
+      $("excerptCount").textContent = $("excerpt").value.length;
+      $("contentCount").textContent = $("content").value.length;
+    }
+
+    ["title", "excerpt", "content"].forEach(id => {
+      $(id).addEventListener("input", updateCounters);
+    });
+
+    function setStatus(status) {
+      const radio = document.querySelector(`input[name="status"][value="${status}"]`);
+      if (radio) radio.checked = true;
+      $("currentStatus").textContent = status === "published" ? "Published" : "Draft";
+    }
+
+    document.querySelectorAll('input[name="status"]').forEach(radio => {
+      radio.addEventListener("change", () => setStatus(radio.value));
+    });
+
+    async function loadExistingArticle() {
+      const reference = doc(db, "articles", articleId);
+      const snapshot = await getDoc(reference);
+
+      if (!snapshot.exists()) {
+        showMessage("This article does not exist or is not accessible to your account.", "error");
+        $("articleForm").querySelectorAll("input,textarea,button,select")
+          .forEach(control => control.disabled = true);
+        return false;
+      }
+
+      const article = snapshot.data();
+
+      // Match the article editing permissions in the provided Firestore rules.
+      const canEdit = currentRole === "owner" ||
+        currentRole === "admin" ||
+        (currentRole === "editor" && article.authorId === currentUser.uid);
+
+      if (!canEdit) {
+        showMessage("You do not have permission to edit this article.", "error");
+        $("articleForm").querySelectorAll("input,textarea,button,select")
+          .forEach(control => control.disabled = true);
+        return false;
+      }
+
+      originalArticle = article;
+
+      $("pageTitle").textContent = "Edit Article";
+      $("pageDescription").textContent = "Update the article and save your changes.";
+      $("title").value = article.title || "";
+      $("category").value = article.category || "";
+      $("excerpt").value = article.excerpt || "";
+      $("content").value = article.content || "";
+
+      setStatus(article.status === "published" ? "published" : "draft");
+
+      $("createdInfo").textContent = formatDate(article.createdAt);
+      $("updatedInfo").textContent = formatDate(article.updatedAt);
+      updateCounters();
+
+      return true;
+    }
+
+    function setSaving(saving, action) {
+      isSaving = saving;
+
+      $("saveDraftBtn").disabled = saving;
+      $("publishBtn").disabled = saving;
+
+      $("saveDraftBtn").textContent =
+        saving && action === "draft" ? "Saving..." : "Save Draft";
+
+      $("publishBtn").textContent =
+        saving && action === "published" ? "Publishing..." : "Publish Article";
+    }
+
+    async function saveArticle(status) {
+      if (isSaving) return;
+
+      clearMessage();
+
+      const title = $("title").value.trim();
+      const category = $("category").value.trim();
+      const excerpt = $("excerpt").value.trim();
+      const content = $("content").value.trim();
+
+      if (!title) {
+        showMessage("Please enter an article title.", "error");
+        $("title").focus();
+        return;
+      }
+
+      if (!category) {
+        showMessage("Please enter or select an article category.", "error");
+        $("category").focus();
+        return;
+      }
+
+      if (!content) {
+        showMessage("Please enter the article content.", "error");
+        $("content").focus();
+        return;
+      }
+
+      if (title.length > 160 || category.length > 80 ||
+          excerpt.length > 240 || content.length > 100000) {
+        showMessage("One or more fields exceed the permitted length.", "error");
+        return;
+      }
+
+      if (articleId && !originalArticle) {
+        showMessage("The article has not been loaded or you do not have edit access.", "error");
+        return;
+      }
+
+      setSaving(true, status);
+
+      try {
+        const now = serverTimestamp();
+
+        const articleData = {
+          title,
+          category,
+          excerpt,
+          content,
+          status,
+          authorId: currentUser.uid,
+          authorEmail: currentUser.email || "",
+          updatedAt: now,
+          publishedAt: status === "published"
+            ? (originalArticle?.publishedAt || Timestamp.now())
+            : null
+        };
+
+        if (articleId) {
+          // Preserve original author and creation fields when editing.
+          articleData.authorId = originalArticle.authorId;
+          articleData.authorEmail = originalArticle.authorEmail || "";
+          articleData.createdAt = originalArticle.createdAt;
+
+          await updateDoc(doc(db, "articles", articleId), articleData);
+        } else {
+          articleData.createdAt = now;
+          await addDoc(collection(db, "articles"), articleData);
+        }
+
+        showMessage(
+          status === "published"
+            ? "Article published successfully."
+            : "Draft saved successfully.",
+          "success"
+        );
+
+        // Load the saved document so a subsequent edit retains its metadata.
+        if (articleId) {
+          const refreshed = await getDoc(doc(db, "articles", articleId));
+          if (refreshed.exists()) originalArticle = refreshed.data();
+          $("updatedInfo").textContent = "Just saved";
+        } else {
+          // New articles receive their Firestore ID only after creation.
+          // Redirect to the edit URL to prevent accidental duplicate creation.
+          const snapshot = await getDocs(query(
+            collection(db, "articles"),
+            where("authorId", "==", currentUser.uid)
+          ));
+
+          const matching = snapshot.docs
+            .map(item => ({ id: item.id, ...item.data() }))
+            .filter(item =>
+              item.title === title &&
+              item.content === content &&
+              item.status === status
+            )
+            .sort((a, b) => {
+              const time = value => value?.toDate ? value.toDate().getTime() : 0;
+              return time(b.createdAt) - time(a.createdAt);
+            });
+
+          if (matching.length) {
+            location.replace("article-editor.html?id=" + encodeURIComponent(matching[0].id));
+            return;
+          }
+
+          showMessage(
+            "Article saved, but its edit URL could not be resolved automatically. Return to Articles to find it.",
+            "success"
+          );
+        }
+
+        $("currentStatus").textContent =
+          status === "published" ? "Published" : "Draft";
+      } catch (error) {
+        console.error("Save article error:", error);
+
+        let message = "Could not save the article. Please try again.";
+
+        if (error.code === "permission-denied") {
+          message =
+            "Permission denied by Firestore. Check your article security rules and confirm that your role is allowed to perform this action.";
+        }
+
+        showMessage(message, "error");
+      } finally {
+        setSaving(false, status);
+      }
+    }
+
+    $("saveDraftBtn").addEventListener("click", () => {
+      setStatus("draft");
+      saveArticle("draft");
+    });
+
+    $("publishBtn").addEventListener("click", () => {
+      setStatus("published");
+      saveArticle("published");
+    });
+
+    $("articleForm").addEventListener("submit", event => {
+      event.preventDefault();
+      saveArticle(document.querySelector('input[name="status"]:checked')?.value || "draft");
+    });
+
+    const sidebar = $("menuContainer");
+    const overlay = $("overlay");
+    const mobileMenuButton = $("mobileMenuButton");
+
+    function openMenu() {
+      sidebar.classList.add("menu-open");
+      overlay.classList.add("show");
+      mobileMenuButton.setAttribute("aria-expanded", "true");
+    }
+
+    function closeMenu() {
+      sidebar.classList.remove("menu-open");
+      overlay.classList.remove("show");
+      mobileMenuButton.setAttribute("aria-expanded", "false");
+    }
+
+    mobileMenuButton.addEventListener("click", () => {
+      sidebar.classList.contains("menu-open") ? closeMenu() : openMenu();
+    });
+
+    overlay.addEventListener("click", closeMenu);
+
+    sidebar.addEventListener("click", event => {
+      if (event.target.closest("a")) closeMenu();
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") closeMenu();
+    });
+
+    await loadMenu();
+
+    onAuthStateChanged(auth, async user => {
+      if (!user) {
+        location.replace("index.html");
+        return;
+      }
+
+      currentUser = user;
+
+      try {
+        const profileSnapshot = await getDoc(doc(db, "users", user.uid));
+
+        if (!profileSnapshot.exists()) {
+          await signOut(auth);
+          location.replace("index.html?error=not-approved");
+          return;
+        }
+
+        currentProfile = profileSnapshot.data();
+        currentRole = String(currentProfile.role || "").toLowerCase().trim();
+
+        if (currentProfile.active !== true ||
+            !["owner", "admin", "editor"].includes(currentRole)) {
+          await signOut(auth);
+          location.replace("index.html?error=not-approved");
+          return;
+        }
+
+        $("authorInfo").textContent = getDisplayName(user, currentProfile);
+        $("roleInfo").textContent =
+          currentRole.charAt(0).toUpperCase() + currentRole.slice(1);
+
+        await loadCategories();
+
+        if (articleId) {
+          const loaded = await loadExistingArticle();
+
+          if (!loaded) return;
+        }
+      } catch (error) {
+        console.error("Editor initialization error:", error);
+        showMessage(
+          "Could not verify your account or load the article. Check your connection and Firestore rules.",
+          "error"
+        );
+      }
+    });
+  </script>
+</body>
+</html>
