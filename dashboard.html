@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow,noarchive">
   <meta name="theme-color" content="#2563eb">
   <title>Dashboard | EduGM Admin</title>
@@ -13,117 +13,24 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    :root {
-      --blue: #2563eb;
-      --blue-dark: #1d4ed8;
-      --blue-light: #eff6ff;
-      --text: #172554;
-      --muted: #64748b;
-      --border: #e5edf7;
-      --bg: #f5f8ff;
-      --white: #fff;
-      --green: #15803d;
-      --shadow: 0 8px 30px rgba(30, 64, 175, .06);
-    }
-
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      background: var(--bg);
-      color: var(--text);
+      background: #f5f8ff;
+      color: #172554;
       font-family: Inter, Arial, sans-serif;
     }
-
-    button, a { font: inherit; }
-    a { color: inherit; text-decoration: none; }
 
     .layout {
       display: flex;
       min-height: 100vh;
     }
 
-    .sidebar {
+    #menuContainer {
       width: 250px;
       flex-shrink: 0;
       background: white;
-      border-right: 1px solid var(--border);
-      padding: 25px 17px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 0 8px 28px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .brand img {
-      width: 48px;
-      height: 48px;
-      object-fit: contain;
-    }
-
-    .brand-name {
-      font-size: 20px;
-      font-weight: 800;
-      letter-spacing: -.7px;
-    }
-
-    .brand-sub {
-      font-size: 11px;
-      color: var(--muted);
-      margin-top: 4px;
-    }
-
-    .nav-label {
-      margin: 26px 10px 12px;
-      color: #94a3b8;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 1.4px;
-      text-transform: uppercase;
-    }
-
-    .nav-link {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 13px 14px;
-      margin: 4px 0;
-      color: #64748b;
-      font-size: 13px;
-      font-weight: 600;
-      border-radius: 12px;
-      transition: .2s ease;
-    }
-
-    .nav-link:hover {
-      color: var(--blue);
-      background: var(--blue-light);
-      transform: translateX(2px);
-    }
-
-    .nav-link.active {
-      color: var(--blue);
-      background: #eaf1ff;
-    }
-
-    .nav-icon {
-      width: 22px;
-      text-align: center;
-      font-size: 17px;
-    }
-
-    .sidebar-bottom {
-      margin-top: auto;
-      padding: 17px 8px 0;
-      color: #94a3b8;
-      font-size: 11px;
-      line-height: 1.8;
     }
 
     .main {
@@ -132,36 +39,35 @@
     }
 
     .topbar {
-      min-height: 88px;
-      background: rgba(255,255,255,.94);
-      border-bottom: 1px solid var(--border);
-      padding: 16px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 18px;
       position: sticky;
       top: 0;
-      z-index: 10;
-      backdrop-filter: blur(14px);
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 17px 28px;
+      background: rgba(255,255,255,.96);
+      border-bottom: 1px solid #e5edf7;
+      backdrop-filter: blur(12px);
     }
 
-    .page-heading {
+    .heading {
       font-size: 21px;
       font-weight: 800;
-      letter-spacing: -.6px;
     }
 
-    .page-subheading {
-      color: var(--muted);
+    .subheading {
+      color: #64748b;
       font-size: 12px;
       margin-top: 5px;
     }
 
-    .top-right {
+    .user-area {
       display: flex;
       align-items: center;
-      gap: 18px;
+      gap: 14px;
+      min-width: 0;
     }
 
     .clock {
@@ -169,16 +75,16 @@
       white-space: nowrap;
     }
 
-    .clock-time {
-      font-size: 14px;
+    #clockTime {
+      color: #2563eb;
+      font-size: 13px;
       font-weight: 800;
-      color: var(--blue);
       font-variant-numeric: tabular-nums;
     }
 
-    .clock-date {
-      color: var(--muted);
-      font-size: 11px;
+    #clockDate {
+      color: #64748b;
+      font-size: 10px;
       margin-top: 5px;
     }
 
@@ -186,8 +92,8 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      padding-left: 18px;
-      border-left: 1px solid var(--border);
+      padding-left: 14px;
+      border-left: 1px solid #e5edf7;
       min-width: 0;
     }
 
@@ -195,18 +101,25 @@
       width: 43px;
       height: 43px;
       flex-shrink: 0;
-      display: grid;
-      place-items: center;
       border-radius: 14px;
       background: #dbeafe;
-      color: var(--blue);
-      font-size: 16px;
-      font-weight: 800;
+      color: #1d4ed8;
       object-fit: cover;
     }
 
+    #profileInitial {
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 16px;
+    }
+
+    #profilePhoto { display: block; }
+
+    [hidden] { display: none !important; }
+
     .profile-name {
-      max-width: 170px;
+      max-width: 190px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -216,188 +129,153 @@
 
     .profile-role {
       margin-top: 5px;
-      color: var(--blue);
+      color: #2563eb;
       font-size: 10px;
       font-weight: 700;
       text-transform: capitalize;
     }
 
-    .logout {
+    #logoutBtn {
       border: 1px solid #fee2e2;
+      background: white;
       color: #dc2626;
-      background: #fff;
       padding: 10px 13px;
       border-radius: 10px;
       font-size: 12px;
       font-weight: 700;
       cursor: pointer;
-      transition: .2s;
     }
 
-    .logout:hover {
-      background: #fef2f2;
-    }
+    #logoutBtn:hover { background: #fef2f2; }
+    #logoutBtn:disabled { opacity: .6; cursor: wait; }
 
     .content {
       max-width: 1450px;
-      padding: 30px;
-      margin: 0 auto;
+      padding: 28px;
+      margin: auto;
+    }
+
+    .notice {
+      display: none;
+      padding: 13px 15px;
+      margin-bottom: 18px;
+      border-radius: 12px;
+      background: #fff7ed;
+      color: #9a3412;
+      font-size: 12px;
+      line-height: 1.7;
     }
 
     .welcome {
-      position: relative;
-      overflow: hidden;
-      border-radius: 22px;
       padding: 32px;
       color: white;
-      background: linear-gradient(120deg, #1d4ed8, #3b82f6 65%, #60a5fa);
-      box-shadow: 0 15px 35px rgba(37,99,235,.17);
+      border-radius: 22px;
+      background: linear-gradient(120deg, #1d4ed8, #3b82f6 68%, #60a5fa);
+      box-shadow: 0 15px 35px rgba(37,99,235,.15);
     }
 
-    .welcome::after {
-      content: "";
-      position: absolute;
-      width: 230px;
-      height: 230px;
-      right: -55px;
-      top: -100px;
-      border: 35px solid rgba(255,255,255,.10);
-      border-radius: 50%;
-    }
-
-    .welcome-label {
-      font-size: 11px;
-      font-weight: 700;
+    .eyebrow {
+      font-size: 10px;
       letter-spacing: 1.6px;
-      text-transform: uppercase;
-      opacity: .8;
+      font-weight: 800;
     }
 
     .welcome h1 {
-      margin: 12px 0 10px;
+      margin: 13px 0 10px;
       font-size: clamp(25px, 3vw, 35px);
-      letter-spacing: -1.2px;
+      letter-spacing: -1px;
     }
 
     .welcome p {
-      margin: 0;
-      max-width: 550px;
+      max-width: 560px;
       font-size: 13px;
       line-height: 1.8;
       color: #eaf2ff;
     }
 
-    .welcome-actions {
+    .actions {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-top: 23px;
+      margin-top: 22px;
     }
 
     .action {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      display: inline-block;
       padding: 12px 16px;
       border-radius: 10px;
+      text-decoration: none;
       font-size: 12px;
       font-weight: 700;
-      transition: .2s;
     }
 
-    .action.primary {
+    .action-light {
+      color: #1d4ed8;
       background: white;
-      color: var(--blue-dark);
     }
 
-    .action.secondary {
+    .action-outline {
       color: white;
-      border: 1px solid rgba(255,255,255,.45);
-      background: rgba(255,255,255,.08);
+      border: 1px solid #ffffff80;
     }
-
-    .action:hover { transform: translateY(-2px); }
 
     .section-heading {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       gap: 12px;
-      margin: 31px 0 17px;
+      margin: 30px 0 16px;
     }
 
     .section-heading h2 {
-      font-size: 17px;
       margin: 0;
-      letter-spacing: -.4px;
+      font-size: 17px;
     }
 
     .section-heading span {
+      color: #64748b;
       font-size: 11px;
-      color: var(--muted);
     }
 
     .stats {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 17px;
+      gap: 16px;
     }
 
-    .stat-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 17px;
-      padding: 21px;
-      box-shadow: var(--shadow);
-      transition: .2s ease;
+    .card {
       min-width: 0;
+      padding: 21px;
+      background: white;
+      border: 1px solid #e5edf7;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(30,64,175,.04);
     }
 
-    .stat-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 13px 30px rgba(30,64,175,.09);
-    }
-
-    .stat-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .stat-title {
-      color: var(--muted);
+    .card-label {
+      color: #64748b;
       font-size: 12px;
       font-weight: 600;
     }
 
-    .stat-icon {
-      display: grid;
-      place-items: center;
-      width: 38px;
-      height: 38px;
-      border-radius: 12px;
-      background: var(--blue-light);
-      font-size: 17px;
-    }
-
-    .stat-value {
-      margin-top: 19px;
+    .card-value {
+      margin-top: 17px;
       font-size: 30px;
       font-weight: 800;
       letter-spacing: -1px;
       overflow-wrap: anywhere;
     }
 
-    .stat-note {
+    .card-note {
       color: #94a3b8;
       font-size: 10px;
       margin-top: 7px;
+      line-height: 1.6;
     }
 
     .lower-grid {
       display: grid;
-      grid-template-columns: 1.25fr 1fr;
+      grid-template-columns: 1.2fr 1fr;
       gap: 18px;
       margin-top: 20px;
     }
@@ -405,21 +283,21 @@
     .panel {
       min-width: 0;
       background: white;
-      border: 1px solid var(--border);
-      border-radius: 17px;
-      padding: 23px;
-      box-shadow: var(--shadow);
+      border: 1px solid #e5edf7;
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: 0 8px 25px rgba(30,64,175,.04);
     }
 
     .panel h3 {
-      margin: 0 0 6px;
+      margin: 0 0 8px;
       font-size: 14px;
     }
 
-    .panel-subtitle {
+    .panel-description {
+      margin-bottom: 16px;
+      color: #64748b;
       font-size: 11px;
-      color: var(--muted);
-      margin-bottom: 20px;
       line-height: 1.7;
     }
 
@@ -429,19 +307,17 @@
       gap: 13px;
       padding: 14px 0;
       border-top: 1px solid #f0f4fa;
+      text-decoration: none;
     }
 
-    .quick-link:first-of-type { border-top: 0; }
-
     .quick-icon {
-      width: 42px;
-      height: 42px;
       display: grid;
       place-items: center;
-      background: #eff6ff;
-      border-radius: 13px;
-      font-size: 18px;
+      width: 40px;
+      height: 40px;
       flex-shrink: 0;
+      border-radius: 12px;
+      background: #eff6ff;
     }
 
     .quick-title {
@@ -450,15 +326,14 @@
     }
 
     .quick-desc {
+      color: #64748b;
       font-size: 10px;
-      color: var(--muted);
       margin-top: 5px;
     }
 
     .quick-arrow {
       margin-left: auto;
       color: #94a3b8;
-      font-size: 18px;
     }
 
     .status-row {
@@ -471,99 +346,57 @@
     }
 
     .status-row:last-child { border-bottom: 0; }
-
-    .status-label { color: var(--muted); }
-
-    .status-value {
-      color: var(--green);
-      font-weight: 700;
-      text-align: right;
-    }
-
-    .message {
-      display: none;
-      margin: 0 0 18px;
-      padding: 13px 15px;
-      border-radius: 12px;
-      background: #fff7ed;
-      color: #9a3412;
-      font-size: 12px;
-      line-height: 1.7;
-    }
-
-    .loading {
-      color: var(--muted);
-      font-size: 12px;
-    }
+    .status-label { color: #64748b; }
+    .status-value { text-align: right; font-weight: 700; }
 
     footer {
-      padding: 25px 10px 8px;
-      text-align: center;
-      font-size: 10px;
+      padding: 26px 8px 8px;
       color: #94a3b8;
+      font-size: 10px;
       line-height: 1.8;
+      text-align: center;
     }
 
     @media (max-width: 1050px) {
-      .sidebar { width: 215px; }
       .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .topbar { padding: 16px 22px; }
-      .content { padding: 22px; }
       .lower-grid { grid-template-columns: 1fr; }
+      .content { padding: 22px; }
     }
 
     @media (max-width: 700px) {
       .layout { display: block; }
-      .sidebar {
-        width: 100%;
-        padding: 12px 15px;
-        border-right: 0;
-        border-bottom: 1px solid var(--border);
-      }
-      .brand { padding: 0 5px; border: 0; }
-      .brand img { width: 39px; height: 39px; }
-      .brand-name { font-size: 18px; }
-      .nav-label, .sidebar-bottom { display: none; }
-      .sidebar nav {
-        display: flex;
-        gap: 7px;
-        overflow-x: auto;
-        margin-top: 12px;
-      }
-      .nav-link {
-        white-space: nowrap;
-        padding: 10px 12px;
-        margin: 0;
-        font-size: 11px;
-      }
+      #menuContainer { width: 100%; }
       .topbar {
         position: static;
-        align-items: flex-start;
+        padding: 16px;
         flex-wrap: wrap;
-        padding: 18px 16px;
       }
-      .page-heading { font-size: 18px; }
-      .top-right { width: 100%; justify-content: space-between; gap: 9px; }
-      .profile { padding-left: 10px; }
-      .profile-name { max-width: 110px; }
-      .avatar { width: 38px; height: 38px; border-radius: 12px; }
-      .clock-time { font-size: 12px; }
-      .clock-date { font-size: 10px; }
-      .logout { padding: 10px; }
+      .heading { font-size: 19px; }
+      .user-area {
+        width: 100%;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .profile { padding-left: 9px; gap: 7px; }
+      .avatar { width: 37px; height: 37px; border-radius: 12px; }
+      .profile-name { max-width: 120px; font-size: 11px; }
+      .profile-role { font-size: 10px; }
+      #clockTime { font-size: 11px; }
+      #clockDate { font-size: 9px; }
+      #logoutBtn { padding: 9px; }
       .content { padding: 16px; }
       .welcome { padding: 24px 20px; border-radius: 17px; }
       .welcome h1 { font-size: 26px; }
       .stats { gap: 10px; }
-      .stat-card { padding: 15px; border-radius: 14px; }
-      .stat-title { font-size: 10px; }
-      .stat-icon { width: 32px; height: 32px; font-size: 14px; }
-      .stat-value { font-size: 25px; margin-top: 15px; }
+      .card { padding: 15px; }
+      .card-value { font-size: 25px; }
+      .card-label { font-size: 10px; }
       .panel { padding: 18px; }
     }
 
     @media (max-width: 370px) {
       .stats { grid-template-columns: 1fr; }
-      .profile-name { max-width: 85px; }
+      .profile-name { max-width: 90px; }
     }
   </style>
 </head>
@@ -571,78 +404,52 @@
 <body>
 <div class="layout">
 
-  <aside class="sidebar">
-    <div class="brand">
-      <img
-        src="https://i.ibb.co/1Y82N0n0/Edu-GM-Learning-Logo.png"
-        alt="EduGM Logo"
-        onerror="this.style.display='none'"
-      >
-      <div>
-        <div class="brand-name">EduGM</div>
-        <div class="brand-sub">Learning · Admin Panel</div>
-      </div>
-    </div>
-
-    <div class="nav-label">Workspace</div>
-    <nav>
-      <a class="nav-link active" href="dashboard.html">
-        <span class="nav-icon">⌂</span> Dashboard
-      </a>
-      <a class="nav-link" href="articles.html">
-        <span class="nav-icon">▤</span> Articles
-      </a>
-      <a class="nav-link" href="article-editor.html">
-        <span class="nav-icon">✎</span> Write Article
-      </a>
-    </nav>
-
-    <div class="sidebar-bottom">
-      <strong>EduGM Admin Panel</strong><br>
-      Official Use Only<br>
-      Secure staff workspace
-    </div>
-  </aside>
+  <div id="menuContainer">
+    <p style="padding:20px;color:#64748b;font-size:12px">
+      Loading EduGM menu…
+    </p>
+  </div>
 
   <main class="main">
     <header class="topbar">
       <div>
-        <div class="page-heading">Dashboard</div>
-        <div class="page-subheading">Welcome to your EduGM workspace.</div>
+        <div class="heading">Dashboard</div>
+        <div class="subheading">Your EduGM workspace at a glance.</div>
       </div>
 
-      <div class="top-right">
+      <div class="user-area">
         <div class="clock">
-          <div class="clock-time" id="clockTime">Loading IST…</div>
-          <div class="clock-date" id="clockDate">Loading date…</div>
+          <div id="clockTime">Loading IST…</div>
+          <div id="clockDate">Loading date…</div>
         </div>
 
         <div class="profile">
           <img id="profilePhoto" class="avatar" alt="Profile photo" hidden>
           <div id="profileInitial" class="avatar">E</div>
           <div>
-            <div class="profile-name" id="profileName">Loading user…</div>
-            <div class="profile-role" id="profileRole">Verifying account</div>
+            <div id="profileName" class="profile-name">Loading account…</div>
+            <div id="profileRole" class="profile-role">Checking role…</div>
           </div>
         </div>
 
-        <button class="logout" id="logoutBtn" type="button">↗ Logout</button>
+        <button id="logoutBtn" type="button">↗ Logout</button>
       </div>
     </header>
 
     <section class="content">
-      <div class="message" id="message"></div>
+      <div id="notice" class="notice" role="status"></div>
 
       <section class="welcome">
-        <div class="welcome-label">EduGM · Official Workspace</div>
+        <div class="eyebrow">EDUGM · OFFICIAL WORKSPACE</div>
         <h1 id="welcomeTitle">Welcome to EduGM 👋</h1>
         <p>
           Manage educational content and keep your publishing workflow
           organized from one simple dashboard.
         </p>
-        <div class="welcome-actions">
-          <a class="action primary" href="articles.html">View Articles&nbsp; →</a>
-          <a class="action secondary" href="article-editor.html">＋ Write an Article</a>
+
+        <div class="actions">
+          <a class="action action-light" href="articles.html">View Articles →</a>
+          <a class="action action-outline" href="article-editor.html">＋ Write Article</a>
         </div>
       </section>
 
@@ -652,53 +459,41 @@
       </div>
 
       <section class="stats">
-        <article class="stat-card">
-          <div class="stat-top">
-            <div class="stat-title">Total Articles</div>
-            <div class="stat-icon">▤</div>
-          </div>
-          <div class="stat-value" id="totalArticles">—</div>
-          <div class="stat-note">Articles visible to your account</div>
+        <article class="card">
+          <div class="card-label">Total Articles</div>
+          <div class="card-value" id="totalArticles">—</div>
+          <div class="card-note">Records accessible to your account</div>
         </article>
 
-        <article class="stat-card">
-          <div class="stat-top">
-            <div class="stat-title">Published</div>
-            <div class="stat-icon">✓</div>
-          </div>
-          <div class="stat-value" id="publishedArticles">—</div>
-          <div class="stat-note">Published articles in your accessible data</div>
+        <article class="card">
+          <div class="card-label">Published</div>
+          <div class="card-value" id="publishedArticles">—</div>
+          <div class="card-note">Published articles in accessible records</div>
         </article>
 
-        <article class="stat-card">
-          <div class="stat-top">
-            <div class="stat-title">Drafts</div>
-            <div class="stat-icon">✎</div>
-          </div>
-          <div class="stat-value" id="draftArticles">—</div>
-          <div class="stat-note">Unpublished articles in your accessible data</div>
+        <article class="card">
+          <div class="card-label">Drafts</div>
+          <div class="card-value" id="draftArticles">—</div>
+          <div class="card-note">Unpublished articles in accessible records</div>
         </article>
 
-        <article class="stat-card">
-          <div class="stat-top">
-            <div class="stat-title">Your Role</div>
-            <div class="stat-icon">♙</div>
-          </div>
-          <div class="stat-value" id="roleCard" style="font-size:22px">—</div>
-          <div class="stat-note">Role assigned in your EduGM profile</div>
+        <article class="card">
+          <div class="card-label">Your Role</div>
+          <div class="card-value" id="roleCard" style="font-size:22px">—</div>
+          <div class="card-note">Role assigned to your account</div>
         </article>
       </section>
 
       <section class="lower-grid">
         <article class="panel">
           <h3>Quick Access</h3>
-          <div class="panel-subtitle">Jump directly to your main workspace.</div>
+          <div class="panel-description">Open a workspace below.</div>
 
           <a class="quick-link" href="articles.html">
             <div class="quick-icon">📚</div>
             <div>
               <div class="quick-title">Manage Articles</div>
-              <div class="quick-desc">Review your accessible article records.</div>
+              <div class="quick-desc">View accessible article records.</div>
             </div>
             <div class="quick-arrow">›</div>
           </a>
@@ -711,37 +506,32 @@
             </div>
             <div class="quick-arrow">›</div>
           </a>
-
-          <a class="quick-link" href="index.html">
-            <div class="quick-icon">🔐</div>
-            <div>
-              <div class="quick-title">Login Page</div>
-              <div class="quick-desc">Return to the admin login page.</div>
-            </div>
-            <div class="quick-arrow">›</div>
-          </a>
         </article>
 
         <article class="panel">
           <h3>Account & System</h3>
-          <div class="panel-subtitle">Current account and dashboard status.</div>
+          <div class="panel-description">Account verification and current settings.</div>
 
           <div class="status-row">
             <span class="status-label">Authentication</span>
-            <span class="status-value" id="authStatus">Checking…</span>
+            <span id="authStatus" class="status-value">Checking…</span>
           </div>
+
           <div class="status-row">
             <span class="status-label">Account approval</span>
-            <span class="status-value" id="approvalStatus">Checking…</span>
+            <span id="approvalStatus" class="status-value">Checking…</span>
           </div>
+
           <div class="status-row">
             <span class="status-label">Database</span>
-            <span class="status-value" id="dbStatus">Connecting…</span>
+            <span id="dbStatus" class="status-value">Connecting…</span>
           </div>
+
           <div class="status-row">
             <span class="status-label">Time zone</span>
             <span class="status-value">Asia/Kolkata · IST</span>
           </div>
+
           <div class="status-row">
             <span class="status-label">Organization</span>
             <span class="status-value">EduGM</span>
@@ -789,108 +579,159 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
-
-  const $ = (id) => document.getElementById(id);
+  const $ = id => document.getElementById(id);
 
   $("year").textContent = new Date().getFullYear();
 
-  // Live Indian Standard Time, independent of the computer's time zone.
+  // Load the fixed menu from its separate file.
+  async function loadMenu() {
+    const container = $("menuContainer");
+
+    try {
+      const response = await fetch("menu.html", { cache: "no-cache" });
+      if (!response.ok) throw new Error("menu.html could not be loaded");
+
+      const html = await response.text();
+      const parsed = new DOMParser().parseFromString(html, "text/html");
+
+      // menu.html is a trusted, static file in your own repository.
+      // Insert its markup and styles; initialize its active link here.
+      container.innerHTML =
+        parsed.body.innerHTML +
+        Array.from(parsed.head.querySelectorAll("style"))
+          .map(style => style.outerHTML).join("");
+
+      const currentPage = location.pathname.split("/").pop() || "dashboard.html";
+
+      container.querySelectorAll("[data-page]").forEach(link => {
+        if (link.dataset.page === currentPage) {
+          link.classList.add("active");
+          link.setAttribute("aria-current", "page");
+        }
+      });
+    } catch (error) {
+      console.error("Menu loading error:", error);
+      container.innerHTML =
+        '<div style="padding:18px;color:#64748b;font-size:12px">' +
+        'Menu could not load. Open this page through your GitHub Pages website.' +
+        '</div>';
+    }
+  }
+
+  loadMenu();
+
+  // Live IST clock and date.
   function updateClock() {
     const now = new Date();
 
-    $("clockTime").textContent = new Intl.DateTimeFormat("en-IN", {
-      timeZone: "Asia/Kolkata",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: true
-    }).format(now) + " IST";
+    $("clockTime").textContent =
+      new Intl.DateTimeFormat("en-IN", {
+        timeZone: "Asia/Kolkata",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true
+      }).format(now) + " IST";
 
-    $("clockDate").textContent = new Intl.DateTimeFormat("en-IN", {
-      timeZone: "Asia/Kolkata",
-      weekday: "short",
-      day: "2-digit",
-      month: "short",
-      year: "numeric"
-    }).format(now);
+    $("clockDate").textContent =
+      new Intl.DateTimeFormat("en-IN", {
+        timeZone: "Asia/Kolkata",
+        weekday: "short",
+        day: "2-digit",
+        month: "short",
+        year: "numeric"
+      }).format(now);
   }
 
   updateClock();
   setInterval(updateClock, 1000);
 
-  function showMessage(message) {
-    $("message").textContent = message;
-    $("message").style.display = "block";
+  function showNotice(text) {
+    $("notice").textContent = text;
+    $("notice").style.display = "block";
   }
 
-  function hideMessage() {
-    $("message").style.display = "none";
+  function hideNotice() {
+    $("notice").style.display = "none";
   }
 
-  function safeText(value, fallback = "") {
-    return typeof value === "string" && value.trim()
-      ? value.trim()
-      : fallback;
+  function textOrEmpty(value) {
+    return typeof value === "string" ? value.trim() : "";
+  }
+
+  function firstText(...values) {
+    return values.map(textOrEmpty).find(Boolean) || "";
+  }
+
+  function setStatus(id, text, good = true) {
+    $(id).textContent = text;
+    $(id).style.color = good ? "#15803d" : "#b45309";
   }
 
   function displayProfile(profile, user) {
-    const name = safeText(
-      profile.displayName ||
-      profile.name ||
-      profile.fullName ||
+    // If no database name exists, use the Firebase email.
+    const name = firstText(
+      profile.displayName,
+      profile.name,
+      profile.fullName,
       profile.username,
-      safeText(user.displayName || user.email, "EduGM User")
+      user.email,
+      "EduGM User"
     );
 
-    const role = safeText(profile.role, "staff").toLowerCase();
+    const role = firstText(profile.role, "staff").toLowerCase();
 
     $("profileName").textContent = name;
     $("profileRole").textContent = role;
-    $("roleCard").textContent = role.charAt(0).toUpperCase() + role.slice(1);
-    $("welcomeTitle").textContent = `Welcome back, ${name.split(" ")[0]} 👋`;
+    $("roleCard").textContent =
+      role.charAt(0).toUpperCase() + role.slice(1);
 
-    const initial = name.charAt(0).toUpperCase() || "E";
-    $("profileInitial").textContent = initial;
+    const firstName = name.split(/\s+/)[0];
+    $("welcomeTitle").textContent = `Welcome back, ${firstName} 👋`;
 
-    // Supports common profile-photo field names in users/{uid}.
-    const photoURL = safeText(
-      profile.photoURL ||
-      profile.photoUrl ||
-      profile.profilePhoto ||
-      profile.profilePhotoURL ||
-      profile.avatar ||
-      profile.avatarUrl ||
-      profile.imageUrl ||
-      user.photoURL,
-      ""
+    // Photo field names supported by this page.
+    const photoURL = firstText(
+      profile.photoURL,
+      profile.photoUrl,
+      profile.profilePhoto,
+      profile.profilePhotoURL,
+      profile.avatar,
+      profile.avatarUrl,
+      profile.imageUrl,
+      user.photoURL
     );
 
-    if (photoURL) {
-      $("profilePhoto").src = photoURL;
-      $("profilePhoto").hidden = false;
-      $("profileInitial").hidden = true;
+    const photo = $("profilePhoto");
+    const initial = $("profileInitial");
 
-      $("profilePhoto").onerror = () => {
-        $("profilePhoto").hidden = true;
-        $("profileInitial").hidden = false;
+    // If a valid photo loads, show it. Otherwise show initials.
+    function showInitials() {
+      photo.hidden = true;
+      photo.removeAttribute("src");
+      initial.textContent = name.charAt(0).toUpperCase() || "E";
+      initial.hidden = false;
+    }
+
+    if (photoURL) {
+      photo.onload = () => {
+        photo.hidden = false;
+        initial.hidden = true;
       };
+
+      photo.onerror = showInitials;
+      photo.src = photoURL;
     } else {
-      $("profilePhoto").hidden = true;
-      $("profileInitial").hidden = false;
+      showInitials();
     }
   }
 
   async function loadArticleStats(user, role) {
-    $("dbStatus").textContent = "Loading…";
-
     try {
       let snapshot;
 
       if (role === "owner" || role === "admin") {
-        // Owner/Admin can read all article records under the supplied rules.
         snapshot = await getDocs(collection(db, "articles"));
       } else {
-        // Editors can query their own records under the supplied rules.
         snapshot = await getDocs(
           query(
             collection(db, "articles"),
@@ -902,54 +743,47 @@
       let published = 0;
       let drafts = 0;
 
-      snapshot.forEach((articleDoc) => {
-        const data = articleDoc.data();
-
-        if (data.status === "published") published++;
-        if (data.status === "draft") drafts++;
+      snapshot.forEach(articleDoc => {
+        const article = articleDoc.data();
+        if (article.status === "published") published++;
+        if (article.status === "draft") drafts++;
       });
 
       $("totalArticles").textContent = snapshot.size;
       $("publishedArticles").textContent = published;
       $("draftArticles").textContent = drafts;
-      $("statsUpdated").textContent = "Live Firestore data";
-      $("dbStatus").textContent = "Connected";
-      $("dbStatus").style.color = "#15803d";
+      $("statsUpdated").textContent = "Firestore data loaded";
+      setStatus("dbStatus", "Connected");
     } catch (error) {
-      console.error("Article stats error:", error);
+      console.error("Article statistics error:", error);
+
       $("totalArticles").textContent = "—";
       $("publishedArticles").textContent = "—";
       $("draftArticles").textContent = "—";
-      $("statsUpdated").textContent = "Data unavailable";
-      $("dbStatus").textContent = "Access unavailable";
-      $("dbStatus").style.color = "#b45309";
+      $("statsUpdated").textContent = "Statistics unavailable";
+      setStatus("dbStatus", "Read restricted", false);
 
-      showMessage(
-        "Your profile is loaded, but article statistics could not be read. " +
-        "Check your Firestore articles rules and account permissions."
+      showNotice(
+        "Your profile loaded, but article statistics could not be read. " +
+        "Check your Firestore rules and article access permissions."
       );
     }
   }
 
-  let currentUser = null;
-
-  onAuthStateChanged(auth, async (user) => {
+  onAuthStateChanged(auth, async user => {
     if (!user) {
-      window.location.replace("index.html");
+      location.replace("index.html");
       return;
     }
 
-    currentUser = user;
-    $("authStatus").textContent = "Signed in";
-    $("authStatus").style.color = "#15803d";
+    setStatus("authStatus", "Signed in");
 
     try {
-      const profileRef = doc(db, "users", user.uid);
-      const profileSnap = await getDoc(profileRef);
+      const profileSnap = await getDoc(doc(db, "users", user.uid));
 
       if (!profileSnap.exists()) {
         await signOut(auth);
-        window.location.replace("index.html");
+        location.replace("index.html");
         return;
       }
 
@@ -958,33 +792,31 @@
       if (profile.active !== true) {
         await signOut(auth);
         alert("Your account has not been approved. Contact the EduGM Owner.");
-        window.location.replace("index.html");
+        location.replace("index.html");
         return;
       }
 
-      const role = safeText(profile.role, "").toLowerCase();
+      const role = textOrEmpty(profile.role).toLowerCase();
 
       if (!["owner", "admin", "editor"].includes(role)) {
         await signOut(auth);
         alert("Your account role is not authorized for the admin panel.");
-        window.location.replace("index.html");
+        location.replace("index.html");
         return;
       }
 
-      hideMessage();
+      hideNotice();
       displayProfile(profile, user);
-      $("approvalStatus").textContent = "Approved";
-      $("approvalStatus").style.color = "#15803d";
+      setStatus("approvalStatus", "Approved");
 
       await loadArticleStats(user, role);
-
     } catch (error) {
-      console.error("Dashboard account error:", error);
-      $("approvalStatus").textContent = "Could not verify";
-      $("approvalStatus").style.color = "#b45309";
-      showMessage(
-        "Unable to verify your account profile. Check your internet connection " +
-        "and Firestore rules. The dashboard will not bypass account approval."
+      console.error("Profile verification error:", error);
+      setStatus("approvalStatus", "Could not verify", false);
+
+      showNotice(
+        "Unable to verify your account. Check your connection and Firestore " +
+        "rules. The dashboard does not bypass account approval."
       );
     }
   });
@@ -996,12 +828,12 @@
 
     try {
       await signOut(auth);
-      window.location.replace("index.html");
+      location.replace("index.html");
     } catch (error) {
       console.error("Logout error:", error);
       button.disabled = false;
       button.textContent = "↗ Logout";
-      showMessage("Logout failed. Please check your connection and try again.");
+      showNotice("Logout failed. Please check your connection and try again.");
     }
   });
 </script>
