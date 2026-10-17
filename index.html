@@ -1,20 +1,559 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>EduGM Admin — Sign in</title><link rel="icon" type="image/png" href="https://i.ibb.co/1Y82N0n0/Edu-GM-Learning-Logo.png"><link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+  <title>EduGM Admin | Sign In</title>
+  <link rel="icon" type="image/png"
+    href="https://i.ibb.co/1Y82N0n0/Edu-GM-Learning-Logo.png">
+
+  <style>
+    :root {
+      --blue: #1558d6;
+      --blue-dark: #1045ad;
+      --cyan: #08a9f4;
+      --ink: #172b4d;
+      --muted: #70809a;
+      --line: #e4eaf3;
+      --bg: #f5f8ff;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, input {
+      font: inherit;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    /* Brand panel */
+    .brand-panel {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      padding: 42px clamp(28px, 6vw, 82px);
+      color: white;
+      background: linear-gradient(145deg, #1045ad, #1769e8 62%, #08a9f4);
+    }
+
+    .brand-panel::before,
+    .brand-panel::after {
+      content: "";
+      position: absolute;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .brand-panel::before {
+      width: 440px;
+      height: 440px;
+      right: -200px;
+      top: 15%;
+    }
+
+    .brand-panel::after {
+      width: 330px;
+      height: 330px;
+      right: -145px;
+      top: 23%;
+    }
+
+    .brand-top,
+    .brand-message,
+    .brand-footer {
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 16px;
+      font-weight: 750;
+      letter-spacing: .2px;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: 12px;
+      background: rgba(255,255,255,.14);
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .brand-message {
+      max-width: 480px;
+      margin: auto 0;
+      padding: 65px 0;
+    }
+
+    .brand-message .eyebrow {
+      color: #dbeafe;
+      font-size: 11px;
+      font-weight: 750;
+      letter-spacing: 2.2px;
+      text-transform: uppercase;
+    }
+
+    .brand-message h1 {
+      margin: 18px 0;
+      font-size: clamp(36px, 4.4vw, 60px);
+      line-height: 1.08;
+      letter-spacing: -2px;
+    }
+
+    .brand-message h1 span {
+      color: #a9e7ff;
+    }
+
+    .brand-message p {
+      max-width: 400px;
+      color: #e3efff;
+      font-size: 15px;
+      line-height: 1.9;
+    }
+
+    .brand-footer {
+      color: #dbeafe;
+      font-size: 12px;
+    }
+
+    /* Login panel */
+    .login-panel {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 36px 24px;
+      background: #fff;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 410px;
+      animation: appear .45s ease both;
+    }
+
+    .logo-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 28px;
+    }
+
+    .logo {
+      display: block;
+      width: 190px;
+      max-width: 75%;
+      height: 115px;
+      object-fit: contain;
+    }
+
+    .heading {
+      margin-bottom: 28px;
+    }
+
+    .heading h2 {
+      margin: 0 0 9px;
+      font-size: 29px;
+      font-weight: 750;
+      letter-spacing: -.9px;
+    }
+
+    .heading p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .field {
+      margin-bottom: 19px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 8px;
+      color: #334563;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .field input {
+      width: 100%;
+      height: 49px;
+      padding: 0 14px;
+      border: 1px solid #dce4f0;
+      border-radius: 11px;
+      outline: none;
+      color: var(--ink);
+      background: #fff;
+      font-size: 14px;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .field input::placeholder {
+      color: #a0aabe;
+    }
+
+    .field input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 4px rgba(21,88,214,.09);
+    }
+
+    .password-input {
+      padding-right: 76px !important;
+    }
+
+    .show-password {
+      position: absolute;
+      top: 50%;
+      right: 12px;
+      transform: translateY(-50%);
+      padding: 5px;
+      border: 0;
+      color: var(--blue);
+      background: transparent;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .submit-btn {
+      width: 100%;
+      min-height: 49px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 8px;
+      border: 0;
+      border-radius: 11px;
+      color: white;
+      background: linear-gradient(100deg, var(--blue), var(--cyan));
+      box-shadow: 0 7px 17px rgba(21,88,214,.18);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 750;
+      transition: transform .2s, box-shadow .2s, opacity .2s;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(21,88,214,.25);
+    }
+
+    .submit-btn:disabled {
+      opacity: .65;
+      cursor: wait;
+      transform: none;
+    }
+
+    .message {
+      display: none;
+      margin: 16px 0 0;
+      padding: 12px 13px;
+      border: 1px solid #fecaca;
+      border-radius: 10px;
+      color: #b42318;
+      background: #fff5f5;
+      font-size: 12px;
+      line-height: 1.7;
+      overflow-wrap: anywhere;
+    }
+
+    .message.success {
+      border-color: #bbf7d0;
+      color: #166534;
+      background: #f0fdf4;
+    }
+
+    .secure-note {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 7px;
+      margin-top: 25px;
+      color: #8a97aa;
+      font-size: 11px;
+      text-align: center;
+    }
+
+    .login-footer {
+      margin-top: 38px;
+      color: #9aa5b6;
+      font-size: 11px;
+      text-align: center;
+    }
+
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(9px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        grid-template-columns: 1fr;
+      }
+
+      .brand-panel {
+        min-height: 205px;
+        padding: 22px 25px;
+      }
+
+      .brand-message {
+        padding: 27px 0 20px;
+      }
+
+      .brand-message h1 {
+        margin: 10px 0;
+        font-size: 32px;
+        letter-spacing: -1px;
+      }
+
+      .brand-message p {
+        margin-bottom: 0;
+        font-size: 13px;
+      }
+
+      .brand-footer {
+        display: none;
+      }
+
+      .login-panel {
+        padding: 32px 23px;
+      }
+
+      .logo-wrap {
+        margin-bottom: 18px;
+      }
+
+      .logo {
+        height: 90px;
+        width: 165px;
+      }
+
+      .heading h2 {
+        font-size: 26px;
+      }
+
+      .login-footer {
+        margin-top: 27px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
 </head>
-<body class="auth-body">
-  <main class="auth-card">
-    <img class="auth-logo" src="https://i.ibb.co/1Y82N0n0/Edu-GM-Learning-Logo.png" alt="EduGM Learning logo"><p class="eyebrow">EDUGM CONTROL CENTRE</p>
-    <h1>Welcome back</h1><p class="muted">Sign in with an approved EduGM official account.</p>
-    <form id="login-form" class="stack">
-      <label>Email address<input id="email" type="email" autocomplete="username" required placeholder="official@edugm.in"></label>
-      <label>Password<input id="password" type="password" autocomplete="current-password" required placeholder="Your password"></label>
-      <button class="btn primary" type="submit">Sign in securely</button>
-      <p id="login-error" class="notice error hidden"></p>
-    </form>
-    <p class="tiny muted">No public registration. Ask the EduGM Owner to approve your account.</p>
-  </main>
-  <script type="module" src="js/login.js"></script>
-</body></html>
+
+<body>
+  <div class="page">
+    <aside class="brand-panel">
+      <div class="brand-top">
+        <div class="brand-mark">E</div>
+        <span>EduGM <span style="font-weight:400">Admin</span></span>
+      </div>
+
+      <div class="brand-message">
+        <div class="eyebrow">Control Centre</div>
+        <h1>Learning starts<br>with <span>great ideas.</span></h1>
+        <p>
+          Manage educational articles, categories, official accounts
+          and the EduGM Store from one workspace.
+        </p>
+      </div>
+
+      <div class="brand-footer">© 2026 EduGM Learning. All rights reserved.</div>
+    </aside>
+
+    <main class="login-panel">
+      <section class="login-card">
+        <div class="logo-wrap">
+          <img
+            class="logo"
+            src="https://i.ibb.co/1Y82N0n0/Edu-GM-Learning-Logo.png"
+            alt="EduGM Learning logo">
+        </div>
+
+        <div class="heading">
+          <h2>Welcome back</h2>
+          <p>Sign in with your approved EduGM staff account.</p>
+        </div>
+
+        <form id="login-form">
+          <div class="field">
+            <label for="email">Email address</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="you@example.com"
+              autocomplete="username"
+              required>
+          </div>
+
+          <div class="field">
+            <label for="password">Password</label>
+            <div class="input-wrap">
+              <input
+                class="password-input"
+                id="password"
+                name="password"
+                type="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required>
+              <button class="show-password" type="button" id="toggle-password">
+                Show
+              </button>
+            </div>
+          </div>
+
+          <button class="submit-btn" id="login-button" type="submit">
+            <span id="button-text">Sign in to dashboard</span>
+            <span aria-hidden="true">→</span>
+          </button>
+
+          <div class="message" id="login-message" role="alert" aria-live="polite"></div>
+        </form>
+
+        <div class="secure-note">
+          <span aria-hidden="true">🔒</span>
+          Secure sign-in · Approved accounts only
+        </div>
+
+        <div class="login-footer">
+          Need access? Contact your EduGM Owner.
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from
+      "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+    import {
+      getAuth,
+      signInWithEmailAndPassword
+    } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc
+    } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA9yj3ikv7oIsBhU7IE9XPclY3vul5d9us",
+      authDomain: "edugm-bangla.firebaseapp.com",
+      projectId: "edugm-bangla",
+      storageBucket: "edugm-bangla.firebasestorage.app",
+      messagingSenderId: "236553092510",
+      appId: "1:236553092510:web:91f03b4434616c06846a8f"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const form = document.getElementById("login-form");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const button = document.getElementById("login-button");
+    const buttonText = document.getElementById("button-text");
+    const message = document.getElementById("login-message");
+
+    document.getElementById("toggle-password").addEventListener("click", () => {
+      const show = passwordInput.type === "password";
+      passwordInput.type = show ? "text" : "password";
+      document.getElementById("toggle-password").textContent = show ? "Hide" : "Show";
+    });
+
+    function showMessage(text, success = false) {
+      message.textContent = text;
+      message.className = success ? "message success" : "message";
+      message.style.display = "block";
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      message.style.display = "none";
+      button.disabled = true;
+      buttonText.textContent = "Signing in…";
+
+      try {
+        const credential = await signInWithEmailAndPassword(
+          auth,
+          emailInput.value.trim(),
+          passwordInput.value
+        );
+
+        const userDoc = await getDoc(doc(db, "users", credential.user.uid));
+
+        if (!userDoc.exists()) {
+          await auth.signOut();
+          showMessage("Your account has not been approved. Contact the EduGM Owner.");
+          return;
+        }
+
+        const profile = userDoc.data();
+
+        if (profile.active !== true || !profile.role) {
+          await auth.signOut();
+          showMessage("Your account has not been approved. Contact the EduGM Owner.");
+          return;
+        }
+
+        showMessage("Sign-in successful. Opening your dashboard…", true);
+        window.location.href = "dashboard.html";
+      } catch (error) {
+        const messages = {
+          "auth/invalid-credential": "Incorrect email or password.",
+          "auth/user-not-found": "No account exists with this email.",
+          "auth/wrong-password": "Incorrect email or password.",
+          "auth/too-many-requests": "Too many attempts. Please try again later.",
+          "auth/network-request-failed": "Network error. Check your internet connection."
+        };
+
+        showMessage(messages[error.code] || error.message || "Unable to sign in. Please try again.");
+      } finally {
+        button.disabled = false;
+        buttonText.textContent = "Sign in to dashboard";
+      }
+    });
+  </script>
+</body>
+</html>
