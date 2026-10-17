@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Article Editor — EduGM Admin</title><link rel="icon" type="image/png" href="https://i.ibb.co/1Y82N0n0/Edu-GM-Learning-Logo.png"><link rel="stylesheet" href="css/style.css"></head><body><div id="app-shell"></div><main class="main-content">
+<header class="page-head"><div><p class="eyebrow">CONTENT STUDIO</p><h1 id="editor-heading">Write article</h1><p class="muted">Write normally or switch to HTML/code mode.</p></div><a class="btn" href="articles.html">← Back to articles</a></header>
+<form id="article-form" class="panel stack">
+<input id="article-id" type="hidden">
+<div class="form-grid"><label>Article title<input id="title" maxlength="180" required placeholder="Enter a clear title"></label><label>Category<select id="category" required><option value="">Choose category</option></select></label></div>
+<label>Short description / excerpt<textarea id="excerpt" rows="2" maxlength="350" placeholder="A short summary for students"></textarea></label>
+<div class="editor-toolbar"><div class="segmented"><button type="button" class="mode-btn active" data-mode="visual">Visual mode</button><button type="button" class="mode-btn" data-mode="code">HTML / code mode</button></div><span class="tiny muted">Code mode supports article-body HTML. Never paste scripts.</span></div>
+<div id="visual-tools" class="editor-tools"><button type="button" data-insert="**bold**">Bold marker</button><button type="button" data-insert="## Heading">Heading</button><button type="button" data-insert="\n- List item">List item</button><button type="button" data-insert="[Link text](https://example.com)">Link template</button></div>
+<textarea id="content-visual" rows="16" placeholder="Write your article here. Use headings, paragraphs and lists."></textarea>
+<textarea id="content-code" class="code-editor hidden" rows="16" spellcheck="false" placeholder="<h2>Article heading</h2><p>Write article HTML here…"></textarea>
+<div class="form-grid"><label>Status<select id="status"><option value="draft">Save as draft</option><option value="published">Publish now</option></select></label><label>Featured image URL (optional)<input id="image-url" type="url" placeholder="https://…"></label></div>
+<div class="button-row"><button class="btn" type="button" id="save-draft">Save draft</button><button class="btn primary" type="submit">Save article</button></div><p id="editor-message" class="notice hidden"></p>
+</form><script type="module" src="js/editor.js"></script></main></body></html>

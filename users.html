@@ -1,0 +1,8 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Official users — EduGM Admin</title><link rel="icon" type="image/png" href="https://i.ibb.co/1Y82N0n0/Edu-GM-Learning-Logo.png"><link rel="stylesheet" href="css/style.css"></head><body><div id="app-shell"></div><main class="main-content">
+<header class="page-head"><div><p class="eyebrow">ACCESS CONTROL</p><h1>Official users</h1><p class="muted">Owner-only: approve, pause, and assign staff roles.</p></div></header>
+<div class="notice">Create the user's account first in Firebase Authentication → Users. Then add their UID below, or approve a pending profile if one exists.</div>
+<section class="panel"><h2>Add / update official</h2><form id="user-form" class="stack"><label>Firebase Auth UID<input id="uid" required placeholder="Paste the user's UID"></label><label>Official email<input id="user-email" type="email" required placeholder="official@example.com"></label><div class="form-grid"><label>Role<select id="role"><option value="editor">Editor</option><option value="admin">Admin</option><option value="owner">Owner</option></select></label><label>Account status<select id="active"><option value="true">Approved / active</option><option value="false">Not approved / inactive</option></select></label></div><button class="btn primary" type="submit">Save official access</button><p id="user-message" class="notice hidden"></p></form></section>
+<section class="panel"><div class="panel-head"><h2>All official accounts</h2><button id="refresh-users" class="btn">Refresh</button></div><div id="users-table" class="table-wrap">Loading…</div></section>
+<script type="module" src="js/users.js"></script></main></body></html>
