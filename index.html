@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="EduGM official content administration">
+  <title>EduGM Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-glow"></div>
+  <main class="shell">
+    <section id="loginView" class="login-layout">
+      <div class="brand-panel">
+        <div class="brand-mark">E</div>
+        <p class="eyebrow">EDUGM • OFFICIAL WORKSPACE</p>
+        <h1>Build better<br><span>learning.</span></h1>
+        <p class="muted hero-copy">A central workspace for EduGM's authorized team to prepare and publish useful learning resources.</p>
+        <div class="trust-row"><span class="pulse"></span> Authorized officials only</div>
+      </div>
+      <div class="login-card">
+        <div class="mobile-brand"><div class="brand-mark small">E</div><strong>EduGM Admin</strong></div>
+        <p class="eyebrow blue">WELCOME BACK</p>
+        <h2>Official sign in</h2>
+        <p class="muted">Use the account provided by the EduGM owner.</p>
+        <form id="loginForm">
+          <label for="email">Official email</label>
+          <input id="email" type="email" autocomplete="username" placeholder="you@example.com" required>
+          <label for="password">Password</label>
+          <input id="password" type="password" autocomplete="current-password" placeholder="Enter your password" required>
+          <button class="primary full" type="submit" id="loginButton">Sign in securely <span>→</span></button>
+        </form>
+        <p id="loginMessage" class="message" role="status"></p>
+        <p class="fineprint"><span class="lock">⌑</span> No public registration. Access is assigned by the owner.</p>
+      </div>
+    </section>
+
+    <section id="appView" class="app-layout hidden">
+      <aside class="sidebar">
+        <div class="sidebar-brand"><div class="brand-mark small">E</div><div><strong>EduGM</strong><small>ADMIN PANEL</small></div></div>
+        <div class="nav-label">WORKSPACE</div>
+        <button class="nav-item active" data-tab="overview"><span>▦</span> Overview</button>
+        <button class="nav-item" data-tab="articles"><span>▤</span> Articles <span class="nav-count" id="articleCount">0</span></button>
+        <button class="nav-item" data-tab="write"><span>＋</span> Write article</button>
+        <div class="sidebar-bottom">
+          <div class="user-chip"><div class="avatar" id="avatar">E</div><div class="user-meta"><strong id="userEmail">Official</strong><small id="userRole">Loading role…</small></div></div>
+          <button id="logoutButton" class="logout">↪ &nbsp; Sign out</button>
+        </div>
+      </aside>
+
+      <div class="main-panel">
+        <header class="topbar">
+          <div><p class="eyebrow blue">EDUGM CONTENT STUDIO</p><h2 id="pageTitle">Overview</h2></div>
+          <div class="top-actions"><span class="secure-pill"><span class="pulse"></span> Secure session</span><button class="primary" id="newArticleTop">＋ New article</button></div>
+        </header>
+        <div id="globalMessage" class="message global-message" role="status"></div>
+
+        <section id="overviewTab" class="tab-panel">
+          <div class="welcome-card"><div><p class="eyebrow">YOUR WORKSPACE</p><h3>Welcome to EduGM.</h3><p>Manage educational articles for Madhyamik, HS and entrance-exam learners.</p></div><div class="welcome-art">✦</div></div>
+          <div class="stats-grid">
+            <div class="stat-card"><div class="stat-icon">▤</div><span>Total articles</span><strong id="totalArticles">—</strong><small>Articles you can access</small></div>
+            <div class="stat-card"><div class="stat-icon green">✓</div><span>Published</span><strong id="publishedArticles">—</strong><small>Visible to readers</small></div>
+            <div class="stat-card"><div class="stat-icon amber">◷</div><span>Drafts</span><strong id="draftArticles">—</strong><small>Still being prepared</small></div>
+          </div>
+          <div class="section-heading"><div><h3>Recent articles</h3><p class="muted">Your latest content activity</p></div><button class="text-button" data-goto="articles">View all →</button></div>
+          <div id="recentArticles" class="article-list"><div class="empty-state">Loading articles…</div></div>
+          <div class="role-note"><strong>Your access:</strong> <span id="roleExplanation">Loading permissions…</span><p>Permissions are enforced by Firebase Firestore Security Rules, not just by this interface.</p></div>
+        </section>
+
+        <section id="articlesTab" class="tab-panel hidden">
+          <div class="section-heading"><div><h3>Articles</h3><p class="muted">Create, edit and publish learning content.</p></div><button class="primary" id="newArticleList">＋ New article</button></div>
+          <div class="filters"><input id="articleSearch" type="search" placeholder="Search your articles…"><select id="statusFilter" aria-label="Filter by status"><option value="all">All statuses</option><option value="published">Published</option><option value="draft">Drafts</option></select></div>
+          <div id="allArticles" class="article-list"><div class="empty-state">Loading articles…</div></div>
+        </section>
+
+        <section id="writeTab" class="tab-panel hidden">
+          <div class="editor-heading"><div><h3 id="editorTitle">Write a new article</h3><p class="muted">Clear, accurate content helps students learn.</p></div><span class="draft-badge" id="editorStatus">NEW ARTICLE</span></div>
+          <form id="articleForm" class="editor-card">
+            <input type="hidden" id="articleId">
+            <label for="articleTitle">Article title <span class="required">*</span></label>
+            <input id="articleTitle" maxlength="160" required placeholder="e.g. Madhyamik Mathematics: Algebra Revision">
+            <div class="two-fields">
+              <div><label for="category">Category</label><select id="category"><option>Madhyamik</option><option>Higher Secondary (HS)</option><option>Entrance Exams</option><option>Scholarships</option><option>Study Notes</option><option>News & Notices</option><option>General</option></select></div>
+              <div><label for="excerpt">Short summary</label><input id="excerpt" maxlength="240" placeholder="A short description for students"></div>
+            </div>
+            <label for="articleContent">Article content <span class="required">*</span></label>
+            <textarea id="articleContent" rows="14" required placeholder="Write your article here. Use plain text for now; formatting support can be added later."></textarea>
+            <p class="helper">Please verify facts, dates, exam details and source material before publishing. Do not include private student information.</p>
+            <div class="editor-footer"><span id="saveMessage" class="message" role="status"></span><div class="button-row"><button type="button" class="secondary" id="cancelEdit">Cancel</button><button type="submit" class="secondary" id="saveDraft">Save draft</button><button type="button" class="primary" id="publishArticle">Publish article ↗</button></div></div>
+          </form>
+        </section>
+
+        <footer>EduGM Admin <span>•</span> Authorized educational content management</footer>
+      </div>
+    </section>
+  </main>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

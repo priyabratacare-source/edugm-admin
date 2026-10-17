@@ -1,0 +1,78 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function hasUserRecord() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function role() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
+    }
+
+    function isOwner() { return hasUserRecord() && role() == 'owner'; }
+    function isAdmin() { return hasUserRecord() && role() == 'admin'; }
+    function isEditor() { return hasUserRecord() && role() == 'editor'; }
+    function isStaff() { return isOwner() || isAdmin() || isEditor(); }
+    function validArticle(data) {
+      return data.keys().hasAll([
+          'title', 'category', 'excerpt', 'content', 'status',
+          'authorId', 'authorEmail', 'createdAt', 'updatedAt', 'publishedAt'
+        ])
+        && data.title is string && data.title.size() > 0 && data.title.size() <= 160
+        && data.category is string && data.category.size() <= 80
+        && data.excerpt is string && data.excerpt.size() <= 240
+        && data.content is string && data.content.size() > 0 && data.content.size() <= 100000
+        && data.status in ['draft', 'published']
+        && data.authorId is string
+        && data.authorEmail is string
+        && data.updatedAt == request.time
+        && (data.publishedAt == null || data.publishedAt is timestamp);
+    }
+
+    match /users/{userId} {
+      // Officials can read their own role; only the owner can read the staff directory.
+      allow read: if signedIn() && (request.auth.uid == userId || isOwner());
+      // Role records are provisioned manually by the owner in Firebase Console.
+      // Never allow client-side role escalation, including by an existing owner.
+      allow create, update, delete: if false;
+    }
+
+    match /articles/{articleId} {
+      // Published articles can be read by the public website; drafts are staff-only.
+      allow read: if (resource.data.status == 'published')
+        || (isStaff() && (isOwner() || isAdmin() || resource.data.authorId == request.auth.uid));
+
+      allow create: if isStaff()
+        && request.resource.data.authorId == request.auth.uid
+        && request.resource.data.createdAt == request.time
+        && validArticle(request.resource.data)
+        && (request.resource.data.status == 'draft' || request.resource.data.status == 'published');
+
+      // Owner/Admin can manage all content. Editors can update only their own content
+      // and cannot change ownership or original creation time.
+      allow update: if validArticle(request.resource.data)
+        && (
+          (isOwner() || isAdmin())
+          || (
+            isEditor()
+            && resource.data.authorId == request.auth.uid
+            && request.resource.data.authorId == resource.data.authorId
+            && request.resource.data.authorEmail == resource.data.authorEmail
+            && request.resource.data.createdAt == resource.data.createdAt
+          )
+        );
+
+      allow delete: if isOwner() || isAdmin();
+    }
+
+    // Default deny: every collection not explicitly allowed above is private.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
