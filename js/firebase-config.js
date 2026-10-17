@@ -1,10 +1,10 @@
-// Replace the placeholder values with your Firebase Web App config.
-// This file is public by design. Never put service-account keys or private credentials here.
+// EduGM Bangla Firebase web configuration.
+// Web app config is public by design; never put service-account keys or private credentials here.
 export const firebaseConfig = {
-  apiKey: "PASTE_YOUR_FIREBASE_API_KEY",
-  authDomain: "PASTE_YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "PASTE_YOUR_PROJECT_ID",
-  storageBucket: "PASTE_YOUR_PROJECT_ID.firebasestorage.app",
-  messagingSenderId: "PASTE_YOUR_MESSAGING_SENDER_ID",
-  appId: "PASTE_YOUR_APP_ID"
+  apiKey: "AIzaSyA9yj3ikv7oIsBhU7IE9XPclY3vul5d9us",
+  authDomain: "edugm-bangla.firebaseapp.com",
+  projectId: "edugm-bangla",
+  storageBucket: "edugm-bangla.firebasestorage.app",
+  messagingSenderId: "236553092510",
+  appId: "1:236553092510:web:91f03b4434616c06846a8f"
 };
