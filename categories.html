@@ -1,7 +1,568 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Categories — EduGM Admin</title><link rel="icon" type="image/png" href="https://i.ibb.co/1Y82N0n0/Edu-GM-Learning-Logo.png"><link rel="stylesheet" href="css/style.css"></head><body><div id="app-shell"></div><main class="main-content">
-<header class="page-head"><div><p class="eyebrow">CONTENT ORGANISATION</p><h1>Article categories</h1><p class="muted">Create categories when you need a new subject area.</p></div></header>
-<section class="panel"><form id="category-form" class="form-grid"><label>Category name<input id="category-name" required maxlength="60" placeholder="e.g. Madhyamik Mathematics"></label><label>Slug (optional)<input id="category-slug" maxlength="70" placeholder="madhyamik-mathematics"></label><div><button class="btn primary" type="submit">＋ Add category</button></div></form><p id="category-message" class="notice hidden"></p></section>
-<section class="panel"><h2>Existing categories</h2><div id="categories-list">Loading…</div></section>
-<script type="module" src="js/categories.js"></script></main></body></html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="theme-color" content="#1769e0">
+  <title>Categories | EduGM Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --blue:#1769e0; --blue-dark:#1052bd; --pale:#edf5ff;
+      --bg:#f5f8fc; --ink:#18253b; --muted:#718096;
+      --line:#e7edf5; --red:#b63737; --green:#138a58;
+    }
+    * { box-sizing:border-box }
+    body { margin:0; font-family:Inter,Arial,sans-serif; background:var(--bg); color:var(--ink) }
+    button,input,textarea { font:inherit }
+    a { text-decoration:none; color:inherit }
+    .sidebar {
+      position:fixed; inset:0 auto 0 0; width:250px; background:white;
+      border-right:1px solid var(--line); padding:22px 14px; z-index:20;
+      display:flex; flex-direction:column; overflow-y:auto; transition:transform .25s;
+    }
+    .brand { display:flex; align-items:center; gap:11px; padding:0 8px 22px; border-bottom:1px solid var(--line) }
+    .brand img { width:43px;height:43px;object-fit:contain;border-radius:10px }
+    .brand-name { font-size:19px;font-weight:800 }
+    .brand-sub { font-size:11px;color:var(--muted);margin-top:4px }
+    .nav-label { font-size:10px;font-weight:800;letter-spacing:1.2px;color:#9aa7b8;margin:24px 11px 9px }
+    .nav { display:grid;gap:5px }
+    .nav a,.logout { display:flex;gap:12px;align-items:center;padding:12px;border-radius:10px;color:#64748b;font-size:12px;font-weight:600 }
+    .nav a:hover,.nav a.active { background:var(--pale);color:var(--blue) }
+    .nav-icon { width:20px;text-align:center;font-size:16px }
+    .bottom { margin-top:auto;padding-top:20px }
+    .mini { display:flex;align-items:center;gap:10px;padding:12px;background:#f5f8fd;border-radius:12px;overflow-wrap:anywhere;font-size:12px }
+    .logout { border:0;background:transparent;color:var(--red);width:100%;cursor:pointer;margin-top:8px }
+    .main { margin-left:250px;min-height:100vh }
+    .topbar { height:72px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 30px;position:sticky;top:0;z-index:10 }
+    .topbar h1 { font-size:17px;margin:0;font-weight:800 }
+    .topbar p { font-size:11px;color:var(--muted);margin:5px 0 0 }
+    .menu-toggle { display:none;border:1px solid var(--line);background:white;border-radius:9px;padding:8px 11px }
+    .content { max-width:1300px;margin:auto;padding:30px }
+    .heading { display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:22px }
+    .eyebrow { font-size:10px;letter-spacing:1.4px;color:var(--blue);font-weight:800;margin-bottom:8px }
+    h2 { margin:0;font-size:25px;letter-spacing:-.5px }
+    .sub { color:var(--muted);font-size:12px;line-height:1.7;margin-top:8px }
+    .layout { display:grid;grid-template-columns:minmax(290px,.85fr) minmax(0,1.5fr);gap:20px;align-items:start }
+    .card { background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;min-width:0;box-shadow:0 5px 24px #18345b05 }
+    .card h3 { font-size:15px;margin:0 0 7px;font-weight:800 }
+    .card-desc { font-size:11px;color:var(--muted);line-height:1.6;margin:0 0 20px }
+    .field { margin-bottom:15px }
+    label { display:block;font-size:11px;font-weight:700;margin-bottom:7px }
+    input,textarea { width:100%;border:1px solid #dfe6ef;border-radius:9px;padding:12px;font-size:12px;outline:none;background:white;color:var(--ink) }
+    input:focus,textarea:focus { border-color:#6da4f7;box-shadow:0 0 0 3px #1769e014 }
+    textarea { resize:vertical;min-height:85px;line-height:1.6 }
+    .hint { color:var(--muted);font-size:10px;line-height:1.6;margin-top:6px }
+    .buttons { display:flex;gap:8px;flex-wrap:wrap;margin-top:16px }
+    .btn { border:1px solid transparent;border-radius:9px;padding:10px 13px;font-size:11px;font-weight:700;cursor:pointer;transition:.2s }
+    .primary { background:var(--blue);color:white }
+    .primary:hover { background:var(--blue-dark) }
+    .secondary { border-color:#dfe6ef;background:white;color:#475569 }
+    .danger { border-color:#f3d5d5;background:#fff5f5;color:var(--red) }
+    .btn:disabled { opacity:.6;cursor:wait }
+    .notice { display:none;margin-bottom:16px;padding:12px;border-radius:9px;font-size:12px;line-height:1.6 }
+    .notice.ok { display:block;background:#eaf8f1;color:#12643f;border:1px solid #cceedd }
+    .notice.err { display:block;background:#fff0f0;color:#a72d2d;border:1px solid #ffd9d9 }
+    .search { margin-bottom:15px }
+    .category-list { display:grid;gap:13px }
+    .category {
+      border:1px solid var(--line);border-radius:13px;padding:13px;
+      display:grid;grid-template-columns:100px minmax(0,1fr);gap:14px;
+      transition:border .2s,box-shadow .2s;min-width:0
+    }
+    .category:hover { border-color:#c8dcff;box-shadow:0 5px 20px #1769e00b }
+    .category img { width:100px;height:100px;border-radius:10px;object-fit:cover;background:var(--pale) }
+    .category h4 { margin:1px 0 7px;font-size:14px;overflow-wrap:anywhere }
+    .slug { font-size:10px;color:var(--blue);overflow-wrap:anywhere }
+    .description { color:var(--muted);font-size:11px;line-height:1.6;margin:8px 0;overflow-wrap:anywhere }
+    .category-actions { display:flex;gap:7px;flex-wrap:wrap;margin-top:10px }
+    .small-btn { padding:7px 9px;border:1px solid #dfe6ef;border-radius:7px;background:white;font-size:10px;font-weight:700;cursor:pointer }
+    .count { display:inline-block;background:var(--pale);color:var(--blue);padding:5px 7px;border-radius:7px;font-size:10px;font-weight:700 }
+    .articles { display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--line) }
+    .articles.open { display:block }
+    .article-link { display:block;font-size:11px;line-height:1.6;padding:8px 0;border-bottom:1px solid #eef2f7;overflow-wrap:anywhere }
+    .article-link:last-child { border-bottom:0 }
+    .article-status { color:var(--muted);font-size:10px;margin-top:3px }
+    .empty { padding:28px 10px;text-align:center;color:var(--muted);font-size:12px;line-height:1.7 }
+    .footer { text-align:center;padding:24px 5px 5px;color:#8b98aa;font-size:10px;line-height:1.8 }
+    .overlay { display:none;position:fixed;inset:0;background:#0e1d3555;z-index:15 }
+    .overlay.show { display:block }
+    @media(max-width:1000px) { .layout{grid-template-columns:1fr} }
+    @media(max-width:760px) {
+      .sidebar{transform:translateX(-100%)} .sidebar.open{transform:translateX(0)}
+      .main{margin-left:0}.menu-toggle{display:block}
+      .topbar{padding:0 15px;height:66px}.topbar-left{display:flex;align-items:center;gap:12px}
+      .content{padding:22px 14px}.heading{align-items:flex-start;flex-direction:column}
+      h2{font-size:22px}.card{padding:17px}
+    }
+    @media(max-width:430px) {
+      .category{grid-template-columns:76px minmax(0,1fr);gap:10px;padding:10px}
+      .category img{width:76px;height:82px}.category h4{font-size:12px}
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay" id="overlay"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="dashboard.html">
+      <img src="https://i.ibb.co/1Y82N0n0/Edu-GM-Learning-Logo.png" alt="EduGM">
+      <div><div class="brand-name">EduGM</div><div class="brand-sub">Admin Workspace</div></div>
+    </a>
+
+    <div class="nav-label">WORKSPACE</div>
+    <nav class="nav">
+      <a href="dashboard.html"><span class="nav-icon">⌂</span>Dashboard</a>
+      <a href="articles.html"><span class="nav-icon">▤</span>Articles</a>
+      <a href="article-editor.html"><span class="nav-icon">✎</span>Article Editor</a>
+      <a class="active" href="categories.html"><span class="nav-icon">▦</span>Categories</a>
+      <a href="store.html"><span class="nav-icon">▣</span>EduGM Store</a>
+    </nav>
+
+    <div class="nav-label">PRODUCTIVITY</div>
+    <nav class="nav">
+      <a href="calendar.html"><span class="nav-icon">▦</span>Calendar</a>
+      <a href="todo.html"><span class="nav-icon">☑</span>To-Do</a>
+      <a href="innovation.html"><span class="nav-icon">✧</span>Innovation</a>
+      <a href="earning.html"><span class="nav-icon">₹</span>Earning</a>
+      <a href="pages.html"><span class="nav-icon">▧</span>Pages</a>
+    </nav>
+
+    <div class="nav-label">ACCOUNT</div>
+    <nav class="nav"><a href="profile.html"><span class="nav-icon">◎</span>My Profile</a></nav>
+
+    <div class="bottom">
+      <div class="mini"><span>●</span><div id="signedInAs">Checking account…</div></div>
+      <button class="logout" id="logoutBtn"><span class="nav-icon">↪</span>Logout</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">☰</button>
+        <div><h1>Category Management</h1><p>Create, edit and organize article categories</p></div>
+      </div>
+    </header>
+
+    <section class="content">
+      <div class="heading">
+        <div>
+          <div class="eyebrow">CONTENT ORGANIZATION</div>
+          <h2>Categories</h2>
+          <div class="sub">Create categories with their own photos and descriptions, then view the articles linked to each category.</div>
+        </div>
+        <span class="count" id="categoryCount">0 categories</span>
+      </div>
+
+      <div class="notice" id="notice" role="status" aria-live="polite"></div>
+
+      <div class="layout">
+        <section class="card">
+          <h3 id="formTitle">Create a category</h3>
+          <p class="card-desc" id="formDescription">Add a category for organizing EduGM articles.</p>
+
+          <form id="categoryForm">
+            <div class="field">
+              <label for="name">Category name *</label>
+              <input id="name" maxlength="80" required placeholder="e.g. Madhyamik, Scholarships">
+            </div>
+            <div class="field">
+              <label for="slug">URL slug *</label>
+              <input id="slug" maxlength="100" required placeholder="e.g. madhyamik">
+              <div class="hint">Generated from the category name. You can edit it.</div>
+            </div>
+            <div class="field">
+              <label for="photoURL">Category photo URL</label>
+              <input id="photoURL" type="url" maxlength="2000" placeholder="https://example.com/category.jpg">
+              <div class="hint">Use a direct HTTPS image URL from your own website, GitHub Pages or an image host.</div>
+            </div>
+            <div class="field">
+              <label for="description">Description</label>
+              <textarea id="description" maxlength="500" placeholder="What will students find in this category?"></textarea>
+            </div>
+            <div class="buttons">
+              <button class="btn primary" id="saveBtn" type="submit">Create category</button>
+              <button class="btn secondary" id="cancelBtn" type="button" hidden>Cancel edit</button>
+            </div>
+          </form>
+
+          <div class="hint" style="margin-top:20px">
+            Article linking uses the category name stored in each article's <code>category</code> field. When renaming an existing category, update the linked articles' category values too.
+          </div>
+        </section>
+
+        <section class="card">
+          <h3>All categories</h3>
+          <p class="card-desc">Edit a category or expand it to view its linked articles.</p>
+          <input class="search" id="search" placeholder="Search categories…" aria-label="Search categories">
+          <div id="categoryList" class="category-list">
+            <div class="empty">Loading categories…</div>
+          </div>
+        </section>
+      </div>
+
+      <footer class="footer">
+        © <span id="year"></span> EduGM. All rights reserved.<br>
+        EduGM Admin Panel — Official Use Only.
+      </footer>
+    </section>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+    import {
+      getFirestore, collection, doc, getDoc, getDocs,
+      addDoc, updateDoc, deleteDoc, serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA9yj3ikv7oIsBhU7IE9XPclY3vul5d9us",
+      authDomain: "edugm-bangla.firebaseapp.com",
+      projectId: "edugm-bangla",
+      storageBucket: "edugm-bangla.firebasestorage.app",
+      messagingSenderId: "236553092510",
+      appId: "1:236553092510:web:91f03b4434616c06846a8f"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const $ = id => document.getElementById(id);
+
+    let user = null;
+    let userRole = "";
+    let categories = [];
+    let articles = [];
+    let editingId = null;
+    let loading = false;
+
+    $("year").textContent = new Date().getFullYear();
+
+    function notify(message, type = "ok") {
+      const n = $("notice");
+      n.textContent = message;
+      n.className = "notice " + type;
+      n.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+    function clearNotice() {
+      $("notice").textContent = "";
+      $("notice").className = "notice";
+    }
+    function slugify(value) {
+      return value.toLowerCase().trim()
+        .normalize("NFKD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "")
+        .slice(0, 100);
+    }
+    function validHttpsUrl(value) {
+      if (!value) return true;
+      try { return new URL(value).protocol === "https:"; }
+      catch { return false; }
+    }
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, ch => ({
+        "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+      }[ch]));
+    }
+    function safeImageUrl(value) {
+      if (!value) return "";
+      try {
+        const url = new URL(value);
+        return url.protocol === "https:" ? url.href : "";
+      } catch { return ""; }
+    }
+
+    $("name").addEventListener("input", () => {
+      if (!editingId || !$("slug").dataset.edited) {
+        $("slug").value = slugify($("name").value);
+      }
+    });
+    $("slug").addEventListener("input", () => {
+      $("slug").dataset.edited = "true";
+      $("slug").value = slugify($("slug").value);
+    });
+
+    function resetForm() {
+      editingId = null;
+      $("categoryForm").reset();
+      $("slug").dataset.edited = "";
+      $("formTitle").textContent = "Create a category";
+      $("formDescription").textContent = "Add a category for organizing EduGM articles.";
+      $("saveBtn").textContent = "Create category";
+      $("cancelBtn").hidden = true;
+      clearNotice();
+    }
+
+    function startEdit(category) {
+      editingId = category.id;
+      $("name").value = category.name || "";
+      $("slug").value = category.slug || "";
+      $("slug").dataset.edited = "true";
+      $("photoURL").value = category.photoURL || "";
+      $("description").value = category.description || "";
+      $("formTitle").textContent = "Edit category";
+      $("formDescription").textContent = "Update the selected category's details.";
+      $("saveBtn").textContent = "Save category";
+      $("cancelBtn").hidden = false;
+      clearNotice();
+      $("name").focus();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    $("cancelBtn").addEventListener("click", resetForm);
+
+    async function refreshData() {
+      const [categorySnap, articleSnap] = await Promise.all([
+        getDocs(collection(db, "categories")),
+        getDocs(collection(db, "articles"))
+      ]);
+      categories = categorySnap.docs.map(d => ({ id: d.id, ...d.data() }));
+      articles = articleSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+      categories.sort((a,b) => String(a.name || "").localeCompare(String(b.name || "")));
+      renderCategories();
+    }
+
+    function renderCategories() {
+      const term = $("search").value.trim().toLowerCase();
+      const list = $("categoryList");
+      const filtered = categories.filter(c =>
+        [c.name, c.slug, c.description].some(v => String(v || "").toLowerCase().includes(term))
+      );
+      $("categoryCount").textContent = `${categories.length} categor${categories.length === 1 ? "y" : "ies"}`;
+
+      if (!filtered.length) {
+        list.innerHTML = `<div class="empty">${categories.length ? "No matching categories found." : "No categories yet. Create your first category using the form."}</div>`;
+        return;
+      }
+
+      list.innerHTML = filtered.map(c => {
+        const linked = articles.filter(a =>
+          String(a.category || "").trim().toLowerCase() === String(c.name || "").trim().toLowerCase()
+        );
+        const published = linked.filter(a => a.status === "published");
+        const image = safeImageUrl(c.photoURL);
+        const articleRows = linked.length
+          ? linked.map(a => `
+              <a class="article-link" href="article-editor.html?id=${encodeURIComponent(a.id)}">
+                <strong>${escapeHTML(a.title || "Untitled article")}</strong>
+                <div class="article-status">${escapeHTML(a.status || "draft")} · ${escapeHTML(a.authorEmail || "Unknown author")}</div>
+              </a>`).join("")
+          : `<div class="hint">No articles are linked to this category yet. Set the article's Category field to “${escapeHTML(c.name)}”.</div>`;
+
+        return `
+          <article class="category">
+            ${image
+              ? `<img src="${escapeHTML(image)}" alt="${escapeHTML(c.name || "Category photo")}" loading="lazy" onerror="this.style.visibility='hidden'">`
+              : `<div style="width:100px;height:100px;border-radius:10px;background:#edf5ff;display:grid;place-items:center;color:#1769e0;font-size:27px;font-weight:800">▦</div>`}
+            <div>
+              <h4>${escapeHTML(c.name || "Unnamed category")}</h4>
+              <div class="slug">/${escapeHTML(c.slug || "")}</div>
+              <div class="description">${escapeHTML(c.description || "No description added.")}</div>
+              <span class="count">${linked.length} article${linked.length === 1 ? "" : "s"} · ${published.length} published</span>
+              <div class="category-actions">
+                <button class="small-btn" data-action="edit" data-id="${escapeHTML(c.id)}">Edit</button>
+                <button class="small-btn" data-action="articles" data-id="${escapeHTML(c.id)}">View articles</button>
+                <button class="small-btn" data-action="copy" data-id="${escapeHTML(c.id)}">Copy slug</button>
+                <button class="small-btn" data-action="delete" data-id="${escapeHTML(c.id)}">Delete</button>
+              </div>
+              <div class="articles" id="articles-${escapeHTML(c.id)}">${articleRows}</div>
+            </div>
+          </article>`;
+      }).join("");
+    }
+
+    $("categoryList").addEventListener("click", async event => {
+      const button = event.target.closest("button[data-action]");
+      if (!button) return;
+      const category = categories.find(c => c.id === button.dataset.id);
+      if (!category) return;
+
+      if (button.dataset.action === "edit") {
+        startEdit(category);
+      } else if (button.dataset.action === "articles") {
+        const panel = $("articles-" + category.id);
+        if (panel) {
+          panel.classList.toggle("open");
+          button.textContent = panel.classList.contains("open") ? "Hide articles" : "View articles";
+        }
+      } else if (button.dataset.action === "copy") {
+        try {
+          await navigator.clipboard.writeText(category.slug || "");
+          notify("Category slug copied.");
+        } catch {
+          notify("Clipboard access was blocked by the browser.", "err");
+        }
+      } else if (button.dataset.action === "delete") {
+        const linked = articles.filter(a =>
+          String(a.category || "").trim().toLowerCase() === String(category.name || "").trim().toLowerCase()
+        );
+        if (linked.length) {
+          notify(`Cannot delete “${category.name}” because ${linked.length} article(s) still use it. Reassign those articles first.`, "err");
+          return;
+        }
+        if (!confirm(`Delete the category “${category.name}”? This cannot be undone.`)) return;
+        try {
+          await deleteDoc(doc(db, "categories", category.id));
+          categories = categories.filter(c => c.id !== category.id);
+          renderCategories();
+          notify("Category deleted.");
+        } catch (error) {
+          console.error(error);
+          notify("Could not delete category. Check your Firestore Security Rules.", "err");
+        }
+      }
+    });
+
+    $("search").addEventListener("input", renderCategories);
+
+    $("categoryForm").addEventListener("submit", async event => {
+      event.preventDefault();
+      if (loading) return;
+      clearNotice();
+
+      const name = $("name").value.trim();
+      const slug = slugify($("slug").value);
+      const photoURL = $("photoURL").value.trim();
+      const description = $("description").value.trim();
+
+      if (!name || !slug) {
+        notify("Enter a category name and slug.", "err");
+        return;
+      }
+      if (!validHttpsUrl(photoURL)) {
+        notify("Category photo must use a valid HTTPS URL.", "err");
+        return;
+      }
+      const duplicateName = categories.some(c =>
+        c.id !== editingId && String(c.name || "").trim().toLowerCase() === name.toLowerCase()
+      );
+      const duplicateSlug = categories.some(c =>
+        c.id !== editingId && String(c.slug || "").trim().toLowerCase() === slug.toLowerCase()
+      );
+      if (duplicateName) {
+        notify("A category with this name already exists.", "err");
+        return;
+      }
+      if (duplicateSlug) {
+        notify("This slug is already used by another category.", "err");
+        return;
+      }
+
+      const previous = editingId ? categories.find(c => c.id === editingId) : null;
+      const renamed = previous && previous.name !== name;
+
+      // This page intentionally does not rename linked article category fields.
+      // A rename with existing articles needs a coordinated article update.
+      if (renamed) {
+        const linked = articles.filter(a =>
+          String(a.category || "").trim().toLowerCase() === String(previous.name || "").trim().toLowerCase()
+        );
+        if (linked.length) {
+          notify(`This category has ${linked.length} linked article(s). Reassign their Category field to “${name}” in the article editor before changing the category name. Other category details can be edited now.`, "err");
+          return;
+        }
+      }
+
+      loading = true;
+      $("saveBtn").disabled = true;
+      $("saveBtn").textContent = "Saving…";
+
+      try {
+        const data = {
+          name, slug, photoURL, description,
+          updatedAt: serverTimestamp(),
+          updatedBy: user.uid
+        };
+
+        if (editingId) {
+          await updateDoc(doc(db, "categories", editingId), data);
+          notify("Category updated successfully.");
+        } else {
+          await addDoc(collection(db, "categories"), {
+            ...data,
+            createdAt: serverTimestamp(),
+            createdBy: user.uid
+          });
+          notify("Category created successfully.");
+        }
+
+        resetForm();
+        await refreshData();
+      } catch (error) {
+        console.error("Category save failed:", error);
+        notify(
+          error.code === "permission-denied"
+            ? "Permission denied. Add the categories collection rules shown below in Firebase."
+            : "Could not save this category. Please try again.",
+          "err"
+        );
+      } finally {
+        loading = false;
+        $("saveBtn").disabled = false;
+        $("saveBtn").textContent = editingId ? "Save category" : "Create category";
+      }
+    });
+
+    onAuthStateChanged(auth, async currentUser => {
+      if (!currentUser) {
+        location.replace("index.html");
+        return;
+      }
+      user = currentUser;
+      try {
+        const userSnap = await getDoc(doc(db, "users", user.uid));
+        if (!userSnap.exists()) {
+          await signOut(auth);
+          location.replace("index.html");
+          return;
+        }
+        const data = userSnap.data();
+        userRole = String(data.role || "").toLowerCase();
+
+        if (data.active !== true || !["owner", "admin", "editor"].includes(userRole)) {
+          await signOut(auth);
+          location.replace("index.html");
+          return;
+        }
+
+        $("signedInAs").textContent = `${user.email || "Staff"} · ${userRole}`;
+        await refreshData();
+      } catch (error) {
+        console.error(error);
+        $("categoryList").innerHTML = `<div class="empty">Unable to load data. Check your internet connection and Firestore rules.</div>`;
+        notify("Could not load categories or articles. Check your Firestore Security Rules.", "err");
+      }
+    });
+
+    $("logoutBtn").addEventListener("click", async () => {
+      try {
+        await signOut(auth);
+        location.replace("index.html");
+      } catch {
+        notify("Logout failed. Please try again.", "err");
+      }
+    });
+
+    const sidebar = $("sidebar"), overlay = $("overlay"), toggle = $("menuToggle");
+    function closeMenu() {
+      sidebar.classList.remove("open");
+      overlay.classList.remove("show");
+      toggle.setAttribute("aria-expanded", "false");
+    }
+    toggle.addEventListener("click", () => {
+      const open = sidebar.classList.toggle("open");
+      overlay.classList.toggle("show", open);
+      toggle.setAttribute("aria-expanded", String(open));
+    });
+    overlay.addEventListener("click", closeMenu);
+    document.querySelectorAll(".nav a").forEach(a => a.addEventListener("click", closeMenu));
+  </script>
+</body>
+</html>
