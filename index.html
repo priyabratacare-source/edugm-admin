@@ -3,174 +3,205 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>EduGM Admin Panel | Official Access Only</title>
+  <meta name="description" content="Official EduGM Admin Panel. Authorized access only.">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+  <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet">
+  <meta name="referrer" content="no-referrer">
   <meta name="theme-color" content="#ffffff">
-  <meta name="description" content="Secure EduGM Admin Panel login">
-  <title>EduGM Admin Panel — Login</title>
+
   <link rel="icon" href="https://i.ibb.co/1Y82N0n0/Edu-GM-Learning-Logo.png">
 
   <style>
     :root {
-      --blue: #2457df;
-      --blue-dark: #1846bb;
-      --cyan: #08a9f5;
-      --ink: #172554;
+      --primary: #6546e8;
+      --primary-dark: #5032cc;
+      --text: #172033;
       --muted: #718096;
-      --line: #e2e8f0;
-      --background: #eef2ff;
+      --border: #e3e8f0;
+      --background: #f7f8fc;
+      --danger: #c62828;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
-      margin: 0;
       min-height: 100vh;
-      font-family: "Segoe UI", Arial, sans-serif;
-      color: var(--ink);
-      background: #fff;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    button, input { font: inherit; }
-
-    .login-page {
-      display: grid;
-      grid-template-columns: 1.05fr .95fr;
-      min-height: 100vh;
-    }
-
-    /* Illustration panel */
-    .left-panel {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-width: 0;
-      overflow: hidden;
-      padding: 42px;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      color: var(--text);
       background: var(--background);
     }
 
-    .left-panel::before,
-    .left-panel::after {
-      content: "";
-      position: absolute;
-      border: 1px solid rgba(37, 99, 235, .08);
-      border-radius: 50%;
-      pointer-events: none;
+    button, input {
+      font: inherit;
     }
 
-    .left-panel::before {
-      width: 350px;
-      height: 350px;
-      top: -190px;
-      left: -160px;
+    .page {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      min-height: 100vh;
     }
 
-    .left-panel::after {
-      width: 420px;
-      height: 420px;
-      right: -220px;
-      bottom: -200px;
+    /* Left illustration panel */
+    .visual-panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 44px;
+      background: linear-gradient(145deg, #f0edff, #eaf3ff);
+      overflow: hidden;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 38px;
+    }
+
+    .brand img {
+      width: 58px;
+      height: 58px;
+      object-fit: contain;
+    }
+
+    .brand-name {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+    }
+
+    .brand-name span {
+      color: var(--primary);
     }
 
     .illustration {
-      position: relative;
-      z-index: 1;
       width: 100%;
-      max-width: 590px;
-      max-height: 60vh;
+      max-width: 550px;
+      margin-bottom: 28px;
+      border-radius: 22px;
       object-fit: contain;
-      mix-blend-mode: multiply;
-      animation: appear .5s ease both;
+      user-select: none;
+      -webkit-user-drag: none;
     }
 
-    .left-caption {
-      position: relative;
-      z-index: 1;
-      max-width: 490px;
-      margin-top: 25px;
+    .visual-copy {
+      max-width: 480px;
       text-align: center;
     }
 
-    .left-caption h2 {
-      margin: 0 0 10px;
-      color: #183b9c;
-      font-size: clamp(24px, 3vw, 34px);
-      letter-spacing: -.8px;
+    .visual-copy h1 {
+      margin-bottom: 12px;
+      font-size: clamp(27px, 3vw, 39px);
+      line-height: 1.2;
+      letter-spacing: -1.2px;
     }
 
-    .left-caption p {
-      margin: 0;
-      color: #64748b;
-      font-size: 14px;
+    .visual-copy p {
+      max-width: 430px;
+      margin: 0 auto;
+      color: #65718a;
+      font-size: 15px;
       line-height: 1.8;
     }
 
+    .feature-row {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 25px;
+    }
+
+    .feature {
+      padding: 9px 13px;
+      border: 1px solid rgba(101, 70, 232, 0.13);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      color: #5745a8;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
     /* Login panel */
-    .right-panel {
+    .login-panel {
       display: flex;
       align-items: center;
       justify-content: center;
-      min-width: 0;
-      padding: 40px 28px;
+      padding: 36px 24px;
       background: #fff;
     }
 
     .login-card {
       width: 100%;
-      max-width: 390px;
-      animation: appear .45s ease both;
+      max-width: 420px;
+      animation: fadeUp 0.55s ease both;
     }
 
-    .logo-area {
-      margin-bottom: 32px;
-      text-align: center;
+    .mobile-brand {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 34px;
     }
 
-    .logo {
-      display: block;
-      width: 185px;
-      height: 115px;
-      max-width: 80%;
-      margin: 0 auto 12px;
+    .mobile-brand img {
+      width: 46px;
+      height: 46px;
       object-fit: contain;
     }
 
-    .logo-subtitle {
-      margin: 0;
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #27ae60;
+      box-shadow: 0 0 0 4px #e5f7ed;
+    }
+
+    .login-card h2 {
+      margin-bottom: 11px;
+      font-size: clamp(29px, 3vw, 37px);
+      line-height: 1.2;
+      letter-spacing: -1.1px;
+    }
+
+    .subtitle {
+      margin-bottom: 30px;
       color: var(--muted);
-      font-size: 13px;
-    }
-
-    .form-heading {
-      margin-bottom: 27px;
-    }
-
-    .form-heading h1 {
-      margin: 0 0 8px;
-      font-size: 27px;
-      letter-spacing: -.7px;
-    }
-
-    .form-heading p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 13px;
+      font-size: 14px;
       line-height: 1.7;
     }
 
     .field {
-      margin-bottom: 19px;
+      margin-bottom: 20px;
     }
 
     .field label {
       display: block;
-      margin-bottom: 8px;
-      color: #334155;
+      margin-bottom: 9px;
       font-size: 13px;
-      font-weight: 650;
+      font-weight: 700;
     }
 
     .input-wrap {
@@ -178,182 +209,261 @@
     }
 
     .field input {
-      display: block;
       width: 100%;
-      height: 49px;
-      padding: 0 76px 0 14px;
-      border: 1px solid var(--line);
-      border-radius: 10px;
+      min-height: 52px;
+      padding: 0 48px 0 15px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
       outline: none;
-      background: #f9fbff;
-      color: var(--ink);
-      font-size: 14px;
-      transition: border-color .2s, box-shadow .2s, background .2s;
+      background: #fff;
+      color: var(--text);
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
-    .field input::placeholder { color: #9aa6b8; }
+    .field input::placeholder {
+      color: #a1aaba;
+    }
 
     .field input:focus {
-      border-color: var(--blue);
-      background: #fff;
-      box-shadow: 0 0 0 4px rgba(36, 87, 223, .09);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(101, 70, 232, 0.10);
     }
 
     .input-action {
       position: absolute;
       top: 50%;
-      right: 10px;
+      right: 12px;
       transform: translateY(-50%);
-      padding: 6px;
       border: 0;
       background: transparent;
-      color: var(--blue);
+      color: #778198;
       cursor: pointer;
-      font-size: 11px;
+      padding: 5px;
+      font-size: 12px;
       font-weight: 700;
     }
 
-    .login-button {
+    .input-action:hover {
+      color: var(--primary);
+    }
+
+    .sign-in {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
       width: 100%;
-      min-height: 50px;
+      min-height: 52px;
       margin-top: 8px;
-      padding: 12px 16px;
       border: 0;
-      border-radius: 10px;
+      border-radius: 11px;
+      background: var(--primary);
       color: #fff;
-      background: linear-gradient(100deg, var(--blue), var(--cyan));
-      box-shadow: 0 7px 17px rgba(36, 87, 223, .17);
       cursor: pointer;
       font-size: 14px;
-      font-weight: 700;
-      transition: transform .2s, box-shadow .2s, opacity .2s;
+      font-weight: 800;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
     }
 
-    .login-button:hover:not(:disabled) {
+    .sign-in:hover:not(:disabled) {
       transform: translateY(-1px);
-      box-shadow: 0 10px 22px rgba(36, 87, 223, .24);
+      background: var(--primary-dark);
+      box-shadow: 0 9px 22px rgba(101, 70, 232, 0.22);
     }
 
-    .login-button:disabled {
-      opacity: .7;
-      cursor: wait;
-      transform: none;
+    .sign-in:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
     }
 
     .spinner {
-      width: 17px;
-      height: 17px;
-      border: 2px solid rgba(255,255,255,.4);
-      border-top-color: #fff;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: white;
       border-radius: 50%;
-      animation: spin .7s linear infinite;
-      flex: 0 0 auto;
+      animation: spin 0.7s linear infinite;
     }
 
-    .spinner[hidden] { display: none; }
+    .spinner[hidden] {
+      display: none;
+    }
 
     .message {
       display: none;
-      margin-top: 16px;
+      margin-top: 17px;
       padding: 12px 14px;
-      border: 1px solid #fecaca;
       border-radius: 10px;
-      background: #fff5f5;
-      color: #b42318;
-      font-size: 12px;
-      line-height: 1.7;
+      font-size: 13px;
+      line-height: 1.6;
       overflow-wrap: anywhere;
     }
 
+    .message.error {
+      display: block;
+      border: 1px solid #f5cccc;
+      background: #fff4f4;
+      color: var(--danger);
+    }
+
     .message.success {
-      border-color: #bbf7d0;
-      background: #f0fdf4;
-      color: #166534;
+      display: block;
+      border: 1px solid #bfe8d0;
+      background: #f0fff6;
+      color: #176c3b;
     }
 
-    .secure-note {
-      margin-top: 24px;
-      color: #8995a8;
-      font-size: 11px;
-      text-align: center;
+    .security-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 25px;
+      padding: 14px;
+      border: 1px solid #edf0f6;
+      border-radius: 11px;
+      background: #fafbfe;
+      color: #68758b;
+      font-size: 12px;
+      line-height: 1.7;
     }
 
-    .login-footer {
-      margin-top: 30px;
-      color: #9aa5b6;
-      font-size: 11px;
+    .security-icon {
+      flex-shrink: 0;
+      font-size: 16px;
+    }
+
+    .copyright-footer {
+      margin-top: 32px;
+      padding-top: 18px;
+      border-top: 1px solid #edf0f5;
+      color: #8791a2;
       text-align: center;
+      font-size: 11px;
+      line-height: 1.9;
+    }
+
+    .copyright-footer strong {
+      color: #4b5568;
     }
 
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
 
-    @keyframes appear {
-      from { opacity: 0; transform: translateY(8px); }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    @media (max-width: 800px) {
-      .login-page { grid-template-columns: 1fr; }
-      .left-panel { display: none; }
-      .right-panel {
-        min-height: 100vh;
-        padding: 30px 22px;
+    @media (max-width: 850px) {
+      .page {
+        grid-template-columns: 1fr;
       }
-      .login-card { max-width: 410px; }
-      .logo-area { margin-bottom: 25px; }
-      .logo { height: 100px; }
+
+      .visual-panel {
+        display: none;
+      }
+
+      .login-panel {
+        min-height: 100vh;
+        padding: 32px 22px;
+      }
+
+      .login-card {
+        max-width: 430px;
+      }
+
+      .mobile-brand {
+        display: flex;
+      }
+
+      .login-card h2 {
+        font-size: 32px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .login-panel {
+        padding: 26px 18px;
+      }
+
+      .mobile-brand {
+        margin-bottom: 28px;
+      }
+
+      .subtitle {
+        margin-bottom: 24px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
-        animation: none !important;
-        transition: none !important;
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
       }
     }
   </style>
 </head>
 
 <body>
-  <main class="login-page">
+  <main class="page">
 
-    <section class="left-panel" aria-label="EduGM introduction">
+    <section class="visual-panel" aria-label="EduGM introduction">
+      <div class="brand">
+        <img
+          class="protected-image"
+          src="https://i.ibb.co/1Y82N0n0/Edu-GM-Learning-Logo.png"
+          alt="EduGM logo"
+          draggable="false"
+        >
+        <div class="brand-name">Edu<span>GM</span></div>
+      </div>
+
       <img
-        class="illustration"
+        class="illustration protected-image"
         src="https://i.postimg.cc/sg8bLvWZ/Collaborative-Coding-in-a-Pastel-Workspace.png"
-        alt="Students working together on coding"
+        alt="Students collaborating on coding and digital learning"
+        draggable="false"
       >
 
-      <div class="left-caption">
-        <h2>Welcome to EduGM</h2>
+      <div class="visual-copy">
+        <h1>Welcome to EduGM</h1>
         <p>
-          Manage educational articles, learning categories,
-          official accounts and the EduGM Store in one workspace.
+          Your central workspace for managing educational services,
+          supporting students, and maintaining the EduGM platform.
         </p>
+      </div>
+
+      <div class="feature-row" aria-label="Platform features">
+        <span class="feature">Secure Access</span>
+        <span class="feature">Admin Workspace</span>
+        <span class="feature">Education Platform</span>
       </div>
     </section>
 
-    <section class="right-panel">
+    <section class="login-panel" aria-label="Administrator login">
       <div class="login-card">
 
-        <div class="logo-area">
+        <div class="mobile-brand">
           <img
-            class="logo"
+            class="protected-image"
             src="https://i.ibb.co/1Y82N0n0/Edu-GM-Learning-Logo.png"
-            alt="EduGM Learning logo"
+            alt="EduGM logo"
+            draggable="false"
           >
-          <p class="logo-subtitle">Admin Panel · Secure Sign In</p>
+          <div class="brand-name">Edu<span>GM</span></div>
         </div>
 
-        <div class="form-heading">
-          <h1>Welcome back</h1>
-          <p>Sign in with your approved EduGM staff account.</p>
+        <div class="eyebrow">
+          <span class="status-dot"></span>
+          Official Admin Portal
         </div>
+
+        <h2>Sign in to your account</h2>
+        <p class="subtitle">
+          Enter your authorized administrator credentials to continue
+          to the EduGM workspace.
+        </p>
 
         <form id="login-form">
           <div class="field">
@@ -361,14 +471,18 @@
             <div class="input-wrap">
               <input
                 id="email"
+                name="email"
                 type="email"
-                placeholder="you@example.com"
+                placeholder="admin@example.com"
                 autocomplete="username"
                 required
               >
-              <button class="input-action" id="clear-email" type="button">
-                Clear
-              </button>
+              <button
+                class="input-action"
+                id="clear-email"
+                type="button"
+                aria-label="Clear email"
+              >Clear</button>
             </div>
           </div>
 
@@ -377,76 +491,92 @@
             <div class="input-wrap">
               <input
                 id="password"
+                name="password"
                 type="password"
                 placeholder="Enter your password"
                 autocomplete="current-password"
                 required
               >
-              <button class="input-action" id="toggle-password" type="button">
-                Show
-              </button>
+              <button
+                class="input-action"
+                id="toggle-password"
+                type="button"
+                aria-label="Show password"
+              >Show</button>
             </div>
           </div>
 
-          <button class="login-button" id="login-button" type="submit">
+          <button class="sign-in" id="sign-in-button" type="submit">
+            <span id="button-label">Sign in securely</span>
             <span class="spinner" id="spinner" hidden></span>
-            <span id="button-label">Login to dashboard</span>
-            <span id="button-arrow" aria-hidden="true">→</span>
           </button>
 
-          <div id="message" class="message" role="alert" aria-live="polite"></div>
+          <div
+            class="message"
+            id="message"
+            role="status"
+            aria-live="polite"
+          ></div>
         </form>
 
-        <div class="secure-note">🔒 Secure sign-in · Approved accounts only</div>
-        <div class="login-footer">Need access? Contact your EduGM Owner.</div>
+        <div class="security-note">
+          <span class="security-icon" aria-hidden="true">🔒</span>
+          <span>
+            <strong>Authorized access only.</strong>
+            Access is subject to EduGM account approval and assigned
+            permissions. Never share your password.
+          </span>
+        </div>
+
+        <footer class="copyright-footer">
+          <strong>© <span id="copyright-year"></span> EduGM.</strong>
+          All rights reserved.
+          <br>
+          <strong>EduGM Admin Panel — Official Use Only.</strong>
+          <br>
+          Unauthorized access or use is prohibited.
+        </footer>
 
       </div>
     </section>
   </main>
 
-  <script type="module">
-    import { initializeApp } from
-      "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+  <script>
+    // Automatically update the copyright year.
+    document.getElementById("copyright-year").textContent =
+      new Date().getFullYear();
 
-    import {
-      getAuth,
-      signInWithEmailAndPassword,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+    // Discourage right-click and dragging on protected images.
+    document.addEventListener("contextmenu", function (event) {
+      if (event.target.closest("img.protected-image")) {
+        event.preventDefault();
+      }
+    });
 
-    import {
-      getFirestore,
-      doc,
-      getDoc
-    } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
+    document.addEventListener("dragstart", function (event) {
+      if (event.target.closest("img.protected-image")) {
+        event.preventDefault();
+      }
+    });
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyA9yj3ikv7oIsBhU7IE9XPclY3vul5d9us",
-      authDomain: "edugm-bangla.firebaseapp.com",
-      projectId: "edugm-bangla",
-      storageBucket: "edugm-bangla.firebasestorage.app",
-      messagingSenderId: "236553092510",
-      appId: "1:236553092510:web:91f03b4434616c06846a8f"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
+    // Login form controls.
     const form = document.getElementById("login-form");
     const emailInput = document.getElementById("email");
     const passwordInput = document.getElementById("password");
-    const loginButton = document.getElementById("login-button");
+    const signInButton = document.getElementById("sign-in-button");
     const buttonLabel = document.getElementById("button-label");
     const spinner = document.getElementById("spinner");
-    const arrow = document.getElementById("button-arrow");
     const message = document.getElementById("message");
 
     document.getElementById("toggle-password").addEventListener("click", () => {
-      const shouldShow = passwordInput.type === "password";
-      passwordInput.type = shouldShow ? "text" : "password";
+      const showPassword = passwordInput.type === "password";
+      passwordInput.type = showPassword ? "text" : "password";
       document.getElementById("toggle-password").textContent =
-        shouldShow ? "Hide" : "Show";
+        showPassword ? "Hide" : "Show";
+      document.getElementById("toggle-password").setAttribute(
+        "aria-label",
+        showPassword ? "Hide password" : "Show password"
+      );
     });
 
     document.getElementById("clear-email").addEventListener("click", () => {
@@ -455,71 +585,131 @@
     });
 
     function setLoading(loading) {
-      loginButton.disabled = loading;
+      signInButton.disabled = loading;
       spinner.hidden = !loading;
-      arrow.hidden = loading;
-      buttonLabel.textContent = loading
-        ? "Signing in..."
-        : "Login to dashboard";
+      buttonLabel.textContent = loading ? "Signing in..." : "Sign in securely";
     }
 
-    function showMessage(text, success = false) {
+    function showMessage(text, type = "error") {
       message.textContent = text;
-      message.className = success ? "message success" : "message";
-      message.style.display = "block";
+      message.className = "message " + type;
     }
 
-    form.addEventListener("submit", async (event) => {
+    function clearMessage() {
+      message.textContent = "";
+      message.className = "message";
+    }
+
+    function friendlyAuthError(error) {
+      switch (error.code) {
+        case "auth/invalid-credential":
+        case "auth/wrong-password":
+        case "auth/user-not-found":
+          return "Incorrect email or password. Please check your credentials.";
+
+        case "auth/invalid-email":
+          return "Please enter a valid email address.";
+
+        case "auth/too-many-requests":
+          return "Too many attempts. Please wait and try again later.";
+
+        case "auth/network-request-failed":
+          return "Network error. Check your internet connection and try again.";
+
+        case "permission-denied":
+        case "firestore/permission-denied":
+          return "Access verification failed. Please contact the EduGM administrator.";
+
+        default:
+          return "Sign-in failed. Please try again or contact the EduGM administrator.";
+      }
+    }
+
+    // Firebase Authentication and Firestore.
+    form.addEventListener("submit", async function (event) {
       event.preventDefault();
-      message.style.display = "none";
+      clearMessage();
+
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+
+      if (!email || !password) {
+        showMessage("Please enter your email address and password.");
+        return;
+      }
+
       setLoading(true);
 
       try {
-        const credential = await signInWithEmailAndPassword(
+        const { initializeApp } = await import(
+          "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js"
+        );
+
+        const {
+          getAuth,
+          signInWithEmailAndPassword
+        } = await import(
+          "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js"
+        );
+
+        const {
+          getFirestore,
+          doc,
+          getDoc
+        } = await import(
+          "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js"
+        );
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyA9yj3ikv7oIsBhU7IE9XPclY3vul5d9us",
+          authDomain: "edugm-bangla.firebaseapp.com",
+          projectId: "edugm-bangla",
+          storageBucket: "edugm-bangla.firebasestorage.app",
+          messagingSenderId: "236553092510",
+          appId: "1:236553092510:web:91f03b4434616c06846a8f"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const credentials = await signInWithEmailAndPassword(
           auth,
-          emailInput.value.trim(),
-          passwordInput.value
+          email,
+          password
         );
 
-        const profileSnapshot = await getDoc(
-          doc(db, "users", credential.user.uid)
-        );
+        const userRef = doc(db, "users", credentials.user.uid);
+        const userSnapshot = await getDoc(userRef);
 
-        if (!profileSnapshot.exists()) {
-          await signOut(auth);
-          showMessage("Your account has not been approved. Contact the EduGM Owner.");
+        if (!userSnapshot.exists()) {
+          await auth.signOut();
+          showMessage(
+            "Your account has not been approved. Contact the EduGM Owner."
+          );
           return;
         }
 
-        const profile = profileSnapshot.data();
+        const profile = userSnapshot.data();
 
         if (profile.active !== true ||
             typeof profile.role !== "string" ||
-            profile.role.trim() === "") {
-          await signOut(auth);
-          showMessage("Your account has not been approved. Contact the EduGM Owner.");
+            !profile.role.trim()) {
+          await auth.signOut();
+          showMessage(
+            "Your account is inactive or has no assigned role. Contact the EduGM Owner."
+          );
           return;
         }
 
-        showMessage("Login successful. Opening dashboard…", true);
+        showMessage("Sign-in successful. Opening your dashboard...", "success");
+
+        // Relative path works with a GitHub Pages project site.
         window.location.assign("dashboard.html");
 
       } catch (error) {
-        const errors = {
-          "auth/invalid-credential": "Incorrect email or password.",
-          "auth/user-not-found": "No account exists with this email.",
-          "auth/wrong-password": "Incorrect email or password.",
-          "auth/too-many-requests": "Too many attempts. Please try again later.",
-          "auth/network-request-failed": "Network error. Check your internet connection.",
-          "permission-denied": "Firebase denied access to your profile. Check Firestore rules."
-        };
-
-        showMessage(
-          errors[error.code] ||
-          (error.code === "permission-denied"
-            ? errors["permission-denied"]
-            : "Unable to sign in. Check your Firebase setup and internet connection.")
-        );
+        console.error("EduGM sign-in error:", error);
+        showMessage(friendlyAuthError(error));
       } finally {
         setLoading(false);
       }
