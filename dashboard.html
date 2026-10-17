@@ -1,107 +1,664 @@
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dashboard | EduGM Admin</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EduGM Admin Panel | Official Use Only</title>
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="googlebot" content="noindex,nofollow,noarchive">
+<meta name="theme-color" content="#f7f8fc">
 <link rel="icon" href="https://i.ibb.co/1Y82N0n0/Edu-GM-Learning-Logo.png">
-<link rel="stylesheet" href="css/style.css">
 
 <style>
+:root{--p:#6546e8;--pl:#f0edff;--ink:#182238;--muted:#788398;--border:#e8ebf3;--bg:#f7f8fc}
 *{box-sizing:border-box}
-body{margin:0;background:#f5f8ff;color:#172554;font:14px/1.6 Arial,sans-serif}
-a{text-decoration:none;color:#2457d6}
-#app-shell .sidebar{position:fixed;inset:0 auto 0 0;width:250px;padding:22px 16px;background:#fff;border-right:1px solid #e5eaf3;display:flex;flex-direction:column;z-index:10}
-#app-shell .side-brand{display:flex;align-items:center;gap:12px;padding:0 8px 25px;font-weight:700}
-#app-shell .sidebar-logo{width:44px!important;height:44px!important;max-width:44px!important;object-fit:contain;flex-shrink:0}
-#app-shell .nav-label{padding:10px;color:#94a3b8;font-size:10px;font-weight:700;letter-spacing:2px}
-#app-shell .side-nav{display:grid;gap:6px}
-#app-shell .side-nav a{display:flex;align-items:center;gap:10px;padding:12px;border-radius:10px;color:#475569}
-#app-shell .side-nav a:hover,#app-shell .side-nav a.active{background:#edf4ff;color:#2457d6}
-#app-shell .side-nav a span{width:20px;text-align:center}
-#app-shell .side-bottom{margin-top:auto;border-top:1px solid #e5eaf3;padding-top:15px}
-#app-shell .user-mini{font-size:11px;color:#64748b;overflow-wrap:anywhere;margin-bottom:12px}
-#app-shell button{cursor:pointer}
-.main-content{margin-left:250px;padding:32px;max-width:1600px;min-height:100vh}
-.page-head{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:26px}
-.page-head h1{font-size:30px;margin:0 0 6px}
-.eyebrow{font-size:10px;letter-spacing:2px;color:#2457d6;font-weight:700}
-.muted{color:#64748b}
-.btn,.mini-btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border:1px solid #e1e8f3;border-radius:10px;background:white;font-weight:600;font-size:12px}
-.btn.primary{background:#2457d6;color:white;border-color:#2457d6}
-.stats-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:22px}
-.stat-card,.panel{background:white;border:1px solid #e5eaf3;border-radius:16px;box-shadow:0 8px 25px #1e40af0a}
-.stat-card{padding:20px}
-.stat-card span{display:block;color:#64748b;font-size:12px}
-.stat-card strong{display:block;font-size:30px;margin-top:6px}
-.panel{padding:22px;margin-bottom:20px}
-.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:15px}
-.panel-head h2{font-size:17px;margin:0}
-.table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:620px}
-th,td{text-align:left;padding:13px 12px;border-bottom:1px solid #edf1f7;font-size:12px}
-th{background:#f8faff;color:#64748b;font-size:10px;text-transform:uppercase}
-td strong,td small{display:block}
-td small{color:#64748b;margin-top:3px}
-.pill{display:inline-block;padding:4px 9px;border-radius:30px;background:#fff3d4;color:#956300;font-size:10px;font-weight:bold}
-.pill.green{background:#e7f8ee;color:#16845b}
-.empty-state{text-align:center;padding:26px;color:#64748b}
-.notice{padding:12px;border-radius:10px;background:#fff0ee;color:#b42318}
-.hidden{display:none!important}
-@media(max-width:1000px){.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.main-content{padding:24px}}
-@media(max-width:720px){
-#app-shell .sidebar{position:relative;width:100%;height:auto;display:block;padding:12px}
-#app-shell .side-brand{padding-bottom:12px}
-#app-shell .side-nav{display:flex;overflow-x:auto}
-#app-shell .side-nav a{white-space:nowrap}
-#app-shell .nav-label,#app-shell .side-bottom{display:none}
-.main-content{margin:0;padding:18px}
-.page-head{align-items:flex-start;flex-direction:column}
-.panel{padding:15px}
+body{margin:0;font-family:Inter,"Segoe UI",Arial,sans-serif;color:var(--ink);background:var(--bg)}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #c8bcff;outline-offset:2px}
+.app{min-height:100vh;display:grid;grid-template-columns:245px minmax(0,1fr)}
+.sidebar{position:sticky;top:0;height:100vh;padding:23px 15px;background:white;border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:20}
+.brand{display:flex;align-items:center;gap:10px;padding:0 10px 26px}
+.brand img{width:43px;height:43px;object-fit:contain}
+.brand strong{font-size:24px;letter-spacing:-1px}
+.brand span{color:var(--p)}
+.label{padding:0 12px;margin:0 0 10px;color:#9ba3b3;font-size:10px;font-weight:800;letter-spacing:1.5px}
+.nav{display:grid;gap:5px}
+.nav button{display:flex;align-items:center;gap:11px;width:100%;padding:12px;border:0;border-radius:10px;background:transparent;color:#68748a;text-align:left;font-size:12px;font-weight:650;transition:.2s}
+.nav button:hover,.nav button.active{background:var(--pl);color:var(--p)}
+.nav .ico{width:23px;text-align:center;font-size:17px}
+.side-bottom{margin-top:auto}
+.side-note{margin:20px 3px;padding:14px;border-radius:12px;background:linear-gradient(135deg,#f0edff,#eef6ff);font-size:11px;line-height:1.8;color:#707b90}
+.user{display:flex;align-items:center;gap:10px;padding:14px 5px 0;border-top:1px solid var(--border)}
+.avatar{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:var(--pl);color:var(--p);font-weight:800}
+.user div:last-child{min-width:0}
+.user strong,.user small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.user strong{font-size:11px}.user small{margin-top:4px;color:var(--muted);font-size:10px}
+.main{min-width:0}
+.topbar{position:sticky;top:0;z-index:10;min-height:74px;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#ffffffed;border-bottom:1px solid var(--border);backdrop-filter:blur(15px)}
+.top-left{display:flex;align-items:center;gap:12px}
+.topbar h1{margin:0;font-size:19px;letter-spacing:-.4px}
+.topbar p{margin:5px 0 0;color:var(--muted);font-size:11px}
+.top-actions{display:flex;align-items:center;gap:9px}
+.date-pill,.btn{padding:10px 12px;border:1px solid var(--border);border-radius:9px;background:white;color:#59647a;font-size:11px}
+.btn.primary{background:var(--p);border-color:var(--p);color:white;font-weight:700}
+.btn.danger{color:#bf4358;border-color:#f1d5dc}
+.menu-toggle{display:none;padding:8px 11px;border:1px solid var(--border);border-radius:9px;background:white}
+.content{max-width:1450px;margin:auto;padding:26px 28px 20px;animation:enter .35s ease}
+.hero{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:27px;border-radius:16px;background:linear-gradient(115deg,#6244df,#8870f1);color:white;box-shadow:0 10px 25px #6546e81a}
+.hero h2{margin:0 0 9px;font-size:27px;letter-spacing:-.8px}
+.hero p{max-width:620px;margin:0;color:#ffffffd9;font-size:12px;line-height:1.8}
+.hero-badge{flex-shrink:0;padding:10px 12px;border:1px solid #ffffff55;border-radius:10px;background:#ffffff17;font-size:11px}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:27px 0 14px}
+.section-head h2{margin:0;font-size:16px}.section-head p{margin:5px 0 0;color:var(--muted);font-size:11px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.stat{padding:17px;border:1px solid var(--border);border-radius:13px;background:white;transition:.2s}
+.stat:hover{transform:translateY(-3px);box-shadow:0 10px 25px #1822380a}
+.stat-top{display:flex;justify-content:space-between;align-items:center;gap:6px;color:var(--muted);font-size:11px}
+.stat-icon{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:var(--pl);font-size:16px}
+.stat-number{margin:17px 0 6px;font-size:26px;font-weight:800;letter-spacing:-1px}
+.stat-note{color:var(--muted);font-size:10px;line-height:1.6}
+.grid{display:grid;grid-template-columns:1.3fr .9fr;gap:15px;margin-top:20px}
+.panel{padding:20px;border:1px solid var(--border);border-radius:13px;background:white;min-width:0}
+.panel h3{margin:0;font-size:14px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px}
+.panel-head small{color:var(--muted);font-size:10px}
+.activity{display:flex;gap:11px;padding:13px 0;border-bottom:1px solid #f0f2f7}
+.activity:last-child{border-bottom:0}
+.activity-icon{display:grid;place-items:center;flex-shrink:0;width:34px;height:34px;border-radius:10px;background:var(--pl)}
+.activity strong{display:block;margin:2px 0 5px;font-size:11px}
+.activity p{margin:0;color:var(--muted);font-size:10px;line-height:1.6}
+.quick-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.quick{padding:15px 12px;text-align:left;border:1px solid var(--border);border-radius:11px;background:white;transition:.2s}
+.quick:hover{border-color:#c8baff;background:#fbfaff;transform:translateY(-2px)}
+.quick span{display:block;margin-bottom:10px;font-size:21px}
+.quick strong{display:block;font-size:11px}
+.quick small{display:block;margin-top:5px;color:var(--muted);font-size:10px}
+.status{margin-top:15px;padding:12px;border-radius:10px;background:#f0fff6;color:#24734a;font-size:10px;line-height:1.7}
+.footer{padding:23px 0 5px;color:#9099a9;text-align:center;font-size:10px;line-height:1.9}
+.footer strong{color:#59647a}
+.toast{position:fixed;right:20px;bottom:20px;z-index:1000;max-width:calc(100vw - 40px);padding:13px 17px;border-radius:10px;background:#20283b;color:white;font-size:12px;line-height:1.6;box-shadow:0 10px 30px #0002;animation:enter .2s}
+.toast[hidden]{display:none}
+.loading{position:fixed;inset:0;z-index:500;display:grid;place-items:center;background:var(--bg)}
+.loading[hidden]{display:none}
+.loading-inner{text-align:center;padding:25px}
+.loading img{width:58px;height:58px;object-fit:contain;margin-bottom:15px}
+.spinner{width:27px;height:27px;margin:0 auto 15px;border:3px solid #e5dfff;border-top-color:var(--p);border-radius:50%;animation:spin .7s linear infinite}
+.loading p{font-size:12px;color:var(--muted)}
+/* Pop-up windows */
+.modal-backdrop{position:fixed;inset:0;z-index:300;display:none;place-items:center;padding:16px;background:#17203380;backdrop-filter:blur(4px)}
+.modal-backdrop.open{display:grid;animation:fade .18s ease}
+.modal{width:min(620px,100%);max-height:min(86vh,800px);overflow:auto;border-radius:17px;background:white;box-shadow:0 24px 80px #11152a35;animation:pop .22s ease}
+.modal-head{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:19px 22px;background:#fff;border-bottom:1px solid var(--border)}
+.modal-head h2{margin:0;font-size:17px}
+.modal-head p{margin:5px 0 0;color:var(--muted);font-size:11px}
+.close{width:34px;height:34px;border:1px solid var(--border);border-radius:9px;background:white;color:#667085;font-size:19px}
+.modal-body{padding:21px}
+.field{margin-bottom:15px}
+.field label{display:block;margin-bottom:7px;font-size:11px;font-weight:750}
+.field input,.field textarea,.field select{width:100%;padding:12px;border:1px solid var(--border);border-radius:9px;background:white;color:var(--ink);font-size:12px}
+.field textarea{min-height:95px;resize:vertical;line-height:1.6}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--p);box-shadow:0 0 0 3px #6546e815}
+.form-actions{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:8px;margin-top:17px}
+.hint{margin:0 0 14px;color:var(--muted);font-size:11px;line-height:1.7}
+.item-list{display:grid;gap:9px}
+.list-item{display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid var(--border);border-radius:10px}
+.list-item input[type=checkbox]{margin-top:3px;accent-color:var(--p)}
+.list-item-main{flex:1;min-width:0}
+.list-item-main strong{display:block;font-size:12px;overflow-wrap:anywhere}
+.list-item-main small{display:block;margin-top:5px;color:var(--muted);font-size:10px;line-height:1.6;overflow-wrap:anywhere}
+.list-item.done strong{text-decoration:line-through;color:#9aa2b1}
+.icon-btn{border:0;background:transparent;color:#c04d61;font-size:16px}
+.calendar-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:15px}
+.calendar-top strong{font-size:13px}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
+.calendar-grid div{text-align:center;padding:9px 0;font-size:11px}
+.calendar-grid .weekday{color:var(--muted);font-weight:750}
+.calendar-grid .day{border-radius:8px;background:#fafaff}
+.calendar-grid .today{background:var(--p);color:white;font-weight:800}
+.calendar-grid .selected{outline:2px solid #c7b9ff}
+.calendar-event{margin-top:15px;padding:12px;border-radius:10px;background:#f7f5ff;font-size:11px;line-height:1.7}
+.empty{padding:20px 10px;text-align:center;color:var(--muted);font-size:12px;line-height:1.8}
+.money{font-size:30px;font-weight:800;letter-spacing:-1px}
+.money-note{color:var(--muted);font-size:11px;line-height:1.7}
+.more-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.more-card{padding:15px;border:1px solid var(--border);border-radius:11px;background:white;text-align:left}
+.more-card:hover{border-color:#c8baff;background:#fbfaff}
+.more-card strong{display:block;font-size:12px}
+.more-card small{display:block;margin-top:6px;color:var(--muted);font-size:10px;line-height:1.6}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes enter{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes pop{from{opacity:0;transform:translateY(9px) scale(.99)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:1100px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.grid{grid-template-columns:1fr}}
+@media(max-width:760px){
+.app{display:block}.sidebar{position:fixed;left:0;top:0;width:255px;transform:translateX(-110%);transition:transform .23s;box-shadow:12px 0 35px #1112}
+.sidebar.open{transform:translateX(0)}.menu-toggle{display:block}.topbar{padding:13px 15px}.topbar h1{font-size:16px}.topbar p{font-size:10px}.date-pill{display:none}.content{padding:17px 13px}.hero{padding:21px}.hero h2{font-size:22px}.hero-badge{display:none}.panel{padding:16px}
 }
+@media(max-width:390px){.stats{grid-template-columns:1fr}.topbar p{display:none}.quick-grid,.more-grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 </head>
 
 <body>
-<div id="app-shell"></div>
+<div class="loading" id="loading">
+  <div class="loading-inner">
+    <img src="https://i.ibb.co/1Y82N0n0/Edu-GM-Learning-Logo.png" alt="EduGM">
+    <div class="spinner"></div>
+    <p id="loading-text">Verifying secure session...</p>
+  </div>
+</div>
 
-<main class="main-content">
-  <header class="page-head">
-    <div>
-      <p class="eyebrow">OVERVIEW</p>
-      <h1>Dashboard</h1>
-      <p class="muted">Welcome to your EduGM publishing workspace.</p>
+<div class="app" id="app" hidden>
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <img src="https://i.ibb.co/1Y82N0n0/Edu-GM-Learning-Logo.png" alt="EduGM logo">
+    <strong>Edu<span>GM</span></strong>
+  </div>
+  <p class="label">WORKSPACE</p>
+  <nav class="nav" aria-label="Main navigation">
+    <button class="active" data-feature="Dashboard"><span class="ico">▦</span>Dashboard</button>
+    <button data-feature="Notices"><span class="ico">🔔</span>Notices</button>
+    <button data-feature="Messages"><span class="ico">✉</span>Member Messaging</button>
+    <button data-feature="Calendar"><span class="ico">▦</span>Calendar</button>
+    <button data-feature="ToDo"><span class="ico">☑</span>To-Do List</button>
+    <button data-feature="Innovation"><span class="ico">💡</span>Innovation</button>
+    <button data-feature="Earnings"><span class="ico">₹</span>Earnings</button>
+    <button data-feature="Pages"><span class="ico">▤</span>Pages</button>
+    <button data-feature="More"><span class="ico">•••</span>More</button>
+  </nav>
+  <div class="side-bottom">
+    <div class="side-note"><strong>Official Workspace</strong><br>Use authorized EduGM tools responsibly. Protect member data and account credentials.</div>
+    <div class="user">
+      <div class="avatar" id="user-avatar">A</div>
+      <div><strong id="user-name">Administrator</strong><small id="user-role">Approved account</small></div>
     </div>
-    <a class="btn primary" href="editor.html">＋ Write article</a>
-  </header>
+  </div>
+</aside>
 
-  <section class="stats-grid">
-    <article class="stat-card"><span>All articles</span><strong id="stat-all">—</strong></article>
-    <article class="stat-card"><span>Published</span><strong id="stat-published">—</strong></article>
-    <article class="stat-card"><span>Drafts</span><strong id="stat-drafts">—</strong></article>
-    <article class="stat-card owner-only hidden"><span>Pending approvals</span><strong id="stat-pending">—</strong></article>
+<main class="main">
+<header class="topbar">
+  <div class="top-left">
+    <button class="menu-toggle" id="menu-toggle" aria-label="Open menu">☰</button>
+    <div><h1 id="page-title">Dashboard Overview</h1><p id="page-subtitle">Welcome to your EduGM workspace</p></div>
+  </div>
+  <div class="top-actions">
+    <div class="date-pill" id="today-date"></div>
+    <button class="btn danger" id="logout">Sign out ↗</button>
+  </div>
+</header>
+
+<div class="content">
+  <section class="hero">
+    <div><h2 id="welcome-title">Welcome to EduGM 👋</h2><p>Your central workspace for notices, member communication, planning, innovation, and administration.</p></div>
+    <div class="hero-badge">🔐 Official Admin</div>
   </section>
 
-  <section class="panel">
-    <div class="panel-head">
-      <h2>Recently updated articles</h2>
-      <a href="articles.html">View all →</a>
-    </div>
-    <div id="recent-articles" class="table-wrap">
-      <p class="muted">Loading articles…</p>
-    </div>
+  <div class="section-head"><div><h2>Workspace Overview</h2><p>Open a tool to get started</p></div><button class="btn" id="refresh">↻ Refresh</button></div>
+
+  <section class="stats">
+    <article class="stat"><div class="stat-top">Notices <span class="stat-icon">🔔</span></div><div class="stat-number" id="notice-count">0</div><div class="stat-note">Drafts saved in this browser</div></article>
+    <article class="stat"><div class="stat-top">To-Do Tasks <span class="stat-icon">☑</span></div><div class="stat-number" id="todo-count">0</div><div class="stat-note">Tasks not yet completed</div></article>
+    <article class="stat"><div class="stat-top">Innovation Ideas <span class="stat-icon">💡</span></div><div class="stat-number" id="idea-count">0</div><div class="stat-note">Ideas saved in this browser</div></article>
+    <article class="stat"><div class="stat-top">Account Status <span class="stat-icon">🔒</span></div><div class="stat-number" style="font-size:21px">Verified</div><div class="stat-note">Firebase account checked</div></article>
   </section>
 
-  <section class="panel owner-only hidden">
-    <div class="panel-head">
-      <h2>Pending official accounts</h2>
-      <a href="users.html">Manage users →</a>
-    </div>
-    <div id="pending-users"><p class="muted">Loading…</p></div>
-  </section>
+  <div class="grid">
+    <section class="panel">
+      <div class="panel-head"><h3>Quick Actions</h3><small>Open a workspace tool</small></div>
+      <div class="quick-grid">
+        <button class="quick" data-feature="Notices"><span>🔔</span><strong>Send a Notice</strong><small>Prepare an official announcement</small></button>
+        <button class="quick" data-feature="Messages"><span>✉️</span><strong>Member Messages</strong><small>Prepare a member message</small></button>
+        <button class="quick" data-feature="Calendar"><span>🗓️</span><strong>Calendar</strong><small>View dates and add events</small></button>
+        <button class="quick" data-feature="ToDo"><span>☑️</span><strong>My To-Do</strong><small>Organize your work</small></button>
+        <button class="quick" data-feature="Innovation"><span>💡</span><strong>Innovation</strong><small>Capture new ideas</small></button>
+        <button class="quick" data-feature="Earnings"><span>₹</span><strong>Earnings</strong><small>Review finance integration</small></button>
+        <button class="quick" data-feature="Pages"><span>📄</span><strong>Pages</strong><small>Manage page links</small></button>
+        <button class="quick" data-feature="More"><span>•••</span><strong>More Tools</strong><small>Explore extra shortcuts</small></button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><h3>Recent Workspace Activity</h3><small>Local activity</small></div>
+      <div class="activity"><div class="activity-icon">🔐</div><div><strong>Secure session verified</strong><p>Your Firebase account and approval profile were checked.</p></div></div>
+      <div class="activity"><div class="activity-icon">🗓️</div><div><strong>Planning tools ready</strong><p>Open Calendar or To-Do to organize work.</p></div></div>
+      <div class="activity"><div class="activity-icon">✉️</div><div><strong>Member communication</strong><p>Compose a notice or message. Real delivery needs a backend integration.</p></div></div>
+      <div class="status">● <strong>Dashboard loaded.</strong> Statistics and drafts are stored locally unless a Firebase feature is connected.</div>
+    </section>
+  </div>
+
+  <footer class="footer"><strong>© <span id="year"></span> EduGM.</strong> All rights reserved.<br><strong>EduGM Admin Panel — Official Use Only.</strong><br>Unauthorized access or use is prohibited.</footer>
+</div>
 </main>
+</div>
 
-<script type="module" src="js/dashboard.js"></script>
+<div class="modal-backdrop" id="modal-backdrop" role="presentation">
+  <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <header class="modal-head">
+      <div><h2 id="modal-title">Workspace</h2><p id="modal-subtitle">EduGM admin tools</p></div>
+      <button class="close" id="close-modal" aria-label="Close window">×</button>
+    </header>
+    <div class="modal-body" id="modal-body"></div>
+  </section>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script type="module">
+const firebaseConfig = {
+  apiKey: "AIzaSyA9yj3ikv7oIsBhU7IE9XPclY3vul5d9us",
+  authDomain: "edugm-bangla.firebaseapp.com",
+  projectId: "edugm-bangla",
+  storageBucket: "edugm-bangla.firebasestorage.app",
+  messagingSenderId: "236553092510",
+  appId: "1:236553092510:web:91f03b4434616c06846a8f"
+};
+
+const $ = id => document.getElementById(id);
+const backdrop = $("modal-backdrop");
+const modalBody = $("modal-body");
+let auth;
+let activeUser = null;
+let profile = null;
+let currentFeature = "Dashboard";
+let selectedDate = new Date();
+let selectedDay = new Date();
+let toastTimer;
+
+const STORE = {
+  todos: "edugm_admin_todos_v1",
+  notices: "edugm_admin_notice_drafts_v1",
+  messages: "edugm_admin_message_drafts_v1",
+  ideas: "edugm_admin_ideas_v1",
+  events: "edugm_admin_events_v1",
+  pages: "edugm_admin_pages_v1"
+};
+
+function readStore(key) {
+  try {
+    const value = JSON.parse(localStorage.getItem(key) || "[]");
+    return Array.isArray(value) ? value : [];
+  } catch { return []; }
+}
+function saveStore(key, value) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+    return true;
+  } catch {
+    showToast("Could not save locally. Check browser storage settings.");
+    return false;
+  }
+}
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, ch => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[ch]);
+}
+function showToast(text) {
+  $("toast").textContent = text;
+  $("toast").hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => $("toast").hidden = true, 3200);
+}
+function setHeading(name) {
+  currentFeature = name;
+  $("page-title").textContent = name === "Dashboard" ? "Dashboard Overview" : name;
+  const subtitles = {
+    Dashboard:"Welcome to your EduGM workspace",
+    Notices:"Prepare official announcements",
+    Messages:"Prepare communications for members",
+    Calendar:"Plan events and important dates",
+    ToDo:"Organize your tasks",
+    Innovation:"Capture and review ideas",
+    Earnings:"Finance overview",
+    Pages:"Manage page links",
+    More:"Additional administration tools"
+  };
+  $("page-subtitle").textContent = subtitles[name] || "EduGM workspace";
+  document.querySelectorAll("[data-feature]").forEach(el =>
+    el.classList.toggle("active", el.dataset.feature === name && el.classList.contains("nav-link"))
+  );
+}
+function openModal(name) {
+  setHeading(name);
+  $("modal-title").textContent = ({
+    Notices:"Notices & Announcements",
+    Messages:"Member Messaging",
+    Calendar:"Calendar",
+    ToDo:"To-Do List",
+    Innovation:"Innovation Hub",
+    Earnings:"Earnings & Finance",
+    Pages:"Pages Manager",
+    More:"More Tools"
+  })[name] || name;
+  $("modal-subtitle").textContent = "EduGM Admin Panel · Official Use Only";
+  renderFeature(name);
+  backdrop.classList.add("open");
+  $("close-modal").focus();
+}
+function closeModal() {
+  backdrop.classList.remove("open");
+}
+$("close-modal").addEventListener("click", closeModal);
+backdrop.addEventListener("click", e => { if (e.target === backdrop) closeModal(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+
+function renderFeature(name) {
+  const renderers = {
+    Notices: renderNotices,
+    Messages: renderMessages,
+    Calendar: renderCalendar,
+    ToDo: renderTodos,
+    Innovation: renderIdeas,
+    Earnings: renderEarnings,
+    Pages: renderPages,
+    More: renderMore
+  };
+  (renderers[name] || (() => { modalBody.innerHTML = '<p class="empty">Choose a workspace tool.</p>'; }))();
+}
+
+function renderNotices() {
+  const items = readStore(STORE.notices);
+  modalBody.innerHTML = `
+    <p class="hint">Create an announcement draft. This saves in this browser only; it does not publish or notify members.</p>
+    <form id="notice-form">
+      <div class="field"><label for="notice-title">Notice title</label><input id="notice-title" required maxlength="120" placeholder="e.g. Important team meeting"></div>
+      <div class="field"><label for="notice-audience">Audience</label><select id="notice-audience"><option>All members</option><option>Board members</option><option>Administrators</option><option>Students</option><option>Specific members</option></select></div>
+      <div class="field"><label for="notice-date">Publish / event date</label><input id="notice-date" type="date"></div>
+      <div class="field"><label for="notice-body">Notice message</label><textarea id="notice-body" required maxlength="5000" placeholder="Write your announcement..."></textarea></div>
+      <div class="form-actions"><button class="btn primary" type="submit">Save notice draft</button></div>
+    </form>
+    <div class="section-head"><div><h2>Saved Drafts (${items.length})</h2></div></div>
+    <div class="item-list">${items.length ? items.map((item,i)=>`
+      <div class="list-item"><div class="list-item-main"><strong>${escapeHTML(item.title)}</strong><small>${escapeHTML(item.audience)} · ${escapeHTML(item.date || "No date")}<br>${escapeHTML(item.body)}</small></div><button class="icon-btn" data-delete-notice="${i}" aria-label="Delete draft">×</button></div>
+    `).join("") : '<div class="empty">No notice drafts yet.</div>'}</div>`;
+  $("notice-form").addEventListener("submit", e => {
+    e.preventDefault();
+    const data = {
+      title:$("notice-title").value.trim(),
+      audience:$("notice-audience").value,
+      date:$("notice-date").value,
+      body:$("notice-body").value.trim(),
+      createdAt:new Date().toISOString()
+    };
+    if (!data.title || !data.body) return;
+    items.unshift(data);
+    if (saveStore(STORE.notices, items)) {
+      updateCounts(); showToast("Notice draft saved on this device."); renderNotices();
+    }
+  });
+  modalBody.querySelectorAll("[data-delete-notice]").forEach(btn=>btn.addEventListener("click",()=>{
+    items.splice(Number(btn.dataset.deleteNotice),1);saveStore(STORE.notices,items);updateCounts();renderNotices();
+  }));
+}
+
+function renderMessages() {
+  const items = readStore(STORE.messages);
+  modalBody.innerHTML = `
+    <p class="hint">Prepare a message for a member or group. This form does not send email, SMS, or in-app notifications. Connect a trusted server-side service to deliver messages.</p>
+    <form id="message-form">
+      <div class="field"><label for="msg-audience">Recipient group</label><select id="msg-audience"><option>All members</option><option>Board members</option><option>Administrators</option><option>Students</option><option>Specific member</option></select></div>
+      <div class="field"><label for="msg-recipient">Member email / ID (optional)</label><input id="msg-recipient" maxlength="200" placeholder="Recipient email or member ID"></div>
+      <div class="field"><label for="msg-subject">Subject</label><input id="msg-subject" required maxlength="150" placeholder="Message subject"></div>
+      <div class="field"><label for="msg-body">Message</label><textarea id="msg-body" required maxlength="5000" placeholder="Write your message..."></textarea></div>
+      <div class="form-actions"><button class="btn primary" type="submit">Save message draft</button></div>
+    </form>
+    <div class="section-head"><div><h2>Message Drafts (${items.length})</h2></div></div>
+    <div class="item-list">${items.length ? items.map((item,i)=>`
+      <div class="list-item"><div class="list-item-main"><strong>${escapeHTML(item.subject)}</strong><small>${escapeHTML(item.audience)} · ${escapeHTML(item.recipient || "No specific recipient")}<br>${escapeHTML(item.body)}</small></div><button class="icon-btn" data-delete-message="${i}" aria-label="Delete draft">×</button></div>
+    `).join("") : '<div class="empty">No message drafts yet.</div>'}</div>`;
+  $("message-form").addEventListener("submit",e=>{
+    e.preventDefault();
+    items.unshift({
+      audience:$("msg-audience").value,
+      recipient:$("msg-recipient").value.trim(),
+      subject:$("msg-subject").value.trim(),
+      body:$("msg-body").value.trim(),
+      createdAt:new Date().toISOString()
+    });
+    if(saveStore(STORE.messages,items)){showToast("Message draft saved on this device.");renderMessages();}
+  });
+  modalBody.querySelectorAll("[data-delete-message]").forEach(btn=>btn.addEventListener("click",()=>{
+    items.splice(Number(btn.dataset.deleteMessage),1);saveStore(STORE.messages,items);renderMessages();
+  }));
+}
+
+function dateKey(date) {
+  return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}`;
+}
+function renderCalendar() {
+  const year=selectedDate.getFullYear(), month=selectedDate.getMonth();
+  const first=new Date(year,month,1).getDay();
+  const total=new Date(year,month+1,0).getDate();
+  const todayKey=dateKey(new Date());
+  const chosenKey=dateKey(selectedDay);
+  let cells="";
+  ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].forEach(d=>cells+=`<div class="weekday">${d}</div>`);
+  for(let i=0;i<first;i++)cells+='<div></div>';
+  for(let d=1;d<=total;d++){
+    const date=new Date(year,month,d), key=dateKey(date);
+    cells+=`<div><button class="btn ${key===todayKey?"primary":""}" style="width:100%;padding:9px 0;${key===chosenKey?"outline:2px solid #c8baff;":""}" data-day="${key}" aria-label="${key}">${d}</button></div>`;
+  }
+  const events=readStore(STORE.events).filter(x=>x.date===chosenKey);
+  modalBody.innerHTML=`
+    <div class="calendar-top">
+      <button class="btn" id="prev-month" aria-label="Previous month">←</button>
+      <strong>${escapeHTML(new Intl.DateTimeFormat("en",{month:"long",year:"numeric"}).format(selectedDate))}</strong>
+      <button class="btn" id="next-month" aria-label="Next month">→</button>
+    </div>
+    <div class="calendar-grid">${cells}</div>
+    <div class="section-head"><div><h2>${escapeHTML(chosenKey)}</h2><p>Events for selected day</p></div></div>
+    <div class="item-list">${events.length?events.map((ev,i)=>`<div class="list-item"><div class="list-item-main"><strong>${escapeHTML(ev.title)}</strong><small>${escapeHTML(ev.notes||"No extra details")}</small></div><button class="icon-btn" data-delete-event="${i}" aria-label="Delete event">×</button></div>`).join(""):'<div class="empty">No events for this date.</div>'}</div>
+    <form id="event-form" style="margin-top:16px">
+      <div class="field"><label for="event-title">Add an event</label><input id="event-title" required maxlength="120" placeholder="Event title"></div>
+      <div class="field"><label for="event-notes">Details (optional)</label><textarea id="event-notes" maxlength="1000" placeholder="Meeting notes or reminders"></textarea></div>
+      <div class="form-actions"><button class="btn primary" type="submit">Save event</button></div>
+    </form>
+    <p class="hint">Calendar events are saved in this browser only.</p>`;
+  $("prev-month").onclick=()=>{selectedDate=new Date(year,month-1,1);renderCalendar();};
+  $("next-month").onclick=()=>{selectedDate=new Date(year,month+1,1);renderCalendar();};
+  modalBody.querySelectorAll("[data-day]").forEach(btn=>btn.onclick=()=>{
+    selectedDay=new Date(btn.dataset.day+"T12:00:00");renderCalendar();
+  });
+  $("event-form").onsubmit=e=>{
+    e.preventDefault();
+    const all=readStore(STORE.events);
+    all.push({date:chosenKey,title:$("event-title").value.trim(),notes:$("event-notes").value.trim()});
+    if(saveStore(STORE.events,all)){showToast("Calendar event saved on this device.");renderCalendar();}
+  };
+  modalBody.querySelectorAll("[data-delete-event]").forEach(btn=>btn.onclick=()=>{
+    const all=readStore(STORE.events), matching=all.filter(x=>x.date===chosenKey);
+    const item=matching[Number(btn.dataset.deleteEvent)];
+    const index=all.indexOf(item);
+    if(index>=0)all.splice(index,1);
+    saveStore(STORE.events,all);renderCalendar();
+  });
+}
+
+function renderTodos() {
+  const items=readStore(STORE.todos);
+  modalBody.innerHTML=`
+    <p class="hint">Tasks are stored locally in this browser, not shared with other administrators.</p>
+    <form id="todo-form">
+      <div class="field"><label for="todo-title">Task</label><input id="todo-title" required maxlength="180" placeholder="What needs to be done?"></div>
+      <div class="field"><label for="todo-due">Due date (optional)</label><input id="todo-due" type="date"></div>
+      <div class="form-actions"><button class="btn primary" type="submit">Add task</button></div>
+    </form>
+    <div class="section-head"><div><h2>My Tasks (${items.filter(x=>!x.done).length} remaining)</h2></div></div>
+    <div class="item-list">${items.length?items.map((item,i)=>`
+      <div class="list-item ${item.done?"done":""}"><input type="checkbox" data-toggle-todo="${i}" ${item.done?"checked":""} aria-label="Mark task complete"><div class="list-item-main"><strong>${escapeHTML(item.title)}</strong><small>${item.due?"Due "+escapeHTML(item.due):"No due date"}</small></div><button class="icon-btn" data-delete-todo="${i}" aria-label="Delete task">×</button></div>
+    `).join(""):'<div class="empty">Your task list is empty. Add your first task above.</div>'}</div>`;
+  $("todo-form").onsubmit=e=>{
+    e.preventDefault();items.unshift({title:$("todo-title").value.trim(),due:$("todo-due").value,done:false});
+    if(saveStore(STORE.todos,items)){updateCounts();showToast("Task added.");renderTodos();}
+  };
+  modalBody.querySelectorAll("[data-toggle-todo]").forEach(btn=>btn.onchange=()=>{
+    items[Number(btn.dataset.toggleTodo)].done=btn.checked;saveStore(STORE.todos,items);updateCounts();renderTodos();
+  });
+  modalBody.querySelectorAll("[data-delete-todo]").forEach(btn=>btn.onclick=()=>{
+    items.splice(Number(btn.dataset.deleteTodo),1);saveStore(STORE.todos,items);updateCounts();renderTodos();
+  });
+}
+
+function renderIdeas() {
+  const items=readStore(STORE.ideas);
+  modalBody.innerHTML=`
+    <p class="hint">Capture improvement ideas for EduGM. These ideas are private to this browser until a shared database is connected.</p>
+    <form id="idea-form">
+      <div class="field"><label for="idea-title">Idea title</label><input id="idea-title" required maxlength="150" placeholder="e.g. Student progress tracker"></div>
+      <div class="field"><label for="idea-category">Category</label><select id="idea-category"><option>Product Feature</option><option>Student Experience</option><option>Team Workflow</option><option>Technology</option><option>Business Growth</option><option>Other</option></select></div>
+      <div class="field"><label for="idea-description">Description</label><textarea id="idea-description" required maxlength="4000" placeholder="What problem does it solve?"></textarea></div>
+      <div class="form-actions"><button class="btn primary" type="submit">Save idea</button></div>
+    </form>
+    <div class="section-head"><div><h2>Idea Board (${items.length})</h2></div></div>
+    <div class="item-list">${items.length?items.map((item,i)=>`
+      <div class="list-item"><div class="list-item-main"><strong>💡 ${escapeHTML(item.title)}</strong><small>${escapeHTML(item.category)}<br>${escapeHTML(item.description)}</small></div><button class="icon-btn" data-delete-idea="${i}" aria-label="Delete idea">×</button></div>
+    `).join(""):'<div class="empty">No ideas saved yet. Start brainstorming!</div>'}</div>`;
+  $("idea-form").onsubmit=e=>{
+    e.preventDefault();items.unshift({title:$("idea-title").value.trim(),category:$("idea-category").value,description:$("idea-description").value.trim()});
+    if(saveStore(STORE.ideas,items)){updateCounts();showToast("Innovation idea saved.");renderIdeas();}
+  };
+  modalBody.querySelectorAll("[data-delete-idea]").forEach(btn=>btn.onclick=()=>{
+    items.splice(Number(btn.dataset.deleteIdea),1);saveStore(STORE.ideas,items);updateCounts();renderIdeas();
+  });
+}
+
+function renderEarnings() {
+  modalBody.innerHTML=`
+    <p class="hint">This is a finance interface placeholder. It does not access bank accounts, payment gateways, or actual company revenue.</p>
+    <div class="panel" style="margin-bottom:13px;background:#faf9ff">
+      <small style="color:var(--muted)">Verified earnings data</small>
+      <div class="money" style="margin:12px 0">Not connected</div>
+      <p class="money-note">No revenue amount is shown because a trusted finance data source has not been connected.</p>
+    </div>
+    <div class="field"><label>Possible integrations</label><input value="Payment gateway / approved finance database" readonly></div>
+    <div class="field"><label>Suggested reports</label><textarea readonly>Monthly revenue, refunds, expenses, payment status, and reconciliation records.</textarea></div>
+    <p class="hint">For real earnings, use a secure backend and verify permissions for finance data. Never put private payment secrets in this HTML file.</p>`;
+}
+
+function renderPages() {
+  const items=readStore(STORE.pages);
+  modalBody.innerHTML=`
+    <p class="hint">Save useful internal or public page links. Adding a link here does not create a new website page.</p>
+    <form id="page-form">
+      <div class="field"><label for="page-name">Page name</label><input id="page-name" required maxlength="100" placeholder="e.g. Student Portal"></div>
+      <div class="field"><label for="page-url">Page URL</label><input id="page-url" type="url" required placeholder="https://example.com"></div>
+      <div class="form-actions"><button class="btn primary" type="submit">Save page link</button></div>
+    </form>
+    <div class="section-head"><div><h2>Saved Page Links (${items.length})</h2></div></div>
+    <div class="item-list">${items.length?items.map((item,i)=>`
+      <div class="list-item"><div class="list-item-main"><strong>${escapeHTML(item.name)}</strong><small>${escapeHTML(item.url)}</small><a href="${escapeHTML(item.url)}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;color:var(--p);font-size:11px">Open page ↗</a></div><button class="icon-btn" data-delete-page="${i}" aria-label="Delete page link">×</button></div>
+    `).join(""):'<div class="empty">No page links saved yet.</div>'}</div>`;
+  $("page-form").onsubmit=e=>{
+    e.preventDefault();
+    const url=$("page-url").value.trim();
+    try {
+      const parsed=new URL(url);
+      if(!["https:","http:"].includes(parsed.protocol))throw new Error("protocol");
+    } catch {showToast("Enter a valid HTTP or HTTPS URL.");return;}
+    items.unshift({name:$("page-name").value.trim(),url});
+    if(saveStore(STORE.pages,items)){showToast("Page link saved.");renderPages();}
+  };
+  modalBody.querySelectorAll("[data-delete-page]").forEach(btn=>btn.onclick=()=>{
+    items.splice(Number(btn.dataset.deletePage),1);saveStore(STORE.pages,items);renderPages();
+  });
+}
+
+function renderMore() {
+  modalBody.innerHTML=`
+    <p class="hint">Additional shortcuts. Some require separate pages or server-side integrations.</p>
+    <div class="more-grid">
+      <button class="more-card" data-more="Notices"><strong>🔔 Notices</strong><small>Create and review notice drafts.</small></button>
+      <button class="more-card" data-more="Messages"><strong>✉️ Member Messaging</strong><small>Prepare member communications.</small></button>
+      <button class="more-card" data-more="Calendar"><strong>🗓️ Calendar</strong><small>Review events and important dates.</small></button>
+      <button class="more-card" data-more="ToDo"><strong>☑ To-Do</strong><small>Organize and track personal tasks.</small></button>
+      <button class="more-card" data-more="Innovation"><strong>💡 Innovation</strong><small>Save ideas for EduGM.</small></button>
+      <button class="more-card" data-more="Earnings"><strong>₹ Earnings</strong><small>Review finance integration requirements.</small></button>
+      <button class="more-card" data-more="Pages"><strong>📄 Pages</strong><small>Keep page shortcuts in one place.</small></button>
+      <button class="more-card" data-more="Account"><strong>👤 Account</strong><small>View your signed-in account details.</small></button>
+    </div>`;
+  modalBody.querySelectorAll("[data-more]").forEach(btn=>btn.onclick=()=>{
+    if(btn.dataset.more==="Account"){
+      modalBody.innerHTML=`<h3 style="margin-bottom:12px">Signed-in account</h3><p class="hint">Email: ${escapeHTML(activeUser?.email || "Unavailable")}<br>Role: ${escapeHTML(profile?.role || "Unavailable")}<br>UID: ${escapeHTML(activeUser?.uid || "Unavailable")}</p><p class="hint">Do not share your UID or account details publicly.</p>`;
+    } else openModal(btn.dataset.more);
+  });
+}
+
+function updateCounts() {
+  $("notice-count").textContent=readStore(STORE.notices).length;
+  $("todo-count").textContent=readStore(STORE.todos).filter(x=>!x.done).length;
+  $("idea-count").textContent=readStore(STORE.ideas).length;
+}
+
+function showDashboard(user,data) {
+  activeUser=user;profile=data;
+  const name=(typeof data.displayName==="string"&&data.displayName.trim())||
+    (typeof data.name==="string"&&data.name.trim())||user.email||"Administrator";
+  $("user-name").textContent=name;
+  $("user-role").textContent=data.role;
+  $("user-avatar").textContent=name.charAt(0).toUpperCase();
+  $("welcome-title").textContent="Welcome back, "+name+" 👋";
+  $("today-date").textContent=new Intl.DateTimeFormat("en-IN",{day:"numeric",month:"short",year:"numeric"}).format(new Date());
+  $("year").textContent=new Date().getFullYear();
+  updateCounts();
+  $("loading").hidden=true;
+  $("app").hidden=false;
+}
+
+async function init() {
+  try {
+    const {initializeApp}=await import("https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js");
+    const {getAuth,onAuthStateChanged,signOut}=await import("https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js");
+    const {getFirestore,doc,getDoc}=await import("https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js");
+    const app=initializeApp(firebaseConfig);
+    auth=getAuth(app);
+    const db=getFirestore(app);
+
+    onAuthStateChanged(auth,async user=>{
+      if(!user){window.location.replace("index.html");return;}
+      try {
+        const snap=await getDoc(doc(db,"users",user.uid));
+        if(!snap.exists()){await signOut(auth);window.location.replace("index.html");return;}
+        const data=snap.data();
+        if(data.active!==true||typeof data.role!=="string"||!data.role.trim()){
+          await signOut(auth);window.location.replace("index.html");return;
+        }
+        showDashboard(user,data);
+      } catch(error) {
+        console.error("Profile check failed",error);
+        $("loading-text").textContent="Could not verify permissions. Check your connection and Firebase rules, then reload.";
+      }
+    });
+  } catch(error) {
+    console.error("Firebase initialization failed",error);
+    $("loading-text").textContent="Unable to load secure dashboard. Check internet and Firebase configuration.";
+  }
+}
+
+document.querySelectorAll("[data-feature]").forEach(button=>{
+  button.addEventListener("click",()=>{
+    const name=button.dataset.feature;
+    $("sidebar").classList.remove("open");
+    if(name==="Dashboard"){
+      closeModal();setHeading("Dashboard");return;
+    }
+    openModal(name);
+  });
+});
+$("menu-toggle").addEventListener("click",()=>$("sidebar").classList.toggle("open"));
+$("refresh").addEventListener("click",()=>{
+  $("today-date").textContent=new Intl.DateTimeFormat("en-IN",{day:"numeric",month:"short",year:"numeric"}).format(new Date());
+  updateCounts();showToast("Dashboard refreshed.");
+});
+$("logout").addEventListener("click",async()=>{
+  if(!auth){window.location.replace("index.html");return;}
+  try {
+    const {signOut}=await import("https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js");
+    await signOut(auth);window.location.replace("index.html");
+  } catch(error){console.error(error);showToast("Sign out failed. Try again.");}
+});
+$("year").textContent=new Date().getFullYear();
+init();
+</script>
 </body>
 </html>
