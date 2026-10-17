@@ -2,25 +2,24 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow,noarchive">
-  <title>Article Editor | EduGM Admin Panel</title>
+  <title>Article Studio | EduGM Admin</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root {
       --blue: #2563eb;
-      --blue-dark: #1747b5;
-      --blue-light: #eff6ff;
-      --bg: #f5f8ff;
-      --white: #fff;
-      --text: #172554;
+      --blue-dark: #1746b0;
+      --bg: #f4f7fc;
+      --line: #e3e9f3;
+      --text: #18243b;
       --muted: #718096;
-      --border: #e5eaf4;
+      --white: #fff;
       --green: #15803d;
-      --red: #b91c1c;
+      --red: #dc2626;
     }
 
     * { box-sizing: border-box; }
@@ -29,1074 +28,1013 @@
       margin: 0;
       background: var(--bg);
       color: var(--text);
-      font-family: Poppins, sans-serif;
+      font-family: Inter, Arial, sans-serif;
     }
 
-    a { color: inherit; text-decoration: none; }
     button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
 
-    #menuContainer {
+    .layout { min-height: 100vh; }
+
+    /* Fixed sidebar */
+    #sidebar {
       position: fixed;
-      z-index: 1000;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      width: 270px;
-      height: 100vh;
-      height: 100dvh;
+      z-index: 100;
+      inset: 0 auto 0 0;
+      width: 250px;
+      background: #fff;
+      border-right: 1px solid var(--line);
       overflow-y: auto;
-      overflow-x: hidden;
-      background: white;
-      border-right: 1px solid var(--border);
-      scrollbar-width: thin;
+      padding: 20px 14px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 4px 9px 22px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 17px;
+    }
+
+    .brand img { width: 46px; height: 46px; object-fit: contain; }
+    .brand strong { display: block; font-size: 18px; }
+    .brand small { color: var(--muted); font-size: 11px; }
+
+    .nav-label {
+      color: #93a0b5;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.3px;
+      padding: 12px 10px 7px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #526079;
+      padding: 11px 12px;
+      margin: 3px 0;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      background: #edf4ff;
+      color: var(--blue);
+    }
+
+    .sidebar-bottom {
+      border-top: 1px solid var(--line);
+      margin-top: 20px;
+      padding-top: 15px;
     }
 
     .main {
-      margin-left: 270px;
-      min-height: 100vh;
+      margin-left: 250px;
+      min-width: 0;
     }
 
     .topbar {
       position: sticky;
       top: 0;
-      z-index: 100;
-      min-height: 76px;
-      padding: 14px 28px;
+      z-index: 50;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 14px;
-      background: rgba(255,255,255,.95);
-      border-bottom: 1px solid var(--border);
+      gap: 12px;
+      padding: 15px 24px;
+      background: rgba(255,255,255,.94);
       backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
     }
 
-    .topbar-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .topbar h1 { margin: 0; font-size: 19px; }
+    .topbar p { margin: 5px 0 0; color: var(--muted); font-size: 12px; }
+    .top-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 
-    .heading {
-      margin: 0;
-      font-size: 20px;
-      font-weight: 700;
-    }
+    .page { max-width: 1500px; margin: auto; padding: 22px; }
 
-    .subtitle {
-      margin: 4px 0 0;
-      color: var(--muted);
-      font-size: 11px;
-    }
-
-    .clock {
-      color: var(--muted);
-      font-size: 10px;
-      text-align: right;
-      line-height: 1.8;
-    }
-
-    .clock strong {
-      display: block;
-      color: var(--blue-dark);
-      font-size: 12px;
-    }
-
-    .mobile-menu-button {
-      display: none;
-      width: 42px;
-      height: 42px;
-      border: 1px solid var(--border);
+    .card {
       background: white;
-      color: var(--blue);
-      border-radius: 12px;
-      cursor: pointer;
-      font-size: 20px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 3px 12px rgba(25,50,90,.025);
     }
 
-    .content {
-      max-width: 1250px;
-      margin: auto;
-      padding: 25px 28px 38px;
+    .card h2 { margin: 0 0 16px; font-size: 15px; }
+    .field { margin-bottom: 15px; min-width: 0; }
+    .field label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 7px; }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      border: 1px solid #dce4f0;
+      border-radius: 9px;
+      padding: 11px 12px;
+      outline: none;
+      background: #fff;
+      color: var(--text);
     }
 
-    .intro {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 20px;
+    .field input:focus, .field select:focus, .field textarea:focus {
+      border-color: #75a3ff;
+      box-shadow: 0 0 0 3px #2563eb12;
     }
 
-    .intro h2 {
-      margin: 0;
-      font-size: 19px;
-    }
+    .field textarea { resize: vertical; min-height: 75px; }
 
-    .intro p {
-      margin: 5px 0 0;
-      color: var(--muted);
-      font-size: 12px;
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 16px;
     }
 
     .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-      padding: 10px 15px;
-      border: 1px solid var(--border);
-      border-radius: 11px;
+      border: 1px solid #dce4f0;
       background: white;
-      color: var(--text);
+      color: #34415b;
+      border-radius: 9px;
+      padding: 10px 13px;
       font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: .2s;
+      font-weight: 700;
+      transition: .15s;
     }
 
-    .btn:hover { transform: translateY(-1px); }
+    .btn:hover { background: #f0f5ff; border-color: #b6ceff; }
+    .btn.primary { background: var(--blue); border-color: var(--blue); color: white; }
+    .btn.primary:hover { background: var(--blue-dark); }
+    .btn.danger { color: var(--red); }
+    .btn.small { padding: 7px 9px; }
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
 
-    .btn-primary {
-      background: var(--blue);
-      border-color: var(--blue);
-      color: white;
-    }
-
-    .btn-primary:hover { background: var(--blue-dark); }
-
-    .btn:disabled {
-      opacity: .6;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .editor-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 280px;
-      align-items: start;
-      gap: 20px;
-    }
-
-    .card {
-      min-width: 0;
-      padding: 22px;
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      box-shadow: 0 7px 24px rgba(37,99,235,.045);
-    }
-
-    .card h3 {
-      margin: 0;
-      font-size: 14px;
-    }
-
-    .card-description {
-      margin: 5px 0 20px;
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.7;
-    }
-
-    .form-group { margin-bottom: 19px; }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
+    .status {
+      padding: 10px 12px;
+      border-radius: 9px;
       font-size: 12px;
-      font-weight: 600;
+      margin-bottom: 15px;
+      display: none;
+      white-space: pre-wrap;
     }
 
-    .required { color: var(--red); }
+    .status.show { display: block; }
+    .status.error { background: #fff1f2; color: #be123c; }
+    .status.success { background: #ecfdf5; color: #166534; }
+    .status.info { background: #eff6ff; color: #1d4ed8; }
 
-    .field {
-      display: block;
-      width: 100%;
-      min-width: 0;
-      padding: 12px 13px;
-      border: 1px solid var(--border);
-      border-radius: 11px;
-      outline: none;
-      background: white;
-      color: var(--text);
-      font-size: 12px;
-      transition: .2s;
-    }
-
-    .field:focus {
-      border-color: #60a5fa;
-      box-shadow: 0 0 0 3px #dbeafe;
-    }
-
-    .field::placeholder { color: #a0aec0; }
-
-    textarea.field {
-      resize: vertical;
-      line-height: 1.8;
-    }
-
-    #title { font-size: 16px; font-weight: 600; }
-    #excerpt { min-height: 95px; }
-    #content { min-height: 360px; }
-
-    .field-help {
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 10px;
-      line-height: 1.7;
-    }
-
-    .counter {
-      text-align: right;
-      margin-top: 5px;
-      color: var(--muted);
-      font-size: 10px;
-    }
-
-    .two-columns {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 15px;
-    }
-
-    .category-input-row {
-      display: flex;
-      align-items: stretch;
-      gap: 8px;
-    }
-
-    .category-input-row .field { flex: 1; }
-
-    .side-card { margin-bottom: 16px; }
-
-    .side-card h3 { margin-bottom: 17px; }
-
-    .status-option {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      margin-bottom: 13px;
-      padding: 12px;
-      border: 1px solid var(--border);
+    .editor-shell {
+      border: 1px solid #dbe3f0;
       border-radius: 12px;
-      cursor: pointer;
+      overflow: hidden;
+      background: white;
     }
 
-    .status-option:has(input:checked) {
-      border-color: #93c5fd;
-      background: #f8fbff;
+    .toolbar {
+      background: #f8faff;
+      border-bottom: 1px solid var(--line);
+      padding: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
     }
 
-    .status-option input {
-      margin-top: 4px;
-      accent-color: var(--blue);
+    .tool {
+      min-width: 34px;
+      height: 34px;
+      padding: 0 9px;
+      border: 1px solid #e0e7f2;
+      background: white;
+      color: #34415b;
+      border-radius: 7px;
+      font-size: 12px;
+      font-weight: 700;
     }
 
-    .status-option strong {
-      display: block;
-      font-size: 11px;
+    .tool:hover, .tool.active { background: #eaf1ff; color: var(--blue); }
+    .tool select { border: 0; background: transparent; outline: 0; max-width: 125px; height: 30px; font-size: 12px; }
+    .tool input[type=color] { width: 24px; height: 25px; border: 0; padding: 0; background: transparent; vertical-align: middle; }
+
+    .toolbar-sep { height: 27px; width: 1px; background: #dce4f0; margin: 0 3px; }
+
+    #editor {
+      min-height: 480px;
+      padding: 28px;
+      outline: none;
+      font-family: Georgia, serif;
+      font-size: 17px;
+      line-height: 1.85;
+      overflow-wrap: anywhere;
     }
 
-    .status-option small {
-      display: block;
-      margin-top: 4px;
-      color: var(--muted);
-      font-size: 10px;
-      line-height: 1.6;
+    #editor:empty::before {
+      content: "Start writing your EduGM article here...";
+      color: #9ba8bb;
+      pointer-events: none;
     }
 
-    .publish-actions {
-      display: grid;
-      gap: 9px;
-      margin-top: 17px;
+    #editor h1, #editor h2, #editor h3 { line-height: 1.3; }
+    #editor img { max-width: 100%; height: auto; border-radius: 8px; }
+    #editor table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+    #editor th, #editor td { border: 1px solid #cbd5e1; padding: 9px; min-width: 45px; }
+    #editor th { background: #eff6ff; }
+    #editor blockquote { border-left: 4px solid var(--blue); background: #f3f7ff; margin: 18px 0; padding: 12px 18px; }
+    #editor pre { white-space: pre-wrap; background: #101827; color: #e2e8f0; padding: 16px; border-radius: 8px; }
+    #editor .article-callout { background: #eff6ff; border-left: 4px solid #2563eb; padding: 15px; border-radius: 6px; margin: 18px 0; }
+    #editor .article-download { display: block; border: 1px solid #dbe4f0; border-radius: 10px; padding: 15px; margin: 18px 0; text-decoration: none; color: #1d4ed8; background: #f8fbff; }
+    #editor .article-caption { color: #64748b; text-align: center; font-size: 13px; margin-top: 5px; }
+
+    #sourceEditor {
+      display: none;
+      width: 100%;
+      min-height: 480px;
+      padding: 20px;
+      border: 0;
+      outline: 0;
+      resize: vertical;
+      font: 13px/1.6 Consolas, monospace;
+      background: #101827;
+      color: #dbeafe;
     }
 
-    .publish-actions .btn { width: 100%; }
-
-    .info-list {
-      display: grid;
-      gap: 14px;
-    }
-
-    .info-row {
+    .editor-foot {
+      border-top: 1px solid var(--line);
+      background: #fafcff;
+      padding: 10px 14px;
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      gap: 12px;
-      font-size: 10px;
-      line-height: 1.7;
-    }
-
-    .info-row span { color: var(--muted); }
-    .info-row strong { text-align: right; overflow-wrap: anywhere; }
-
-    .message {
-      display: none;
-      margin-bottom: 17px;
-      padding: 12px 15px;
-      border: 1px solid #bfdbfe;
-      border-radius: 11px;
-      background: #eff6ff;
-      color: #1d4ed8;
-      font-size: 12px;
-      line-height: 1.7;
-    }
-
-    .message.show { display: block; }
-
-    .message.error {
-      color: var(--red);
-      background: #fef2f2;
-      border-color: #fecaca;
-    }
-
-    .message.success {
-      color: var(--green);
-      background: #f0fdf4;
-      border-color: #bbf7d0;
-    }
-
-    .editor-tip {
-      padding: 12px;
-      border-radius: 11px;
-      background: var(--blue-light);
-      color: var(--blue-dark);
-      font-size: 10px;
-      line-height: 1.8;
-    }
-
-    .footer {
-      padding: 24px 10px 8px;
-      text-align: center;
+      flex-wrap: wrap;
+      gap: 8px;
       color: var(--muted);
-      font-size: 10px;
+      font-size: 11px;
+    }
+
+    .preview {
+      display: none;
+      padding: 26px;
       line-height: 1.8;
+      overflow-wrap: anywhere;
     }
 
-    .overlay { display: none; }
+    .preview img { max-width: 100%; height: auto; }
+    .preview table { border-collapse: collapse; width: 100%; }
+    .preview td, .preview th { border: 1px solid #cbd5e1; padding: 9px; }
 
-    @media (max-width: 1150px) {
-      .editor-layout { grid-template-columns: minmax(0, 1fr) 250px; }
-      .content { padding: 22px 20px 30px; }
-    }
+    .notice { font-size: 12px; line-height: 1.7; color: var(--muted); }
+    .mobile-menu { display: none; }
+    footer { padding: 25px; text-align: center; font-size: 11px; color: #8491a6; }
 
-    @media (max-width: 900px) {
-      #menuContainer {
-        transform: translateX(-100%);
-        transition: transform .25s ease;
-        box-shadow: 15px 0 40px rgba(15,23,42,.1);
-      }
-
-      #menuContainer.menu-open { transform: translateX(0); }
+    @media(max-width: 900px) {
+      #sidebar { width: 250px; transform: translateX(-100%); transition: transform .2s; }
+      #sidebar.open { transform: translateX(0); box-shadow: 12px 0 40px #0002; }
       .main { margin-left: 0; }
-
-      .mobile-menu-button {
-        display: inline-grid;
-        place-items: center;
-      }
-
-      .overlay.show {
-        display: block;
-        position: fixed;
-        inset: 0;
-        z-index: 900;
-        background: rgba(15,23,42,.4);
-      }
-
-      .editor-layout { grid-template-columns: 1fr; }
-      .editor-sidebar {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 14px;
-      }
-
-      .side-card { margin-bottom: 0; }
-      .topbar { padding: 14px 18px; }
+      .mobile-menu { display: inline-flex; }
+      .page { padding: 13px; }
+      .topbar { padding: 13px; }
     }
 
-    @media (max-width: 560px) {
-      .content { padding: 17px 12px 25px; }
-      .topbar { padding: 12px; }
-      .heading { font-size: 17px; }
-      .subtitle { font-size: 10px; }
-      .two-columns { grid-template-columns: 1fr; gap: 0; }
-      .editor-sidebar { grid-template-columns: 1fr; }
-      .card { padding: 17px; }
-      #content { min-height: 280px; }
-      .intro h2 { font-size: 17px; }
-      .intro .btn { width: 100%; }
+    @media(max-width: 600px) {
+      .grid { grid-template-columns: 1fr; gap: 0; }
+      .topbar { align-items: flex-start; }
+      .topbar h1 { font-size: 16px; }
+      .top-actions { justify-content: flex-end; }
+      #editor { min-height: 400px; padding: 17px; }
+      .toolbar { gap: 5px; padding: 7px; }
+      .tool { min-width: 31px; height: 32px; padding: 0 7px; }
+      .card { padding: 15px; }
     }
   </style>
 </head>
 
 <body>
-  <aside id="menuContainer" aria-label="Admin navigation">
-    <div style="padding:24px;color:#718096;font-size:12px;">Loading menu...</div>
+<div class="layout">
+  <aside id="sidebar">
+    <div class="brand">
+      <img src="https://i.ibb.co/1Y82N0n0/Edu-GM-Learning-Logo.png" alt="EduGM logo">
+      <div><strong>EduGM</strong><small>Learning Admin Studio</small></div>
+    </div>
+
+    <div class="nav-label">WORKSPACE</div>
+    <a class="nav-link" href="dashboard.html">▦ Dashboard</a>
+    <a class="nav-link" href="articles.html">▤ Articles</a>
+    <a class="nav-link active" href="article-editor.html">✎ Write Article</a>
+    <a class="nav-link" href="categories.html">▧ Categories</a>
+    <a class="nav-link" href="pages.html">▣ Pages</a>
+    <a class="nav-link" href="edugm-store.html">◇ EduGM Store</a>
+
+    <div class="nav-label">MANAGEMENT</div>
+    <a class="nav-link" href="notices.html">♧ Notices</a>
+    <a class="nav-link" href="calendar.html">▦ Calendar</a>
+    <a class="nav-link" href="todo.html">☑ To-Do List</a>
+    <a class="nav-link" href="innovation.html">✧ Innovation</a>
+    <a class="nav-link" href="users.html">♙ Members</a>
+    <a class="nav-link" href="earnings.html">₹ Earnings</a>
+
+    <div class="nav-label">ACCOUNT</div>
+    <a class="nav-link" href="profile.html">♙ My Profile</a>
+    <a class="nav-link" href="settings.html">⚙ Settings</a>
+    <div class="sidebar-bottom">
+      <button class="btn" id="logoutBtn" style="width:100%">↪ Sign out</button>
+    </div>
   </aside>
 
-  <div class="overlay" id="overlay"></div>
-
-  <div class="main">
+  <main class="main">
     <header class="topbar">
-      <div class="topbar-left">
-        <button id="mobileMenuButton" class="mobile-menu-button"
-          type="button" aria-label="Open menu" aria-expanded="false">☰</button>
+      <div style="display:flex;gap:10px;align-items:center">
+        <button class="btn mobile-menu" id="menuBtn" aria-label="Open menu">☰</button>
         <div>
-          <h1 class="heading">Article Editor</h1>
-          <p class="subtitle">Create and manage educational content</p>
+          <h1>Article Studio</h1>
+          <p id="userInfo">Checking access...</p>
         </div>
       </div>
-      <div class="clock">
-        <strong id="clockTime">Loading...</strong>
-        <span id="clockDate">India Standard Time</span>
+      <div class="top-actions">
+        <button class="btn" id="previewBtn">Preview</button>
+        <button class="btn" id="draftBtn">Save Draft</button>
+        <button class="btn primary" id="publishBtn">Publish Article</button>
       </div>
     </header>
 
-    <main class="content">
-      <div class="intro">
-        <div>
-          <h2 id="pageTitle">Write a New Article</h2>
-          <p id="pageDescription">Prepare an educational article for EduGM students.</p>
+    <div class="page">
+      <div id="status" class="status"></div>
+
+      <section class="card">
+        <h2>Article information</h2>
+        <div class="field">
+          <label for="title">Article title *</label>
+          <input id="title" maxlength="160" placeholder="Enter a clear article title">
         </div>
-        <a href="articles.html" class="btn">← Back to Articles</a>
-      </div>
 
-      <div id="message" class="message" role="status" aria-live="polite"></div>
-
-      <form id="articleForm">
-        <div class="editor-layout">
-          <section class="card">
-            <h3>Article Content</h3>
-            <p class="card-description">
-              Write clear, original and accurate educational content.
-            </p>
-
-            <div class="form-group">
-              <label for="title">Article title <span class="required">*</span></label>
-              <input class="field" id="title" name="title" type="text"
-                maxlength="160" required
-                placeholder="Enter a clear and descriptive title">
-              <div class="counter"><span id="titleCount">0</span>/160</div>
-            </div>
-
-            <div class="two-columns">
-              <div class="form-group">
-                <label for="category">Category <span class="required">*</span></label>
-                <input class="field" id="category" name="category" type="text"
-                  maxlength="80" list="categoryOptions" required
-                  placeholder="e.g. Madhyamik">
-                <datalist id="categoryOptions"></datalist>
-                <div class="field-help">
-                  Select an existing category or type a new one.
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="excerpt">Short description</label>
-                <textarea class="field" id="excerpt" name="excerpt"
-                  maxlength="240" placeholder="Briefly describe this article"></textarea>
-                <div class="counter"><span id="excerptCount">0</span>/240</div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="content">Article body <span class="required">*</span></label>
-              <textarea class="field" id="content" name="content"
-                maxlength="100000" required
-                placeholder="Write your article here. You can use plain text and line breaks."></textarea>
-              <div class="counter"><span id="contentCount">0</span>/100000 characters</div>
-              <div class="field-help">
-                This editor saves plain text. It does not interpret HTML or provide a rich-text toolbar.
-              </div>
-            </div>
-
-            <div class="editor-tip">
-              💡 Tip: Check spelling, exam dates, eligibility conditions and source information before publishing.
-            </div>
-          </section>
-
-          <aside class="editor-sidebar">
-            <section class="card side-card">
-              <h3>Publication Settings</h3>
-
-              <label class="status-option">
-                <input type="radio" name="status" value="draft" checked>
-                <span>
-                  <strong>Save as Draft</strong>
-                  <small>Keep the article unpublished for further editing.</small>
-                </span>
-              </label>
-
-              <label class="status-option">
-                <input type="radio" name="status" value="published">
-                <span>
-                  <strong>Publish Article</strong>
-                  <small>Mark the article as published. Your public website must also read published articles.</small>
-                </span>
-              </label>
-
-              <div class="publish-actions">
-                <button id="saveDraftBtn" class="btn" type="button">Save Draft</button>
-                <button id="publishBtn" class="btn btn-primary" type="button">Publish Article</button>
-              </div>
-
-              <div class="field-help">
-                Publishing here updates Firestore status. It does not automatically create a public page.
-              </div>
-            </section>
-
-            <section class="card side-card">
-              <h3>Article Information</h3>
-              <div class="info-list">
-                <div class="info-row">
-                  <span>Author</span>
-                  <strong id="authorInfo">Verifying...</strong>
-                </div>
-                <div class="info-row">
-                  <span>Role</span>
-                  <strong id="roleInfo">—</strong>
-                </div>
-                <div class="info-row">
-                  <span>Created</span>
-                  <strong id="createdInfo">New article</strong>
-                </div>
-                <div class="info-row">
-                  <span>Last updated</span>
-                  <strong id="updatedInfo">Not saved</strong>
-                </div>
-                <div class="info-row">
-                  <span>Current status</span>
-                  <strong id="currentStatus">Draft</strong>
-                </div>
-              </div>
-            </section>
-          </aside>
+        <div class="grid">
+          <div class="field">
+            <label for="category">Category *</label>
+            <input id="category" list="categoryOptions" maxlength="80" placeholder="e.g. Madhyamik, Scholarships">
+            <datalist id="categoryOptions">
+              <option value="Madhyamik">
+              <option value="Higher Secondary">
+              <option value="Entrance Exams">
+              <option value="Scholarships">
+              <option value="Government Jobs">
+              <option value="Study Notes">
+              <option value="Education News">
+            </datalist>
+          </div>
+          <div class="field">
+            <label for="statusSelect">Publishing status</label>
+            <select id="statusSelect">
+              <option value="draft">Draft</option>
+              <option value="published">Published</option>
+            </select>
+          </div>
         </div>
-      </form>
 
-      <footer class="footer">
-        © <span id="footerYear"></span> EduGM. All rights reserved.<br>
-        EduGM Admin Panel — Official Use Only.
-      </footer>
-    </main>
-  </div>
+        <div class="field">
+          <label for="excerpt">Short description / excerpt *</label>
+          <textarea id="excerpt" maxlength="240" placeholder="A short summary shown on article cards"></textarea>
+          <div class="notice"><span id="excerptCount">0</span>/240 characters</div>
+        </div>
 
-  <script type="module">
-    import { initializeApp } from
-      "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+        <div class="field">
+          <label for="featuredImage">Featured image URL</label>
+          <input id="featuredImage" type="url" placeholder="https://example.com/featured-image.jpg">
+          <div class="notice">Use a public HTTPS image URL. This image is stored separately from the images inside the article.</div>
+        </div>
 
-    import {
-      getAuth,
-      onAuthStateChanged,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+        <div class="grid">
+          <div class="field">
+            <label for="seoTitle">SEO title (optional)</label>
+            <input id="seoTitle" maxlength="160" placeholder="Search engine title">
+          </div>
+          <div class="field">
+            <label for="seoDescription">SEO description (optional)</label>
+            <input id="seoDescription" maxlength="240" placeholder="Search engine description">
+          </div>
+        </div>
+      </section>
 
-    import {
-      getFirestore,
-      doc,
-      getDoc,
-      collection,
-      getDocs,
-      query,
-      where,
-      addDoc,
-      updateDoc,
-      serverTimestamp,
-      Timestamp
-    } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
+      <section class="card">
+        <h2>Article content</h2>
+        <div class="notice" style="margin-bottom:13px">
+          Select text to format it. Images, tables and document links can be inserted in the article body. Use Source to inspect or edit the HTML.
+        </div>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyA9yj3ikv7oIsBhU7IE9XPclY3vul5d9us",
-      authDomain: "edugm-bangla.firebaseapp.com",
-      projectId: "edugm-bangla",
-      storageBucket: "edugm-bangla.firebasestorage.app",
-      messagingSenderId: "236553092510",
-      appId: "1:236553092510:web:91f03b4434616c06846a8f"
+        <div class="editor-shell">
+          <div class="toolbar" id="toolbar">
+            <button class="tool" type="button" data-cmd="undo" title="Undo">↶</button>
+            <button class="tool" type="button" data-cmd="redo" title="Redo">↷</button>
+            <span class="toolbar-sep"></span>
+
+            <button class="tool" type="button" data-cmd="bold" title="Bold"><b>B</b></button>
+            <button class="tool" type="button" data-cmd="italic" title="Italic"><i>I</i></button>
+            <button class="tool" type="button" data-cmd="underline" title="Underline"><u>U</u></button>
+            <button class="tool" type="button" data-cmd="strikeThrough" title="Strikethrough"><s>S</s></button>
+
+            <span class="toolbar-sep"></span>
+            <span class="tool"><select id="blockFormat" aria-label="Text style">
+              <option value="P">Paragraph</option>
+              <option value="H1">Heading 1</option>
+              <option value="H2">Heading 2</option>
+              <option value="H3">Heading 3</option>
+              <option value="BLOCKQUOTE">Quote</option>
+              <option value="PRE">Code block</option>
+            </select></span>
+
+            <span class="tool"><select id="fontSize" aria-label="Font size">
+              <option value="">Font size</option>
+              <option value="2">Small</option>
+              <option value="3">Normal</option>
+              <option value="4">Large</option>
+              <option value="5">Extra large</option>
+              <option value="6">Huge</option>
+            </select></span>
+
+            <span class="toolbar-sep"></span>
+            <button class="tool" type="button" data-cmd="justifyLeft" title="Align left">☰</button>
+            <button class="tool" type="button" data-cmd="justifyCenter" title="Center">≡</button>
+            <button class="tool" type="button" data-cmd="justifyRight" title="Align right">☷</button>
+            <button class="tool" type="button" data-cmd="justifyFull" title="Justify">▤</button>
+
+            <span class="toolbar-sep"></span>
+            <button class="tool" type="button" data-cmd="insertUnorderedList" title="Bullet list">• List</button>
+            <button class="tool" type="button" data-cmd="insertOrderedList" title="Numbered list">1. List</button>
+            <button class="tool" type="button" data-cmd="indent" title="Indent">→</button>
+            <button class="tool" type="button" data-cmd="outdent" title="Outdent">←</button>
+
+            <span class="toolbar-sep"></span>
+            <span class="tool" title="Text colour">A <input type="color" id="textColor" value="#18243b" aria-label="Text colour"></span>
+            <span class="tool" title="Highlight colour">▰ <input type="color" id="highlightColor" value="#fff2a8" aria-label="Highlight colour"></span>
+
+            <span class="toolbar-sep"></span>
+            <button class="tool" type="button" id="linkBtn" title="Insert hyperlink">🔗 Link</button>
+            <button class="tool" type="button" id="imageBtn" title="Insert image">▧ Image</button>
+            <button class="tool" type="button" id="pdfBtn" title="Insert PDF download link">PDF</button>
+            <button class="tool" type="button" id="tableBtn" title="Insert table">▦ Table</button>
+            <button class="tool" type="button" id="calloutBtn" title="Insert information box">▣ Box</button>
+            <button class="tool" type="button" id="dividerBtn" title="Insert divider">―</button>
+            <button class="tool" type="button" id="buttonLinkBtn" title="Insert styled link button">Button</button>
+
+            <span class="toolbar-sep"></span>
+            <button class="tool" type="button" id="findBtn" title="Find and replace">Find</button>
+            <button class="tool" type="button" id="sourceBtn" title="Edit HTML source">&lt;/&gt; Source</button>
+            <button class="tool" type="button" id="clearFormatBtn" title="Clear formatting">Clear</button>
+          </div>
+
+          <div id="editor" contenteditable="true" spellcheck="true" aria-label="Rich text article editor"></div>
+          <textarea id="sourceEditor" spellcheck="false" aria-label="HTML source editor"></textarea>
+          <div id="preview" class="preview"></div>
+
+          <div class="editor-foot">
+            <span id="wordCount">0 words · 0 characters</span>
+            <span id="saveIndicator">Unsaved changes</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Article tools</h2>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn" id="insertImageCaptionBtn">Add image caption</button>
+          <button class="btn" id="insertTableBtn">Insert 3 × 3 table</button>
+          <button class="btn" id="insertQuoteBtn">Insert quote</button>
+          <button class="btn" id="insertCodeBtn">Insert code block</button>
+          <button class="btn" id="selectAllBtn">Select content</button>
+        </div>
+        <p class="notice" style="margin-top:14px">
+          Image/PDF URLs must be hosted elsewhere and accessible to readers. This editor does not upload files to a server. Do not paste secret or private document URLs into a public article.
+        </p>
+      </section>
+
+      <footer>© <span id="year"></span> EduGM. All rights reserved. EduGM Admin Panel — Official Use Only.</footer>
+    </div>
+  </main>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+  import {
+    getAuth, onAuthStateChanged, signOut
+  } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+  import {
+    getFirestore, doc, getDoc, addDoc, updateDoc, collection,
+    serverTimestamp, Timestamp
+  } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA9yj3ikv7oIsBhU7IE9XPclY3vul5d9us",
+    authDomain: "edugm-bangla.firebaseapp.com",
+    projectId: "edugm-bangla",
+    storageBucket: "edugm-bangla.firebasestorage.app",
+    messagingSenderId: "236553092510",
+    appId: "1:236553092510:web:91f03b4434616c06846a8f"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  const $ = id => document.getElementById(id);
+  const editor = $("editor");
+  const sourceEditor = $("sourceEditor");
+  const preview = $("preview");
+
+  let currentUser = null;
+  let currentRole = "";
+  let articleId = new URLSearchParams(location.search).get("id");
+  let originalCreatedAt = null;
+  let originalAuthorId = null;
+  let originalAuthorEmail = null;
+  let sourceMode = false;
+  let previewMode = false;
+  let dirty = false;
+  let savedRange = null;
+
+  $("year").textContent = new Date().getFullYear();
+
+  function showStatus(message, type = "info") {
+    const el = $("status");
+    el.textContent = message;
+    el.className = "status show " + type;
+    el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  function validWebUrl(value) {
+    try {
+      const u = new URL(value);
+      return u.protocol === "https:" || u.protocol === "http:";
+    } catch {
+      return false;
+    }
+  }
+
+  function askUrl(label, initial = "") {
+    const value = prompt(label, initial);
+    if (value === null) return null;
+    const url = value.trim();
+    if (!validWebUrl(url)) {
+      showStatus("Enter a valid http:// or https:// URL.", "error");
+      return null;
+    }
+    return url;
+  }
+
+  function markDirty() {
+    dirty = true;
+    $("saveIndicator").textContent = "Unsaved changes";
+    updateCounts();
+  }
+
+  function updateCounts() {
+    const text = (sourceMode ? sourceEditor.value : editor.innerText) || "";
+    const trimmed = text.trim();
+    const words = trimmed ? trimmed.split(/\s+/).length : 0;
+    $("wordCount").textContent =
+      words + " words · " + text.length + " characters";
+    $("excerptCount").textContent = $("excerpt").value.length;
+  }
+
+  function focusEditor() {
+    editor.focus();
+    if (savedRange) {
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(savedRange);
+    }
+  }
+
+  function rememberSelection() {
+    const selection = window.getSelection();
+    if (selection && selection.rangeCount && editor.contains(selection.anchorNode)) {
+      savedRange = selection.getRangeAt(0).cloneRange();
+    }
+  }
+
+  editor.addEventListener("mouseup", rememberSelection);
+  editor.addEventListener("keyup", rememberSelection);
+  editor.addEventListener("input", () => {
+    markDirty();
+    rememberSelection();
+  });
+
+  $("excerpt").addEventListener("input", updateCounts);
+
+  function insertHtml(html) {
+    if (sourceMode) {
+      showStatus("Switch back to Visual Editor before inserting a toolbar element.", "info");
+      return;
+    }
+    focusEditor();
+    document.execCommand("insertHTML", false, html);
+    markDirty();
+  }
+
+  function exec(command, value = null) {
+    if (sourceMode || previewMode) return;
+    focusEditor();
+    editor.focus();
+    document.execCommand(command, false, value);
+    markDirty();
+  }
+
+  $("toolbar").addEventListener("mousedown", event => {
+    if (event.target.closest("button")) event.preventDefault();
+  });
+
+  document.querySelectorAll("[data-cmd]").forEach(button => {
+    button.addEventListener("click", () => exec(button.dataset.cmd));
+  });
+
+  $("blockFormat").addEventListener("change", event => {
+    if (event.target.value) exec("formatBlock", event.target.value);
+    event.target.value = "";
+  });
+
+  $("fontSize").addEventListener("change", event => {
+    if (event.target.value) exec("fontSize", event.target.value);
+    event.target.value = "";
+  });
+
+  $("textColor").addEventListener("input", event => {
+    exec("foreColor", event.target.value);
+  });
+
+  $("highlightColor").addEventListener("input", event => {
+    focusEditor();
+    const ok = document.execCommand("hiliteColor", false, event.target.value);
+    if (!ok) document.execCommand("backColor", false, event.target.value);
+    markDirty();
+  });
+
+  $("linkBtn").addEventListener("click", () => {
+    const url = askUrl("Enter the hyperlink URL");
+    if (url) exec("createLink", url);
+  });
+
+  $("imageBtn").addEventListener("click", () => {
+    const url = askUrl("Enter a publicly accessible image URL");
+    if (!url) return;
+    const alt = prompt("Image alternative text (alt text):", "Article image");
+    if (alt === null) return;
+    const caption = prompt("Image caption (optional):", "") || "";
+    const width = prompt("Image width in pixels (optional, e.g. 600):", "600");
+    const safeWidth = /^\d{2,4}$/.test(width || "") ? Number(width) : 0;
+    const img = `<figure style="margin:24px auto;text-align:center">
+      <img src="${escapeAttr(url)}" alt="${escapeAttr(alt)}" ${safeWidth ? `width="${safeWidth}"` : ""} loading="lazy" style="max-width:100%;height:auto">
+      ${caption ? `<figcaption class="article-caption">${escapeHtml(caption)}</figcaption>` : ""}
+    </figure><p><br></p>`;
+    insertHtml(img);
+  });
+
+  $("pdfBtn").addEventListener("click", () => {
+    const url = askUrl("Enter the public PDF or document URL");
+    if (!url) return;
+    const title = prompt("Link title:", "Download PDF") || "Download PDF";
+    const label = prompt("Short description (optional):", "Open or download the document") || "";
+    insertHtml(`<a class="article-download" href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">
+      <strong>📄 ${escapeHtml(title)}</strong><br>
+      <span>${escapeHtml(label)}</span>
+    </a><p><br></p>`);
+  });
+
+  function createTable(rows, cols) {
+    rows = Math.min(12, Math.max(1, rows));
+    cols = Math.min(8, Math.max(1, cols));
+    let html = '<table><thead><tr>';
+    for (let c = 0; c < cols; c++) html += `<th>Heading ${c + 1}</th>`;
+    html += '</tr></thead><tbody>';
+    for (let r = 1; r < rows; r++) {
+      html += '<tr>';
+      for (let c = 0; c < cols; c++) html += '<td>Cell</td>';
+      html += '</tr>';
+    }
+    html += '</tbody></table><p><br></p>';
+    return html;
+  }
+
+  $("tableBtn").addEventListener("click", () => {
+    const rows = Number(prompt("Number of rows (1–12):", "3"));
+    if (!rows) return;
+    const cols = Number(prompt("Number of columns (1–8):", "3"));
+    if (!cols) return;
+    insertHtml(createTable(rows, cols));
+  });
+
+  $("insertTableBtn").addEventListener("click", () => insertHtml(createTable(3, 3)));
+
+  $("calloutBtn").addEventListener("click", () => {
+    const title = prompt("Box title:", "Important Information") || "Important Information";
+    const text = prompt("Box text:", "Write your important information here.") || "";
+    insertHtml(`<div class="article-callout"><strong>${escapeHtml(title)}</strong><p>${escapeHtml(text)}</p></div><p><br></p>`);
+  });
+
+  $("dividerBtn").addEventListener("click", () => insertHtml("<hr><p><br></p>"));
+
+  $("buttonLinkBtn").addEventListener("click", () => {
+    const label = prompt("Button label:", "Read More");
+    if (!label) return;
+    const url = askUrl("Enter the destination URL");
+    if (!url) return;
+    insertHtml(`<p style="margin:22px 0"><a href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer" style="display:inline-block;background:#2563eb;color:#ffffff;text-decoration:none;padding:12px 20px;border-radius:8px;font-weight:bold">${escapeHtml(label)}</a></p>`);
+  });
+
+  $("findBtn").addEventListener("click", () => {
+    const search = prompt("Find text:");
+    if (search === null || !search) return;
+    const replacement = prompt("Replace with (leave blank to only find):", "");
+    if (replacement === null) return;
+
+    if (sourceMode) {
+      if (!replacement) {
+        const index = sourceEditor.value.toLowerCase().indexOf(search.toLowerCase());
+        if (index >= 0) {
+          sourceEditor.focus();
+          sourceEditor.setSelectionRange(index, index + search.length);
+        } else showStatus("Text not found.", "info");
+      } else {
+        sourceEditor.value = sourceEditor.value.split(search).join(replacement);
+        markDirty();
+      }
+    } else {
+      const walker = document.createTreeWalker(editor, NodeFilter.SHOW_TEXT);
+      const nodes = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode);
+      let count = 0;
+      nodes.forEach(node => {
+        if (node.nodeValue.includes(search) && !replacement) {
+          const index = node.nodeValue.indexOf(search);
+          const range = document.createRange();
+          range.setStart(node, index);
+          range.setEnd(node, index + search.length);
+          const sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+          count++;
+        } else if (replacement && node.nodeValue.includes(search)) {
+          node.nodeValue = node.nodeValue.split(search).join(replacement);
+          count++;
+        }
+      });
+      if (!count) showStatus("Text not found. Find/replace is case-sensitive.", "info");
+      else if (replacement) markDirty();
+    }
+  });
+
+  $("clearFormatBtn").addEventListener("click", () => {
+    exec("removeFormat");
+    exec("unlink");
+  });
+
+  $("insertQuoteBtn").addEventListener("click", () => {
+    const text = prompt("Quote text:", "Add an important quotation here.");
+    if (text !== null) insertHtml(`<blockquote>${escapeHtml(text)}</blockquote><p><br></p>`);
+  });
+
+  $("insertCodeBtn").addEventListener("click", () => {
+    const code = prompt("Enter code:", "print('Hello EduGM')");
+    if (code !== null) insertHtml(`<pre><code>${escapeHtml(code)}</code></pre><p><br></p>`);
+  });
+
+  $("insertImageCaptionBtn").addEventListener("click", () => {
+    const caption = prompt("Caption text:");
+    if (caption !== null) insertHtml(`<p class="article-caption">${escapeHtml(caption)}</p>`);
+  });
+
+  $("selectAllBtn").addEventListener("click", () => {
+    if (sourceMode) sourceEditor.select();
+    else {
+      editor.focus();
+      const range = document.createRange();
+      range.selectNodeContents(editor);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+  });
+
+  $("sourceBtn").addEventListener("click", () => {
+    if (previewMode) togglePreview(false);
+    if (!sourceMode) {
+      sourceEditor.value = editor.innerHTML;
+      editor.style.display = "none";
+      sourceEditor.style.display = "block";
+      $("sourceBtn").classList.add("active");
+      sourceMode = true;
+      $("saveIndicator").textContent = "HTML source mode";
+    } else {
+      editor.innerHTML = sourceEditor.value;
+      sourceEditor.style.display = "none";
+      editor.style.display = "block";
+      $("sourceBtn").classList.remove("active");
+      sourceMode = false;
+      markDirty();
+    }
+    updateCounts();
+  });
+
+  sourceEditor.addEventListener("input", markDirty);
+
+  function togglePreview(force) {
+    previewMode = typeof force === "boolean" ? force : !previewMode;
+    if (previewMode) {
+      if (sourceMode) {
+        editor.innerHTML = sourceEditor.value;
+      }
+      preview.innerHTML = editor.innerHTML;
+      editor.style.display = "none";
+      sourceEditor.style.display = "none";
+      preview.style.display = "block";
+      $("previewBtn").textContent = "Back to Editor";
+    } else {
+      preview.style.display = "none";
+      if (sourceMode) sourceEditor.style.display = "block";
+      else editor.style.display = "block";
+      $("previewBtn").textContent = "Preview";
+    }
+  }
+
+  $("previewBtn").addEventListener("click", () => togglePreview());
+
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, char => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    })[char]);
+  }
+
+  function escapeAttr(value) {
+    return escapeHtml(value);
+  }
+
+  function getContent() {
+    return sourceMode ? sourceEditor.value.trim() : editor.innerHTML.trim();
+  }
+
+  function validateForm() {
+    if (!$("title").value.trim()) throw new Error("Enter an article title.");
+    if (!$("category").value.trim()) throw new Error("Enter an article category.");
+    if (!$("excerpt").value.trim()) throw new Error("Enter a short article description.");
+    const content = getContent();
+    if (!content || !content.replace(/<[^>]*>/g, "").trim()) {
+      throw new Error("Write some article content before saving.");
+    }
+    if (content.length > 100000) throw new Error("Article HTML is too long. The current Firestore rule allows up to 100,000 characters.");
+    const featured = $("featuredImage").value.trim();
+    if (featured && !validWebUrl(featured)) throw new Error("Featured image URL must be a valid HTTP or HTTPS URL.");
+    return content;
+  }
+
+  async function saveArticle(status) {
+    if (!currentUser) throw new Error("Please sign in again.");
+    if (!["owner", "admin", "editor"].includes(currentRole)) throw new Error("Your account cannot write articles.");
+
+    const content = validateForm();
+    const now = new Date();
+    const data = {
+      title: $("title").value.trim(),
+      category: $("category").value.trim(),
+      excerpt: $("excerpt").value.trim(),
+      content,
+      status,
+      authorId: originalAuthorId || currentUser.uid,
+      authorEmail: originalAuthorEmail || currentUser.email || "",
+      createdAt: originalCreatedAt || serverTimestamp(),
+      updatedAt: serverTimestamp(),
+      publishedAt: status === "published"
+        ? (articleId ? Timestamp.fromDate(now) : Timestamp.fromDate(now))
+        : null,
+      featuredImage: $("featuredImage").value.trim(),
+      seoTitle: $("seoTitle").value.trim(),
+      seoDescription: $("seoDescription").value.trim()
     };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    const $ = id => document.getElementById(id);
-
-    const articleId = new URLSearchParams(location.search).get("id");
-
-    let currentUser = null;
-    let currentProfile = null;
-    let currentRole = "";
-    let originalArticle = null;
-    let savedCategoryNames = [];
-    let isSaving = false;
-
-    function showMessage(text, type = "info") {
-      const element = $("message");
-      element.textContent = text;
-      element.className = "message show" +
-        (type === "error" ? " error" : type === "success" ? " success" : "");
-      element.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    }
-
-    function clearMessage() {
-      $("message").textContent = "";
-      $("message").className = "message";
-    }
-
-    function updateClock() {
-      const now = new Date();
-
-      $("clockTime").textContent = new Intl.DateTimeFormat("en-IN", {
-        timeZone: "Asia/Kolkata",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: true
-      }).format(now);
-
-      $("clockDate").textContent = new Intl.DateTimeFormat("en-IN", {
-        timeZone: "Asia/Kolkata",
-        weekday: "short",
-        day: "2-digit",
-        month: "short",
-        year: "numeric"
-      }).format(now) + " · IST";
-    }
-
-    updateClock();
-    setInterval(updateClock, 1000);
-    $("footerYear").textContent = new Date().getFullYear();
-
-    function formatDate(value) {
-      if (!value) return "—";
-
-      const date = typeof value.toDate === "function"
-        ? value.toDate()
-        : new Date(value);
-
-      if (Number.isNaN(date.getTime())) return "—";
-
-      return new Intl.DateTimeFormat("en-IN", {
-        timeZone: "Asia/Kolkata",
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit"
-      }).format(date);
-    }
-
-    function escapeHTML(value) {
-      return String(value ?? "").replace(/[&<>"']/g, char => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-      })[char]);
-    }
-
-    async function loadMenu() {
-      const container = $("menuContainer");
-
-      try {
-        const response = await fetch("menu.html", { cache: "no-cache" });
-        if (!response.ok) throw new Error("Could not load menu.html");
-
-        const html = await response.text();
-        const parsed = new DOMParser().parseFromString(html, "text/html");
-
-        container.innerHTML =
-          parsed.body.innerHTML +
-          Array.from(parsed.head.querySelectorAll("style"))
-            .map(style => style.outerHTML).join("");
-
-        Object.assign(container.style, {
-          position: "fixed",
-          top: "0",
-          left: "0",
-          bottom: "0",
-          height: "100dvh",
-          overflowY: "auto",
-          overflowX: "hidden"
-        });
-
-        const currentPage = location.pathname.split("/").pop() || "article-editor.html";
-
-        container.querySelectorAll("[data-page]").forEach(link => {
-          if (link.dataset.page === currentPage) {
-            link.classList.add("active");
-            link.setAttribute("aria-current", "page");
-          }
-        });
-
-        container.querySelectorAll(
-          "#logoutBtn, [data-action='logout'], .logout-button"
-        ).forEach(button => {
-          button.addEventListener("click", async event => {
-            event.preventDefault();
-            await logout();
-          });
-        });
-
-        container.querySelectorAll("a").forEach(link => {
-          const label = (link.textContent || "").trim().toLowerCase();
-          if (["logout", "log out", "sign out"].includes(label)) {
-            link.addEventListener("click", async event => {
-              event.preventDefault();
-              await logout();
-            });
-          }
-        });
-      } catch (error) {
-        console.error(error);
-        container.innerHTML = `
-          <div style="padding:22px;color:#b91c1c;font-size:12px;line-height:1.8">
-            Menu could not load. Make sure menu.html is in this folder.
-            <br><button id="retryMenu" type="button">Retry</button>
-          </div>`;
-        $("retryMenu")?.addEventListener("click", loadMenu);
+    // Avoid overwriting the original author or creation time on edits.
+    if (articleId) {
+      if (currentRole === "editor" && originalAuthorId !== currentUser.uid) {
+        throw new Error("Editors can only edit their own articles.");
       }
+      await updateDoc(doc(db, "articles", articleId), data);
+    } else {
+      const created = await addDoc(collection(db, "articles"), data);
+      articleId = created.id;
+      history.replaceState(null, "", "article-editor.html?id=" + encodeURIComponent(articleId));
+      originalCreatedAt = null;
+      originalAuthorId = currentUser.uid;
+      originalAuthorEmail = currentUser.email || "";
     }
 
-    async function logout() {
+    dirty = false;
+    $("saveIndicator").textContent = "Saved successfully";
+    showStatus(status === "published" ? "Article published successfully." : "Draft saved successfully.", "success");
+  }
+
+  async function loadArticle() {
+    if (!articleId) return;
+    const snap = await getDoc(doc(db, "articles", articleId));
+    if (!snap.exists()) throw new Error("Article not found or you do not have permission to access it.");
+    const data = snap.data();
+
+    if (currentRole === "editor" && data.authorId !== currentUser.uid) {
+      throw new Error("Editors can only edit their own articles.");
+    }
+
+    $("title").value = data.title || "";
+    $("category").value = data.category || "";
+    $("excerpt").value = data.excerpt || "";
+    $("statusSelect").value = data.status || "draft";
+    $("featuredImage").value = data.featuredImage || "";
+    $("seoTitle").value = data.seoTitle || "";
+    $("seoDescription").value = data.seoDescription || "";
+    editor.innerHTML = data.content || "";
+    originalCreatedAt = data.createdAt || null;
+    originalAuthorId = data.authorId || currentUser.uid;
+    originalAuthorEmail = data.authorEmail || currentUser.email || "";
+    dirty = false;
+    $("saveIndicator").textContent = "Existing article loaded";
+    updateCounts();
+  }
+
+  $("draftBtn").addEventListener("click", async () => {
+    $("draftBtn").disabled = true;
+    try { await saveArticle("draft"); }
+    catch (e) { showStatus(e.message || "Could not save the draft.", "error"); }
+    finally { $("draftBtn").disabled = false; }
+  });
+
+  $("publishBtn").addEventListener("click", async () => {
+    $("publishBtn").disabled = true;
+    try {
+      if (!confirm("Save this article with Published status?")) return;
+      await saveArticle("published");
+    } catch (e) {
+      showStatus(e.message || "Could not publish the article.", "error");
+    } finally {
+      $("publishBtn").disabled = false;
+    }
+  });
+
+  $("statusSelect").addEventListener("change", () => {
+    markDirty();
+  });
+
+  ["title", "category", "excerpt", "featuredImage", "seoTitle", "seoDescription"].forEach(id => {
+    $(id).addEventListener("input", markDirty);
+  });
+
+  $("logoutBtn").addEventListener("click", async () => {
+    try {
       await signOut(auth);
       location.replace("index.html");
+    } catch (e) {
+      showStatus("Could not sign out: " + e.message, "error");
     }
+  });
 
-    function getDisplayName(user, profile) {
-      return profile.displayName ||
-        profile.name ||
-        profile.fullName ||
-        profile.username ||
-        user.displayName ||
-        user.email ||
-        "EduGM Staff";
+  $("menuBtn").addEventListener("click", () => $("sidebar").classList.toggle("open"));
+  document.addEventListener("click", event => {
+    if (window.innerWidth <= 900 &&
+        !$("sidebar").contains(event.target) &&
+        !$("menuBtn").contains(event.target)) {
+      $("sidebar").classList.remove("open");
     }
+  });
 
-    async function loadCategories() {
-      try {
-        const snapshot = await getDocs(collection(db, "articles"));
-        const categories = new Set();
-
-        snapshot.forEach(documentSnapshot => {
-          const category = documentSnapshot.data().category;
-          if (typeof category === "string" && category.trim()) {
-            categories.add(category.trim());
-          }
-        });
-
-        savedCategoryNames = [...categories].sort((a, b) => a.localeCompare(b));
-
-        $("categoryOptions").innerHTML = savedCategoryNames
-          .map(category => `<option value="${escapeHTML(category)}"></option>`)
-          .join("");
-      } catch (error) {
-        // Category suggestions are optional; entering a category manually still works.
-        console.warn("Category suggestions unavailable:", error);
-      }
-    }
-
-    function updateCounters() {
-      $("titleCount").textContent = $("title").value.length;
-      $("excerptCount").textContent = $("excerpt").value.length;
-      $("contentCount").textContent = $("content").value.length;
-    }
-
-    ["title", "excerpt", "content"].forEach(id => {
-      $(id).addEventListener("input", updateCounters);
-    });
-
-    function setStatus(status) {
-      const radio = document.querySelector(`input[name="status"][value="${status}"]`);
-      if (radio) radio.checked = true;
-      $("currentStatus").textContent = status === "published" ? "Published" : "Draft";
-    }
-
-    document.querySelectorAll('input[name="status"]').forEach(radio => {
-      radio.addEventListener("change", () => setStatus(radio.value));
-    });
-
-    async function loadExistingArticle() {
-      const reference = doc(db, "articles", articleId);
-      const snapshot = await getDoc(reference);
-
-      if (!snapshot.exists()) {
-        showMessage("This article does not exist or is not accessible to your account.", "error");
-        $("articleForm").querySelectorAll("input,textarea,button,select")
-          .forEach(control => control.disabled = true);
-        return false;
-      }
-
-      const article = snapshot.data();
-
-      // Match the article editing permissions in the provided Firestore rules.
-      const canEdit = currentRole === "owner" ||
-        currentRole === "admin" ||
-        (currentRole === "editor" && article.authorId === currentUser.uid);
-
-      if (!canEdit) {
-        showMessage("You do not have permission to edit this article.", "error");
-        $("articleForm").querySelectorAll("input,textarea,button,select")
-          .forEach(control => control.disabled = true);
-        return false;
-      }
-
-      originalArticle = article;
-
-      $("pageTitle").textContent = "Edit Article";
-      $("pageDescription").textContent = "Update the article and save your changes.";
-      $("title").value = article.title || "";
-      $("category").value = article.category || "";
-      $("excerpt").value = article.excerpt || "";
-      $("content").value = article.content || "";
-
-      setStatus(article.status === "published" ? "published" : "draft");
-
-      $("createdInfo").textContent = formatDate(article.createdAt);
-      $("updatedInfo").textContent = formatDate(article.updatedAt);
-      updateCounters();
-
-      return true;
-    }
-
-    function setSaving(saving, action) {
-      isSaving = saving;
-
-      $("saveDraftBtn").disabled = saving;
-      $("publishBtn").disabled = saving;
-
-      $("saveDraftBtn").textContent =
-        saving && action === "draft" ? "Saving..." : "Save Draft";
-
-      $("publishBtn").textContent =
-        saving && action === "published" ? "Publishing..." : "Publish Article";
-    }
-
-    async function saveArticle(status) {
-      if (isSaving) return;
-
-      clearMessage();
-
-      const title = $("title").value.trim();
-      const category = $("category").value.trim();
-      const excerpt = $("excerpt").value.trim();
-      const content = $("content").value.trim();
-
-      if (!title) {
-        showMessage("Please enter an article title.", "error");
-        $("title").focus();
-        return;
-      }
-
-      if (!category) {
-        showMessage("Please enter or select an article category.", "error");
-        $("category").focus();
-        return;
-      }
-
-      if (!content) {
-        showMessage("Please enter the article content.", "error");
-        $("content").focus();
-        return;
-      }
-
-      if (title.length > 160 || category.length > 80 ||
-          excerpt.length > 240 || content.length > 100000) {
-        showMessage("One or more fields exceed the permitted length.", "error");
-        return;
-      }
-
-      if (articleId && !originalArticle) {
-        showMessage("The article has not been loaded or you do not have edit access.", "error");
-        return;
-      }
-
-      setSaving(true, status);
-
-      try {
-        const now = serverTimestamp();
-
-        const articleData = {
-          title,
-          category,
-          excerpt,
-          content,
-          status,
-          authorId: currentUser.uid,
-          authorEmail: currentUser.email || "",
-          updatedAt: now,
-          publishedAt: status === "published"
-            ? (originalArticle?.publishedAt || Timestamp.now())
-            : null
-        };
-
-        if (articleId) {
-          // Preserve original author and creation fields when editing.
-          articleData.authorId = originalArticle.authorId;
-          articleData.authorEmail = originalArticle.authorEmail || "";
-          articleData.createdAt = originalArticle.createdAt;
-
-          await updateDoc(doc(db, "articles", articleId), articleData);
-        } else {
-          articleData.createdAt = now;
-          await addDoc(collection(db, "articles"), articleData);
-        }
-
-        showMessage(
-          status === "published"
-            ? "Article published successfully."
-            : "Draft saved successfully.",
-          "success"
-        );
-
-        // Load the saved document so a subsequent edit retains its metadata.
-        if (articleId) {
-          const refreshed = await getDoc(doc(db, "articles", articleId));
-          if (refreshed.exists()) originalArticle = refreshed.data();
-          $("updatedInfo").textContent = "Just saved";
-        } else {
-          // New articles receive their Firestore ID only after creation.
-          // Redirect to the edit URL to prevent accidental duplicate creation.
-          const snapshot = await getDocs(query(
-            collection(db, "articles"),
-            where("authorId", "==", currentUser.uid)
-          ));
-
-          const matching = snapshot.docs
-            .map(item => ({ id: item.id, ...item.data() }))
-            .filter(item =>
-              item.title === title &&
-              item.content === content &&
-              item.status === status
-            )
-            .sort((a, b) => {
-              const time = value => value?.toDate ? value.toDate().getTime() : 0;
-              return time(b.createdAt) - time(a.createdAt);
-            });
-
-          if (matching.length) {
-            location.replace("article-editor.html?id=" + encodeURIComponent(matching[0].id));
-            return;
-          }
-
-          showMessage(
-            "Article saved, but its edit URL could not be resolved automatically. Return to Articles to find it.",
-            "success"
-          );
-        }
-
-        $("currentStatus").textContent =
-          status === "published" ? "Published" : "Draft";
-      } catch (error) {
-        console.error("Save article error:", error);
-
-        let message = "Could not save the article. Please try again.";
-
-        if (error.code === "permission-denied") {
-          message =
-            "Permission denied by Firestore. Check your article security rules and confirm that your role is allowed to perform this action.";
-        }
-
-        showMessage(message, "error");
-      } finally {
-        setSaving(false, status);
-      }
-    }
-
-    $("saveDraftBtn").addEventListener("click", () => {
-      setStatus("draft");
-      saveArticle("draft");
-    });
-
-    $("publishBtn").addEventListener("click", () => {
-      setStatus("published");
-      saveArticle("published");
-    });
-
-    $("articleForm").addEventListener("submit", event => {
+  window.addEventListener("beforeunload", event => {
+    if (dirty) {
       event.preventDefault();
-      saveArticle(document.querySelector('input[name="status"]:checked')?.value || "draft");
-    });
+      event.returnValue = "";
+    }
+  });
 
-    const sidebar = $("menuContainer");
-    const overlay = $("overlay");
-    const mobileMenuButton = $("mobileMenuButton");
-
-    function openMenu() {
-      sidebar.classList.add("menu-open");
-      overlay.classList.add("show");
-      mobileMenuButton.setAttribute("aria-expanded", "true");
+  onAuthStateChanged(auth, async user => {
+    if (!user) {
+      location.replace("index.html");
+      return;
     }
 
-    function closeMenu() {
-      sidebar.classList.remove("menu-open");
-      overlay.classList.remove("show");
-      mobileMenuButton.setAttribute("aria-expanded", "false");
-    }
-
-    mobileMenuButton.addEventListener("click", () => {
-      sidebar.classList.contains("menu-open") ? closeMenu() : openMenu();
-    });
-
-    overlay.addEventListener("click", closeMenu);
-
-    sidebar.addEventListener("click", event => {
-      if (event.target.closest("a")) closeMenu();
-    });
-
-    document.addEventListener("keydown", event => {
-      if (event.key === "Escape") closeMenu();
-    });
-
-    await loadMenu();
-
-    onAuthStateChanged(auth, async user => {
-      if (!user) {
+    try {
+      const profile = await getDoc(doc(db, "users", user.uid));
+      if (!profile.exists() || profile.data().active !== true) {
+        await signOut(auth);
         location.replace("index.html");
         return;
       }
 
       currentUser = user;
+      currentRole = String(profile.data().role || "").toLowerCase();
 
-      try {
-        const profileSnapshot = await getDoc(doc(db, "users", user.uid));
-
-        if (!profileSnapshot.exists()) {
-          await signOut(auth);
-          location.replace("index.html?error=not-approved");
-          return;
-        }
-
-        currentProfile = profileSnapshot.data();
-        currentRole = String(currentProfile.role || "").toLowerCase().trim();
-
-        if (currentProfile.active !== true ||
-            !["owner", "admin", "editor"].includes(currentRole)) {
-          await signOut(auth);
-          location.replace("index.html?error=not-approved");
-          return;
-        }
-
-        $("authorInfo").textContent = getDisplayName(user, currentProfile);
-        $("roleInfo").textContent =
-          currentRole.charAt(0).toUpperCase() + currentRole.slice(1);
-
-        await loadCategories();
-
-        if (articleId) {
-          const loaded = await loadExistingArticle();
-
-          if (!loaded) return;
-        }
-      } catch (error) {
-        console.error("Editor initialization error:", error);
-        showMessage(
-          "Could not verify your account or load the article. Check your connection and Firestore rules.",
-          "error"
-        );
+      if (!["owner", "admin", "editor"].includes(currentRole)) {
+        showStatus("Your account does not have article-editor access.", "error");
+        return;
       }
-    });
-  </script>
+
+      $("userInfo").textContent = (user.email || "EduGM staff") + " · " + currentRole.toUpperCase();
+
+      await loadArticle();
+      updateCounts();
+    } catch (e) {
+      showStatus("Could not load the article. Check your login, Firestore rules and document permissions. " + e.message, "error");
+    }
+  });
+</script>
 </body>
 </html>
