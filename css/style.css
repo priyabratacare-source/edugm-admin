@@ -1,0 +1,89 @@
+
+/* EduGM login and approval-message styling */
+.login-container,
+.login-card,
+.auth-card {
+  width: min(92%, 420px);
+  margin: 40px auto;
+  padding: 28px;
+  background: #ffffff;
+  border: 1px solid #e5eaf5;
+  border-radius: 18px;
+  box-shadow: 0 12px 35px rgba(30, 64, 175, 0.09);
+}
+
+body {
+  margin: 0;
+  font-family: "Poppins", Arial, sans-serif;
+  background: #f4f7ff;
+  color: #172554;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  margin: 8px 0 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font: inherit;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid #93c5fd;
+  border-color: #2563eb;
+}
+
+button,
+.btn {
+  display: inline-block;
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 10px;
+  background: #2563eb;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover,
+.btn:hover {
+  background: #1d4ed8;
+}
+
+.error-message,
+#login-error,
+#auth-error {
+  padding: 12px 14px;
+  margin: 12px 0;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.edugm-logo {
+  display: block;
+  width: 110px;
+  height: auto;
+  max-height: 110px;
+  object-fit: contain;
+  margin: 0 auto 16px;
+}
+
+@media (max-width: 480px) {
+  .login-container,
+  .login-card,
+  .auth-card {
+    padding: 20px;
+    margin: 20px auto;
+  }
+}
