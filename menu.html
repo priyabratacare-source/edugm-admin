@@ -1,0 +1,183 @@
+
+<style>
+  .egm-menu {
+    width: 250px;
+    min-height: 100%;
+    padding: 24px 16px;
+    background: #fff;
+    border-right: 1px solid #e5edf7;
+    display: flex;
+    flex-direction: column;
+    font-family: Inter, Arial, sans-serif;
+    box-sizing: border-box;
+  }
+
+  .egm-menu * { box-sizing: border-box; }
+
+  .egm-menu-brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 0 7px 24px;
+    border-bottom: 1px solid #edf2f8;
+  }
+
+  .egm-menu-brand img {
+    width: 43px;
+    height: 43px;
+    object-fit: contain;
+  }
+
+  .egm-menu-brand strong {
+    display: block;
+    color: #1d4ed8;
+    font-size: 20px;
+    font-weight: 800;
+  }
+
+  .egm-menu-brand small {
+    display: block;
+    color: #64748b;
+    font-size: 10px;
+    margin-top: 4px;
+  }
+
+  .egm-menu-label {
+    margin: 25px 10px 11px;
+    color: #94a3b8;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+  }
+
+  .egm-menu nav {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .egm-menu a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 14px;
+    border-radius: 11px;
+    text-decoration: none;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background .2s, color .2s, transform .2s;
+  }
+
+  .egm-menu a:hover {
+    background: #eff6ff;
+    color: #2563eb;
+    transform: translateX(2px);
+  }
+
+  .egm-menu a.active {
+    color: #2563eb;
+    background: #eaf1ff;
+  }
+
+  .egm-menu .menu-icon {
+    width: 22px;
+    text-align: center;
+    font-size: 17px;
+  }
+
+  .egm-menu-footer {
+    margin-top: auto;
+    padding: 25px 8px 4px;
+    color: #94a3b8;
+    font-size: 10px;
+    line-height: 1.8;
+  }
+
+  @media (max-width: 700px) {
+    .egm-menu {
+      width: 100%;
+      min-height: auto;
+      padding: 12px 14px;
+      border-right: 0;
+      border-bottom: 1px solid #e5edf7;
+    }
+
+    .egm-menu-brand {
+      padding: 0 4px 10px;
+      border: 0;
+    }
+
+    .egm-menu-brand img {
+      width: 36px;
+      height: 36px;
+    }
+
+    .egm-menu-brand strong { font-size: 18px; }
+
+    .egm-menu-label,
+    .egm-menu-footer { display: none; }
+
+    .egm-menu nav {
+      flex-direction: row;
+      gap: 6px;
+      overflow-x: auto;
+      padding-top: 8px;
+    }
+
+    .egm-menu a {
+      flex-shrink: 0;
+      padding: 10px 12px;
+      font-size: 11px;
+    }
+  }
+</style>
+
+<aside class="egm-menu">
+  <div class="egm-menu-brand">
+    <img
+      src="https://i.ibb.co/1Y82N0n0/Edu-GM-Learning-Logo.png"
+      alt="EduGM"
+    >
+    <div>
+      <strong>EduGM</strong>
+      <small>Learning · Admin Panel</small>
+    </div>
+  </div>
+
+  <div class="egm-menu-label">Workspace</div>
+
+  <nav aria-label="Admin navigation">
+    <a href="dashboard.html" data-page="dashboard.html">
+      <span class="menu-icon">⌂</span> Dashboard
+    </a>
+
+    <a href="articles.html" data-page="articles.html">
+      <span class="menu-icon">▤</span> Articles
+    </a>
+
+    <a href="article-editor.html" data-page="article-editor.html">
+      <span class="menu-icon">✎</span> Write Article
+    </a>
+  </nav>
+
+  <div class="egm-menu-footer">
+    <strong>EduGM Admin Panel</strong><br>
+    Official Use Only<br>
+    Secure staff workspace
+  </div>
+</aside>
+
+<script>
+  (() => {
+    const currentPage = location.pathname.split("/").pop() || "dashboard.html";
+
+    document.querySelectorAll(".egm-menu [data-page]").forEach(link => {
+      if (link.dataset.page === currentPage) {
+        link.classList.add("active");
+        link.setAttribute("aria-current", "page");
+      }
+    });
+  })();
+</script>
