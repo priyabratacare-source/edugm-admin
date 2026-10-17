@@ -5,404 +5,140 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow,noarchive">
-  <meta name="theme-color" content="#2563eb">
   <title>EduGM — Article Manager</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --blue: #2563eb;
-      --blue-dark: #1d4ed8;
-      --pale: #eff6ff;
-      --ink: #172554;
-      --muted: #64748b;
-      --border: #e2e8f0;
-      --bg: #f5f8ff;
-      --white: #fff;
-      --green: #15803d;
-      --red: #b91c1c;
-      --shadow: 0 8px 30px rgba(30,64,175,.06);
+      --blue:#2563eb; --blue-dark:#1d4ed8; --pale:#eff6ff;
+      --ink:#172554; --muted:#64748b; --border:#e2e8f0;
+      --bg:#f5f8ff; --white:#fff;
     }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      color: var(--ink);
-      background: var(--bg);
-      font-family: Inter, Arial, sans-serif;
-    }
-
-    button, input, select { font: inherit; }
-    button { cursor: pointer; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--ink); font-family:Inter,Arial,sans-serif; }
+    button,input { font:inherit; }
+    button,a { -webkit-tap-highlight-color:transparent; }
+    button { cursor:pointer; }
 
     .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      min-height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      padding: 12px 26px;
-      background: white;
-      border-bottom: 1px solid var(--border);
+      height:72px; position:sticky; top:0; z-index:20;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; padding:0 24px; background:#fff;
+      border-bottom:1px solid var(--border);
     }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      min-width: 0;
-    }
-
-    .brand img {
-      width: 43px;
-      height: 43px;
-      object-fit: contain;
-      border-radius: 10px;
-    }
-
-    .brand strong { font-size: 17px; }
-    .brand small {
-      display: block;
-      margin-top: 4px;
-      color: var(--muted);
-      font-size: 11px;
-    }
-
-    .top-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
+    .brand { display:flex; align-items:center; gap:10px; min-width:0; }
+    .brand img { width:42px; height:42px; object-fit:contain; }
+    .brand strong { font-size:16px; }
+    .brand small { display:block; color:var(--muted); font-size:11px; margin-top:4px; }
+    .top-actions { display:flex; flex-wrap:wrap; gap:7px; }
 
     .btn {
-      padding: 10px 13px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      color: var(--ink);
-      background: white;
-      font-size: 12px;
-      font-weight: 700;
+      padding:10px 13px; border:1px solid var(--border);
+      border-radius:10px; color:var(--ink); background:#fff;
+      font-size:12px; font-weight:700; text-decoration:none;
+      display:inline-flex; align-items:center; justify-content:center;
+    }
+    .btn:hover { background:#f8fafc; }
+    .btn-primary { background:var(--blue); border-color:var(--blue); color:#fff; }
+    .btn-primary:hover { background:var(--blue-dark); }
+    .btn-danger { color:#b91c1c; border-color:#fecaca; }
+
+    .layout { display:grid; grid-template-columns:245px minmax(0,1fr); min-height:calc(100vh - 72px); }
+    .sidebar {
+      background:#fff; border-right:1px solid var(--border);
+      padding:22px 13px; min-width:0;
+    }
+    .side-heading {
+      padding:0 11px 12px; color:#94a3b8; font-size:10px;
+      font-weight:800; letter-spacing:1.4px; text-transform:uppercase;
+    }
+    .nav { display:flex; flex-direction:column; gap:5px; }
+    .nav-link {
+      display:flex; align-items:center; gap:11px; width:100%;
+      padding:12px; border:1px solid transparent; border-radius:11px;
+      color:#475569; text-decoration:none; font-size:12px; font-weight:600;
+      overflow-wrap:anywhere;
+    }
+    .nav-link:hover,.nav-link.active { background:var(--pale); color:var(--blue-dark); border-color:#dbeafe; }
+    .nav-icon { width:22px; flex-shrink:0; text-align:center; font-size:17px; }
+    .side-note {
+      margin:28px 5px 0; padding:13px; border:1px solid #dbeafe;
+      border-radius:12px; background:#f8fbff; color:var(--muted);
+      font-size:11px; line-height:1.8;
     }
 
-    .btn:hover { background: #f8fafc; }
+    main { width:100%; max-width:1450px; padding:28px; min-width:0; }
+    .eyebrow { color:var(--blue); font-size:10px; font-weight:800; letter-spacing:1.3px; margin-bottom:8px; text-transform:uppercase; }
+    h1 { margin:0; font-size:clamp(25px,3vw,33px); letter-spacing:-1px; }
+    h2 { margin:0; font-size:17px; }
+    .muted { color:var(--muted); font-size:12px; line-height:1.7; }
+    .intro { display:flex; justify-content:space-between; align-items:flex-start; gap:14px; margin-bottom:22px; }
+    .stats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:13px; margin-bottom:22px; }
+    .stat { padding:18px; border:1px solid var(--border); border-radius:15px; background:#fff; box-shadow:0 8px 28px #1e40af08; }
+    .stat-label { color:var(--muted); font-size:12px; }
+    .stat-number { margin-top:10px; font-size:27px; font-weight:800; }
 
-    .btn-primary {
-      color: white;
-      background: var(--blue);
-      border-color: var(--blue);
+    .panel { background:#fff; border:1px solid var(--border); border-radius:16px; overflow:hidden; box-shadow:0 8px 28px #1e40af08; }
+    .panel-head { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; padding:19px; border-bottom:1px solid var(--border); }
+    .filters { display:flex; align-items:center; gap:7px; flex-wrap:wrap; padding:14px 19px; border-bottom:1px solid var(--border); }
+    .tab { border:1px solid transparent; border-radius:9px; padding:9px 12px; background:transparent; color:var(--muted); font-size:12px; font-weight:700; }
+    .tab.active { background:var(--pale); color:var(--blue-dark); border-color:#dbeafe; }
+    .search { width:min(260px,100%); min-height:38px; border:1px solid var(--border); border-radius:9px; padding:9px 11px; outline:none; font-size:12px; }
+    .search:focus { border-color:var(--blue); box-shadow:0 0 0 3px #dbeafe; }
+    .article-list { padding:13px 18px; }
+    .article { display:grid; grid-template-columns:145px minmax(0,1fr); gap:16px; padding:17px 0; border-bottom:1px solid #edf1f7; }
+    .article:last-child { border-bottom:0; }
+    .article-image { width:145px; height:110px; display:grid; place-items:center; overflow:hidden; border:1px solid var(--border); border-radius:11px; background:#f1f5f9; color:#94a3b8; font-size:11px; text-align:center; }
+    .article-image img { width:100%; height:100%; object-fit:cover; }
+    .article-main { min-width:0; }
+    .article-title { margin:1px 0 8px; font-size:15px; line-height:1.5; overflow-wrap:anywhere; }
+    .article-excerpt { margin:0 0 11px; color:var(--muted); font-size:12px; line-height:1.7; }
+    .meta { display:flex; flex-wrap:wrap; gap:5px 14px; color:var(--muted); font-size:11px; line-height:1.7; overflow-wrap:anywhere; }
+    .badge { display:inline-block; padding:5px 9px; border-radius:20px; background:#f1f5f9; color:#475569; font-size:10px; font-weight:800; text-transform:uppercase; }
+    .badge.draft { background:#fff7ed; color:#9a3412; }
+    .badge.published { background:#dcfce7; color:#166534; }
+    .article-actions { display:flex; flex-wrap:wrap; gap:7px; margin-top:12px; }
+    .article-actions .btn { padding:8px 10px; }
+    .notice { margin-bottom:17px; padding:12px 14px; border:1px solid #dbeafe; border-radius:11px; background:#eff6ff; color:#1e40af; font-size:12px; line-height:1.7; overflow-wrap:anywhere; }
+    .notice.error { background:#fef2f2; color:#991b1b; border-color:#fecaca; }
+    .empty { padding:40px 14px; text-align:center; color:var(--muted); font-size:12px; line-height:1.8; }
+    footer { padding:25px 10px 10px; text-align:center; color:#94a3b8; font-size:11px; line-height:1.8; }
+
+    .modal-backdrop { position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center; padding:16px; background:#0f172a99; backdrop-filter:blur(4px); }
+    .modal { width:min(760px,100%); max-height:92vh; overflow:auto; border-radius:17px; background:#fff; box-shadow:0 25px 90px #0f172a40; }
+    .modal-head { display:flex; justify-content:space-between; gap:12px; padding:20px; border-bottom:1px solid var(--border); }
+    .modal-body { padding:20px; }
+    .preview-image { display:block; width:100%; max-height:340px; object-fit:contain; margin:14px 0; border-radius:12px; background:#f1f5f9; }
+    .preview-content { white-space:pre-wrap; overflow-wrap:anywhere; font-size:13px; line-height:1.9; }
+    .hidden { display:none!important; }
+
+    @media(max-width:900px) {
+      .layout { grid-template-columns:205px minmax(0,1fr); }
+      main { padding:21px; }
     }
-
-    .btn-primary:hover { background: var(--blue-dark); }
-
-    .btn-danger {
-      color: var(--red);
-      border-color: #fecaca;
-    }
-
-    main {
-      width: min(1200px, 100%);
-      margin: auto;
-      padding: 28px 24px;
-    }
-
-    .eyebrow {
-      margin-bottom: 8px;
-      color: var(--blue);
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 1.3px;
-      text-transform: uppercase;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(25px, 4vw, 34px);
-      letter-spacing: -1px;
-    }
-
-    h2 { margin: 0; font-size: 18px; }
-
-    .muted {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.7;
-    }
-
-    .intro {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      margin-bottom: 23px;
-    }
-
-    .stat {
-      padding: 18px;
-      border: 1px solid var(--border);
-      border-radius: 15px;
-      background: white;
-      box-shadow: var(--shadow);
-    }
-
-    .stat-label { color: var(--muted); font-size: 12px; }
-    .stat-number { margin-top: 10px; font-size: 27px; font-weight: 800; }
-
-    .panel {
-      overflow: hidden;
-      border: 1px solid var(--border);
-      border-radius: 17px;
-      background: white;
-      box-shadow: var(--shadow);
-    }
-
-    .panel-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      flex-wrap: wrap;
-      padding: 20px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .filters {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-      padding: 16px 20px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .tab {
-      padding: 9px 13px;
-      border: 1px solid transparent;
-      border-radius: 9px;
-      background: transparent;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .tab.active {
-      color: var(--blue-dark);
-      background: var(--pale);
-      border-color: #dbeafe;
-    }
-
-    .search {
-      width: min(280px, 100%);
-      min-height: 38px;
-      padding: 9px 12px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      outline: none;
-      font-size: 12px;
-    }
-
-    .search:focus {
-      border-color: var(--blue);
-      box-shadow: 0 0 0 3px #dbeafe;
-    }
-
-    .article-list { padding: 14px; }
-
-    .article {
-      display: grid;
-      grid-template-columns: 150px minmax(0, 1fr);
-      gap: 17px;
-      padding: 17px 0;
-      border-bottom: 1px solid #edf1f7;
-    }
-
-    .article:last-child { border-bottom: 0; }
-
-    .article-image {
-      width: 150px;
-      height: 115px;
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      background: #f1f5f9;
-      color: #94a3b8;
-      font-size: 12px;
-      text-align: center;
-    }
-
-    .article-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .article-main { min-width: 0; }
-
-    .article-title {
-      margin: 1px 0 8px;
-      font-size: 16px;
-      line-height: 1.45;
-      font-weight: 800;
-      overflow-wrap: anywhere;
-    }
-
-    .article-excerpt {
-      margin: 0 0 12px;
-      color: #64748b;
-      font-size: 12px;
-      line-height: 1.7;
-      overflow-wrap: anywhere;
-    }
-
-    .meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px 14px;
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.7;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      width: fit-content;
-      padding: 5px 9px;
-      border-radius: 20px;
-      background: #f1f5f9;
-      color: #475569;
-      font-size: 10px;
-      font-weight: 800;
-      text-transform: uppercase;
-    }
-
-    .badge.draft { background: #fff7ed; color: #9a3412; }
-    .badge.published { background: #dcfce7; color: #166534; }
-
-    .article-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-      margin-top: 13px;
-    }
-
-    .article-actions .btn { padding: 8px 11px; }
-
-    .notice {
-      margin-bottom: 18px;
-      padding: 13px 15px;
-      border: 1px solid #dbeafe;
-      border-radius: 12px;
-      background: #eff6ff;
-      color: #1e40af;
-      font-size: 12px;
-      line-height: 1.7;
-      overflow-wrap: anywhere;
-    }
-
-    .notice.error {
-      color: #991b1b;
-      background: #fef2f2;
-      border-color: #fecaca;
-    }
-
-    .empty {
-      padding: 45px 15px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.8;
-    }
-
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      background: rgba(15,23,42,.58);
-      backdrop-filter: blur(4px);
-    }
-
-    .modal {
-      width: min(760px, 100%);
-      max-height: 92vh;
-      overflow: auto;
-      border-radius: 18px;
-      background: white;
-      box-shadow: 0 25px 90px #0f172a40;
-    }
-
-    .modal-head {
-      display: flex;
-      justify-content: space-between;
-      gap: 15px;
-      padding: 20px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .modal-body { padding: 20px; }
-
-    .preview-image {
-      width: 100%;
-      max-height: 330px;
-      object-fit: contain;
-      background: #f1f5f9;
-      border-radius: 12px;
-      margin: 14px 0;
-    }
-
-    .preview-content {
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-      font-size: 13px;
-      line-height: 1.85;
-    }
-
-    .hidden { display: none !important; }
-
-    footer {
-      padding: 25px 10px 10px;
-      color: #94a3b8;
-      font-size: 11px;
-      text-align: center;
-      line-height: 1.8;
-    }
-
-    @media(max-width: 700px) {
-      .topbar { padding: 12px 14px; }
-      .brand strong { font-size: 14px; }
-      .brand small { display: none; }
-      .brand img { width: 36px; height: 36px; }
-      .top-actions { gap: 5px; }
-      .top-actions .btn { padding: 9px; font-size: 10px; }
-      main { padding: 22px 13px; }
-      .intro { flex-direction: column; }
-      .stats { grid-template-columns: 1fr; gap: 9px; }
-      .stat { padding: 14px; }
-      .stat-number { font-size: 23px; }
-      .article { grid-template-columns: 95px minmax(0,1fr); gap: 11px; }
-      .article-image { width: 95px; height: 90px; }
-      .article-title { font-size: 14px; }
-      .article-list { padding: 0 12px; }
-      .filters { padding: 12px; }
-      .panel-head { padding: 16px 12px; }
+    @media(max-width:650px) {
+      .topbar { height:auto; min-height:65px; padding:10px 12px; }
+      .brand img { width:35px; height:35px; }
+      .brand strong { font-size:13px; }
+      .brand small { display:none; }
+      .top-actions { gap:4px; }
+      .top-actions .btn { padding:8px; font-size:10px; }
+      .layout { display:block; }
+      .sidebar { padding:10px; border-right:0; border-bottom:1px solid var(--border); }
+      .side-heading,.side-note { display:none; }
+      .nav { flex-direction:row; overflow-x:auto; padding-bottom:3px; }
+      .nav-link { width:auto; min-width:max-content; padding:10px; }
+      main { padding:20px 12px; }
+      .intro { flex-direction:column; }
+      .stats { grid-template-columns:1fr; gap:8px; }
+      .stat { padding:13px; }
+      .stat-number { font-size:23px; }
+      .article { grid-template-columns:90px minmax(0,1fr); gap:10px; }
+      .article-image { width:90px; height:85px; }
+      .article-title { font-size:13px; }
+      .article-list { padding:0 11px; }
+      .filters,.panel-head { padding:12px; }
     }
   </style>
 </head>
@@ -410,83 +146,75 @@
 <body>
   <header class="topbar">
     <div class="brand">
-      <img src="https://i.ibb.co/1Y82N0n0/Edu-GM-Learning-Logo.png" alt="EduGM">
+      <img src="https://i.ibb.co/1Y82N0n0/Edu-GM-Learning-Logo.png" alt="EduGM logo">
       <div>
-        <strong>EduGM Article Manager</strong>
-        <small>Official content workspace</small>
+        <strong>EduGM Admin</strong>
+        <small>Article management workspace</small>
       </div>
     </div>
-
     <div class="top-actions">
       <button class="btn" id="refreshBtn" type="button">↻ Refresh</button>
-      <a class="btn" href="dashboard.html" style="text-decoration:none">← Dashboard</a>
-      <button class="btn btn-primary" id="newArticleBtn" type="button">+ New Article</button>
+      <a class="btn" href="dashboard.html">Dashboard</a>
+      <button class="btn btn-primary" id="newBtn" type="button">+ New Article</button>
       <button class="btn btn-danger" id="logoutBtn" type="button">Logout</button>
     </div>
   </header>
 
-  <main>
-    <div class="intro">
-      <div>
-        <div class="eyebrow">Content management</div>
-        <h1>Articles</h1>
-        <p class="muted">Review drafts, check last-edited dates, and preview article images.</p>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="side-heading">Workspace menu</div>
+      <nav id="sidebarNav" class="nav" aria-label="Dashboard menu">
+        <a class="nav-link" href="dashboard.html"><span class="nav-icon">⌂</span>Dashboard</a>
+        <a class="nav-link active" href="articles.html"><span class="nav-icon">📝</span>Articles</a>
+      </nav>
+      <div class="side-note">
+        <strong>EduGM Official Panel</strong><br>
+        Authorized staff use only. Menu visibility follows your account role.
       </div>
-      <div class="muted" id="accountInfo">Verifying account...</div>
-    </div>
+    </aside>
 
-    <div id="status" class="notice">Connecting to Firebase...</div>
-
-    <section class="stats">
-      <div class="stat">
-        <div class="stat-label">All accessible articles</div>
-        <div id="totalCount" class="stat-number">—</div>
-      </div>
-      <div class="stat">
-        <div class="stat-label">Draft articles</div>
-        <div id="draftCount" class="stat-number">—</div>
-      </div>
-      <div class="stat">
-        <div class="stat-label">Published articles</div>
-        <div id="publishedCount" class="stat-number">—</div>
-      </div>
-    </section>
-
-    <section class="panel">
-      <div class="panel-head">
+    <main>
+      <div class="intro">
         <div>
-          <h2>Article library</h2>
-          <div class="muted">Drafts include the last saved edit time when available.</div>
+          <div class="eyebrow">Content management</div>
+          <h1>Articles</h1>
+          <p class="muted">Review drafts, check last-edited dates, and preview article images.</p>
         </div>
+        <div class="muted" id="accountInfo">Verifying account...</div>
       </div>
 
-      <div class="filters">
-        <button class="tab active" data-filter="all" type="button">All accessible</button>
-        <button class="tab" data-filter="draft" type="button">Drafts</button>
-        <button class="tab" data-filter="published" type="button">Published</button>
-        <input class="search" id="searchInput" type="search"
-               placeholder="Search title or category..." aria-label="Search articles">
-      </div>
+      <div id="status" class="notice">Connecting to Firebase...</div>
 
-      <div id="articleList" class="article-list">
-        <div class="empty">Loading articles...</div>
-      </div>
-    </section>
+      <section class="stats">
+        <div class="stat"><div class="stat-label">Accessible articles</div><div id="totalCount" class="stat-number">—</div></div>
+        <div class="stat"><div class="stat-label">Draft articles</div><div id="draftCount" class="stat-number">—</div></div>
+        <div class="stat"><div class="stat-label">Published articles</div><div id="publishedCount" class="stat-number">—</div></div>
+      </section>
 
-    <footer>
-      © <span id="year"></span> EduGM. All rights reserved.<br>
-      EduGM Admin Panel — Official Use Only.
-    </footer>
-  </main>
+      <section class="panel">
+        <div class="panel-head">
+          <div><h2>Article library</h2><div class="muted">Sorted by most recently edited.</div></div>
+        </div>
+        <div class="filters">
+          <button class="tab active" data-filter="all" type="button">All</button>
+          <button class="tab" data-filter="draft" type="button">Drafts</button>
+          <button class="tab" data-filter="published" type="button">Published</button>
+          <input class="search" id="searchInput" type="search" placeholder="Search title or category...">
+        </div>
+        <div id="articleList" class="article-list"><div class="empty">Loading articles...</div></div>
+      </section>
 
-  <div id="previewModal" class="modal-backdrop hidden"
-       role="dialog" aria-modal="true" aria-labelledby="previewTitle">
+      <footer>
+        © <span id="year"></span> EduGM. All rights reserved.<br>
+        EduGM Admin Panel — Official Use Only.
+      </footer>
+    </main>
+  </div>
+
+  <div id="previewModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="previewTitle">
     <div class="modal">
       <div class="modal-head">
-        <div>
-          <div class="eyebrow">Article preview</div>
-          <h2 id="previewTitle">Article</h2>
-        </div>
+        <div><div class="eyebrow">Article preview</div><h2 id="previewTitle">Article</h2></div>
         <button class="btn" id="closePreview" type="button">Close ✕</button>
       </div>
       <div class="modal-body" id="previewBody"></div>
@@ -494,16 +222,9 @@
   </div>
 
   <script type="module">
-    import { initializeApp } from
-      "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
-
-    import {
-      getAuth, onAuthStateChanged, signOut
-    } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
-
-    import {
-      getFirestore, doc, getDoc, collection, query, where, getDocs
-    } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyA9yj3ikv7oIsBhU7IE9XPclY3vul5d9us",
@@ -522,20 +243,15 @@
     let currentUser = null;
     let currentRole = "";
     let articles = [];
-    let currentFilter = "all";
+    let filter = "all";
     let loading = false;
 
     $("year").textContent = new Date().getFullYear();
 
-    function esc(value) {
-      return String(value ?? "").replace(/[&<>"']/g, c => ({
-        "&": "&amp;", "<": "&lt;", ">": "&gt;",
-        '"': "&quot;", "'": "&#39;"
+    function esc(v) {
+      return String(v ?? "").replace(/[&<>"']/g, c => ({
+        "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
       })[c]);
-    }
-
-    function roleName(value) {
-      return typeof value === "string" ? value.trim().toLowerCase() : "";
     }
 
     function setStatus(message, error = false) {
@@ -543,301 +259,208 @@
       $("status").className = "notice" + (error ? " error" : "");
     }
 
-    function toDate(value) {
+    function asDate(value) {
       if (!value) return null;
       if (typeof value.toDate === "function") return value.toDate();
-      if (value instanceof Date) return value;
-      if (typeof value === "number" || typeof value === "string") {
-        const date = new Date(value);
-        return Number.isNaN(date.getTime()) ? null : date;
-      }
-      return null;
+      const d = new Date(value);
+      return Number.isNaN(d.getTime()) ? null : d;
     }
 
-    function formatDate(value) {
-      const date = toDate(value);
-      if (!date) return "Not recorded";
-
-      return new Intl.DateTimeFormat(undefined, {
-        year: "numeric",
-        month: "short",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit"
-      }).format(date);
+    function dateText(value) {
+      const d = asDate(value);
+      return d ? new Intl.DateTimeFormat(undefined, {
+        year:"numeric", month:"short", day:"2-digit",
+        hour:"2-digit", minute:"2-digit"
+      }).format(d) : "Not recorded";
     }
 
-    function getLastEdited(article) {
-      return article.updatedAt || article.createdAt || null;
-    }
+    function lastEdited(a) { return a.updatedAt || a.createdAt || null; }
 
-    // Accept common image-field names so existing records can display images.
-    function getImageUrl(article) {
-      const possible = [
-        article.imageUrl,
-        article.featuredImage,
-        article.thumbnail,
-        article.image,
-        article.coverImage,
-        article.imageURL
-      ];
-
-      for (const value of possible) {
+    function imageUrl(a) {
+      for (const value of [a.imageUrl, a.featuredImage, a.thumbnail, a.image, a.coverImage, a.imageURL]) {
         if (typeof value !== "string" || !value.trim()) continue;
-
         try {
-          const url = new URL(value.trim(), location.href);
-          if (url.protocol === "https:" || url.protocol === "http:") {
-            return url.href;
-          }
+          const u = new URL(value.trim(), location.href);
+          if (u.protocol === "https:" || u.protocol === "http:") return u.href;
         } catch (_) {}
       }
-
       return "";
-    }
-
-    function authorLabel(article) {
-      return article.authorEmail || article.authorId || "Unknown author";
     }
 
     function visibleArticles() {
       const search = $("searchInput").value.trim().toLowerCase();
-
-      return articles.filter(article => {
-        const status = article.status === "published" ? "published" : "draft";
-
-        const filterMatches = currentFilter === "all" ||
-          currentFilter === status;
-
-        const searchMatches = !search ||
-          String(article.title || "").toLowerCase().includes(search) ||
-          String(article.category || "").toLowerCase().includes(search) ||
-          String(article.excerpt || "").toLowerCase().includes(search);
-
-        return filterMatches && searchMatches;
+      return articles.filter(a => {
+        const state = a.status === "published" ? "published" : "draft";
+        const correctFilter = filter === "all" || state === filter;
+        const text = [a.title, a.category, a.excerpt].join(" ").toLowerCase();
+        return correctFilter && (!search || text.includes(search));
       });
     }
 
     function renderArticles() {
-      const drafts = articles.filter(a => a.status !== "published").length;
-      const published = articles.filter(a => a.status === "published").length;
-
       $("totalCount").textContent = articles.length;
-      $("draftCount").textContent = drafts;
-      $("publishedCount").textContent = published;
+      $("draftCount").textContent = articles.filter(a => a.status !== "published").length;
+      $("publishedCount").textContent = articles.filter(a => a.status === "published").length;
 
-      const filtered = visibleArticles();
-      const list = $("articleList");
-
-      if (!filtered.length) {
-        list.innerHTML = `
-          <div class="empty">
-            <div style="font-size:30px;margin-bottom:10px">📝</div>
-            <strong>No articles found</strong><br>
-            Try another filter or search term.
-          </div>`;
+      const rows = visibleArticles();
+      if (!rows.length) {
+        $("articleList").innerHTML = '<div class="empty">📝<br><strong>No articles found</strong><br>Try a different filter or search.</div>';
         return;
       }
 
-      list.innerHTML = filtered.map(article => {
-        const status = article.status === "published" ? "published" : "draft";
-        const imageUrl = getImageUrl(article);
-        const excerpt = article.excerpt || "";
-        const title = article.title || "Untitled article";
-        const category = article.category || "Uncategorised";
-
+      $("articleList").innerHTML = rows.map(a => {
+        const state = a.status === "published" ? "published" : "draft";
+        const image = imageUrl(a);
         return `
           <article class="article">
             <div class="article-image">
-              ${imageUrl
-                ? `<img src="${esc(imageUrl)}" alt="Article image preview"
-                       loading="lazy" data-article-image
-                       onerror="this.parentElement.textContent='Image unavailable'">`
+              ${image
+                ? `<img src="${esc(image)}" alt="Article image preview" loading="lazy" onerror="this.parentElement.textContent='Image unavailable'">`
                 : `<span>No image added</span>`}
             </div>
-
             <div class="article-main">
-              <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:9px">
-                <span class="badge ${status}">${status}</span>
-                <span class="muted">${esc(category)}</span>
+              <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px">
+                <span class="badge ${state}">${state}</span>
+                <span class="muted">${esc(a.category || "Uncategorised")}</span>
               </div>
-
-              <h3 class="article-title">${esc(title)}</h3>
-              ${excerpt ? `<p class="article-excerpt">${esc(excerpt)}</p>` : ""}
-
+              <h3 class="article-title">${esc(a.title || "Untitled article")}</h3>
+              ${a.excerpt ? `<p class="article-excerpt">${esc(a.excerpt)}</p>` : ""}
               <div class="meta">
-                <span>🕒 Last edited: <strong>${esc(formatDate(getLastEdited(article)))}</strong></span>
-                <span>✍ ${esc(authorLabel(article))}</span>
+                <span>🕒 Last edited: <strong>${esc(dateText(lastEdited(a)))}</strong></span>
+                <span>✍ ${esc(a.authorEmail || a.authorId || "Unknown author")}</span>
               </div>
-
               <div class="article-actions">
-                <button class="btn" type="button"
-                        data-preview="${esc(article.id)}">Preview</button>
-                <button class="btn btn-primary" type="button"
-                        data-edit="${esc(article.id)}">Edit article</button>
+                <button class="btn" type="button" data-preview="${esc(a.id)}">Preview</button>
+                <button class="btn btn-primary" type="button" data-edit="${esc(a.id)}">Edit article</button>
               </div>
             </div>
           </article>`;
       }).join("");
     }
 
-    async function fetchAccessibleArticles() {
-      if (loading || !currentUser) return;
+    async function loadSidebar() {
+      const nav = $("sidebarNav");
+      const fixed = `
+        <a class="nav-link" href="dashboard.html"><span class="nav-icon">⌂</span>Dashboard</a>
+        <a class="nav-link active" href="articles.html"><span class="nav-icon">📝</span>Articles</a>`;
+
+      try {
+        const snap = await getDoc(doc(db, "panelSettings", "menuConfig"));
+        if (!snap.exists() || !Array.isArray(snap.data().items)) {
+          nav.innerHTML = fixed;
+          return;
+        }
+
+        const configItems = snap.data().items;
+        const links = configItems.filter(item => {
+          const roles = Array.isArray(item.roles) ? item.roles.map(r => String(r).toLowerCase()) : [];
+          const userIds = Array.isArray(item.userIds) ? item.userIds : [];
+          return currentRole === "owner" || roles.includes(currentRole) || userIds.includes(currentUser.uid);
+        }).filter(item => {
+          return typeof item.page === "string" && /^[a-zA-Z0-9_-]+\.html$/.test(item.page);
+        });
+
+        const rendered = links.map(item => {
+          const active = item.page === "articles.html";
+          return `<a class="nav-link ${active ? "active" : ""}" href="${esc(item.page)}">
+            <span class="nav-icon">${esc(item.icon || "📄")}</span>${esc(item.label || "Menu")}
+          </a>`;
+        }).join("");
+
+        nav.innerHTML = fixed + rendered;
+      } catch (error) {
+        console.warn("Sidebar menu config unavailable:", error);
+        nav.innerHTML = fixed;
+      }
+    }
+
+    async function loadArticles() {
+      if (!currentUser || loading) return;
       loading = true;
       $("refreshBtn").disabled = true;
-      setStatus("Loading your accessible articles...");
+      setStatus("Loading accessible articles...");
 
       try {
         let docs = [];
 
         if (currentRole === "owner" || currentRole === "admin") {
-          // The rules allow these roles to read every article.
-          const snapshot = await getDocs(collection(db, "articles"));
-          docs = snapshot.docs;
+          const snap = await getDocs(collection(db, "articles"));
+          docs = snap.docs;
         } else {
-          // Editors can read published articles and their own drafts.
-          // Separate constrained queries match the Firestore security rules.
-          const [publishedSnapshot, ownDraftsSnapshot] = await Promise.all([
-            getDocs(query(
-              collection(db, "articles"),
-              where("status", "==", "published")
-            )),
-            getDocs(query(
-              collection(db, "articles"),
-              where("status", "==", "draft"),
-              where("authorId", "==", currentUser.uid)
-            ))
+          const [published, ownDrafts] = await Promise.all([
+            getDocs(query(collection(db, "articles"), where("status", "==", "published"))),
+            getDocs(query(collection(db, "articles"), where("status", "==", "draft"), where("authorId", "==", currentUser.uid)))
           ]);
-
           const unique = new Map();
-          [...publishedSnapshot.docs, ...ownDraftsSnapshot.docs]
-            .forEach(articleDoc => unique.set(articleDoc.id, articleDoc));
-
+          [...published.docs, ...ownDrafts.docs].forEach(d => unique.set(d.id, d));
           docs = [...unique.values()];
         }
 
-        articles = docs.map(articleDoc => ({
-          id: articleDoc.id,
-          ...articleDoc.data()
-        }));
-
-        articles.sort((a, b) => {
-          const dateA = toDate(getLastEdited(a))?.getTime() || 0;
-          const dateB = toDate(getLastEdited(b))?.getTime() || 0;
-          return dateB - dateA;
-        });
-
+        articles = docs.map(d => ({ id:d.id, ...d.data() }));
+        articles.sort((a,b) => (asDate(lastEdited(b))?.getTime() || 0) - (asDate(lastEdited(a))?.getTime() || 0));
         renderArticles();
         setStatus(`Loaded ${articles.length} accessible article(s).`);
       } catch (error) {
-        console.error("Article loading error:", error);
-        setStatus(
-          "Could not load articles: " + error.message +
-          ". Check Firestore rules and the fields used by your article records.",
-          true
-        );
-
-        $("articleList").innerHTML = `
-          <div class="empty">
-            <strong>Unable to load articles.</strong><br>
-            ${esc(error.message)}
-          </div>`;
+        console.error(error);
+        setStatus("Unable to load articles: " + error.message, true);
+        $("articleList").innerHTML = `<div class="empty">Could not load articles.<br>${esc(error.message)}</div>`;
       } finally {
         loading = false;
         $("refreshBtn").disabled = false;
       }
     }
 
-    function openPreview(id) {
-      const article = articles.find(item => item.id === id);
-      if (!article) return;
+    function previewArticle(id) {
+      const a = articles.find(item => item.id === id);
+      if (!a) return;
+      const image = imageUrl(a);
+      const state = a.status === "published" ? "Published" : "Draft";
 
-      const imageUrl = getImageUrl(article);
-      const status = article.status === "published" ? "Published" : "Draft";
-
-      $("previewTitle").textContent = article.title || "Untitled article";
-
+      $("previewTitle").textContent = a.title || "Untitled article";
       $("previewBody").innerHTML = `
-        <span class="badge ${status.toLowerCase()}">${status}</span>
+        <span class="badge ${state.toLowerCase()}">${state}</span>
         <p class="muted">
-          Category: ${esc(article.category || "Uncategorised")}<br>
-          Last edited: ${esc(formatDate(getLastEdited(article)))}<br>
-          Author: ${esc(authorLabel(article))}
+          Category: ${esc(a.category || "Uncategorised")}<br>
+          Last edited: ${esc(dateText(lastEdited(a)))}<br>
+          Author: ${esc(a.authorEmail || a.authorId || "Unknown author")}
         </p>
-        ${imageUrl
-          ? `<img class="preview-image" src="${esc(imageUrl)}"
-                  alt="Article image" onerror="this.style.display='none'">`
-          : `<div class="notice">No article image was added.</div>`}
-        ${article.excerpt
-          ? `<p><strong>${esc(article.excerpt)}</strong></p>`
-          : ""}
-        <div class="preview-content">${esc(article.content || "No article content available.")}</div>
-      `;
-
+        ${image ? `<img class="preview-image" src="${esc(image)}" alt="Article image" onerror="this.style.display='none'">` : `<div class="notice">No article image was added.</div>`}
+        ${a.excerpt ? `<p><strong>${esc(a.excerpt)}</strong></p>` : ""}
+        <div class="preview-content">${esc(a.content || "No content available.")}</div>`;
       $("previewModal").classList.remove("hidden");
     }
 
-    function openEditor(id) {
-      const article = articles.find(item => item.id === id);
-      if (!article) return;
-
-      // This page is the article library, not the article editor.
-      // Link to the separate editor if your project has one.
-      const editorPage = "article-editor.html?id=" + encodeURIComponent(id);
-      location.href = editorPage;
-    }
-
     $("articleList").addEventListener("click", event => {
-      const previewButton = event.target.closest("[data-preview]");
-      const editButton = event.target.closest("[data-edit]");
-
-      if (previewButton) openPreview(previewButton.dataset.preview);
-      if (editButton) openEditor(editButton.dataset.edit);
+      const preview = event.target.closest("[data-preview]");
+      const edit = event.target.closest("[data-edit]");
+      if (preview) previewArticle(preview.dataset.preview);
+      if (edit) location.href = "article-editor.html?id=" + encodeURIComponent(edit.dataset.edit);
     });
 
     document.querySelectorAll("[data-filter]").forEach(button => {
       button.addEventListener("click", () => {
-        currentFilter = button.dataset.filter;
-
-        document.querySelectorAll("[data-filter]").forEach(tab => {
-          tab.classList.toggle("active", tab === button);
-        });
-
+        filter = button.dataset.filter;
+        document.querySelectorAll("[data-filter]").forEach(tab => tab.classList.toggle("active", tab === button));
         renderArticles();
       });
     });
 
     $("searchInput").addEventListener("input", renderArticles);
-
-    $("closePreview").addEventListener("click", () => {
-      $("previewModal").classList.add("hidden");
+    $("closePreview").addEventListener("click", () => $("previewModal").classList.add("hidden"));
+    $("previewModal").addEventListener("click", e => {
+      if (e.target === $("previewModal")) $("previewModal").classList.add("hidden");
     });
-
-    $("previewModal").addEventListener("click", event => {
-      if (event.target === $("previewModal")) {
-        $("previewModal").classList.add("hidden");
-      }
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") $("previewModal").classList.add("hidden");
     });
-
-    document.addEventListener("keydown", event => {
-      if (event.key === "Escape") {
-        $("previewModal").classList.add("hidden");
-      }
+    $("refreshBtn").addEventListener("click", async () => {
+      await loadSidebar();
+      await loadArticles();
     });
-
-    $("refreshBtn").addEventListener("click", fetchAccessibleArticles);
-
-    $("newArticleBtn").addEventListener("click", () => {
-      location.href = "article-editor.html";
-    });
-
+    $("newBtn").addEventListener("click", () => location.href = "article-editor.html");
     $("logoutBtn").addEventListener("click", async () => {
-      try {
-        await signOut(auth);
-        location.replace("index.html");
-      } catch (error) {
-        setStatus("Logout failed: " + error.message, true);
-      }
+      await signOut(auth);
+      location.replace("index.html");
     });
 
     onAuthStateChanged(auth, async user => {
@@ -847,34 +470,29 @@
       }
 
       currentUser = user;
-
       try {
-        const profileSnapshot = await getDoc(doc(db, "users", user.uid));
-
-        if (!profileSnapshot.exists()) {
+        const profileSnap = await getDoc(doc(db, "users", user.uid));
+        if (!profileSnap.exists()) {
           await signOut(auth);
           location.replace("index.html");
           return;
         }
 
-        const profile = profileSnapshot.data();
-        currentRole = roleName(profile.role);
+        const profile = profileSnap.data();
+        currentRole = typeof profile.role === "string" ? profile.role.trim().toLowerCase() : "";
 
-        if (profile.active !== true ||
-            !["owner", "admin", "editor"].includes(currentRole)) {
+        if (profile.active !== true || !["owner","admin","editor"].includes(currentRole)) {
           await signOut(auth);
           alert("Your account is not approved. Contact the EduGM Owner.");
           location.replace("index.html");
           return;
         }
 
-        $("accountInfo").textContent =
-          (profile.displayName || profile.name || user.email || "Staff account") +
-          " · " + currentRole;
-
-        await fetchAccessibleArticles();
+        $("accountInfo").textContent = `${profile.displayName || profile.name || user.email || "Staff"} · ${currentRole}`;
+        await loadSidebar();
+        await loadArticles();
       } catch (error) {
-        console.error("Authentication/profile error:", error);
+        console.error(error);
         setStatus("Account verification failed: " + error.message, true);
       }
     });
