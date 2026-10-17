@@ -3,198 +3,820 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="theme-color" content="#2563eb">
   <title>EduGM Admin Dashboard</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --blue:#2563eb;--dark:#173b8f;--pale:#eff6ff;
-      --bg:#f5f8ff;--text:#18294a;--muted:#75839a;
-      --line:#e5ebf5;--white:#fff;--green:#15803d;
-      --red:#be123c;
+      --blue: #2563eb;
+      --blue-dark: #1d4ed8;
+      --blue-light: #eff6ff;
+      --ink: #172554;
+      --muted: #64748b;
+      --border: #e5eaf3;
+      --surface: #ffffff;
+      --background: #f5f8ff;
+      --red: #dc2626;
+      --green: #15803d;
+      --shadow: 0 12px 40px rgba(30, 64, 175, .08);
     }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Poppins,sans-serif;background:var(--bg);color:var(--text)}
-    button,input,select{font:inherit}
-    button{cursor:pointer}
-    .sidebar{position:fixed;inset:0 auto 0 0;width:255px;background:white;border-right:1px solid var(--line);padding:20px 14px;overflow-y:auto;z-index:20;transition:.25s}
-    .brand{display:flex;align-items:center;gap:10px;padding:5px 8px 23px}
-    .brand img{width:44px;height:44px;object-fit:contain}
-    .brand strong{font-size:19px}
-    .brand small{display:block;color:var(--muted);font-size:10px}
-    .section-label{padding:13px 12px 7px;font-size:10px;letter-spacing:1.2px;font-weight:700;color:#9aa8bd}
-    .menu-link{display:flex;width:100%;align-items:center;gap:11px;text-align:left;padding:12px;border:0;background:transparent;border-radius:11px;color:#62718b;margin:3px 0;font-size:12px}
-    .menu-link:hover,.menu-link.active{background:var(--pale);color:var(--blue)}
-    .menu-link.active{font-weight:700}
-    .menu-icon{width:22px;text-align:center;font-size:17px}
-    .sidebar-foot{background:var(--pale);padding:13px;border-radius:13px;margin:25px 5px;font-size:11px;color:var(--muted)}
-    .main{margin-left:255px;min-width:0}
-    .topbar{height:75px;background:white;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:10;gap:12px}
-    .topbar h2{font-size:18px;margin:0}.topbar p{font-size:10px;color:var(--muted);margin:3px 0 0}
-    .top-actions{display:flex;align-items:center;gap:10px}
-    .icon-btn,.profile-btn{border:1px solid var(--line);background:white;border-radius:11px;padding:9px 12px}
-    .profile-btn{display:flex;align-items:center;gap:9px;text-align:left}
-    .avatar{width:34px;height:34px;border-radius:10px;background:#dbeafe;color:var(--blue);display:grid;place-items:center;font-weight:700}
-    .profile-btn strong{font-size:11px;display:block}.profile-btn small{font-size:10px;color:var(--muted)}
-    .mobile-btn{display:none}
-    .content{max-width:1450px;margin:auto;padding:27px}
-    .hero{border-radius:22px;padding:28px;color:white;background:linear-gradient(115deg,#1747b8,#3478f6 72%,#74adff);display:flex;align-items:center;justify-content:space-between;gap:15px}
-    .hero h1{font-size:clamp(22px,3vw,30px);margin:0 0 8px}.hero p{font-size:12px;opacity:.9;margin:0}
-    .hero .symbol{font-size:52px;opacity:.8}
-    .section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:26px 0 14px}
-    .section-head h3{font-size:16px;margin:0}.section-head p{font-size:10px;color:var(--muted);margin:4px 0 0}
-    .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
-    .card{background:white;border:1px solid var(--line);border-radius:17px;padding:19px;min-width:0}
-    .stat-icon{height:42px;width:42px;display:grid;place-items:center;background:var(--pale);border-radius:13px;font-size:19px}
-    .stat-label{color:var(--muted);font-size:11px;margin-top:15px}
-    .stat-value{font-size:25px;font-weight:800;margin-top:4px;overflow-wrap:anywhere}
-    .stat-note{font-size:10px;color:var(--muted);margin-top:4px}
-    .quick-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-    .quick{background:white;border:1px solid var(--line);border-radius:14px;padding:17px 8px;text-align:center;color:var(--text)}
-    .quick:hover{border-color:#9abaff;background:#f9fbff}
-    .quick span{display:block;font-size:24px;margin-bottom:8px}.quick strong{font-size:11px}
-    .quick small{display:block;color:var(--muted);font-size:9px;margin-top:5px}
-    .two-col{display:grid;grid-template-columns:1.2fr 1fr;gap:15px}
-    .activity{padding:12px 0;border-bottom:1px solid #edf1f7;font-size:12px}
-    .activity:last-child{border:0}.activity small{display:block;color:var(--muted);font-size:10px;margin-top:4px}
-    .btn{border:0;border-radius:10px;padding:10px 14px;font-size:11px;font-weight:600}
-    .primary{background:var(--blue);color:white}.primary:hover{background:var(--dark)}
-    .secondary{background:var(--pale);color:var(--blue)}
-    .danger{background:#fff1f2;color:var(--red)}
-    .muted{color:var(--muted);font-size:11px;line-height:1.7}
-    .status{font-size:11px;margin:12px 0;white-space:pre-wrap}
-    .status.error{color:var(--red)}.status.success{color:var(--green)}
-    .footer{text-align:center;color:#94a3b8;font-size:10px;line-height:1.8;padding:25px 5px 8px}
-    .hidden{display:none!important}
-    .loading{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:12px;padding:20px 0}
-    .spinner{width:18px;height:18px;border:2px solid #dbeafe;border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
-    @keyframes spin{to{transform:rotate(360deg)}}
-    .table-wrap{overflow-x:auto}
-    table{width:100%;border-collapse:collapse;font-size:11px}
-    th,td{text-align:left;padding:12px 9px;border-bottom:1px solid var(--line);vertical-align:top}
-    th{color:var(--muted);font-weight:600}
-    .field{margin:13px 0}
-    .field label{display:block;font-size:11px;font-weight:600;margin-bottom:7px}
-    .field input,.field select{width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;background:white;color:var(--text);outline:none}
-    .field input:focus,.field select:focus{border-color:var(--blue)}
-    .check-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
-    .check-option{display:flex;gap:7px;align-items:center;padding:9px;background:#f6f9ff;border-radius:9px;font-size:11px;overflow-wrap:anywhere}
-    .user-checks{max-height:180px;overflow-y:auto;border:1px solid var(--line);border-radius:11px;padding:8px}
-    .user-checks .check-option{margin-bottom:5px}
-    .menu-editor{border:1px solid var(--line);border-radius:13px;padding:15px;margin:12px 0}
-    .menu-editor h4{margin:0 0 6px;font-size:13px}
-    .tag{display:inline-block;background:var(--pale);color:var(--blue);border-radius:20px;padding:4px 8px;font-size:9px;margin:3px 3px 3px 0}
-    .modal-bg{position:fixed;inset:0;background:#0f172a80;z-index:50;display:none;align-items:center;justify-content:center;padding:18px}
-    .modal-bg.show{display:flex}
-    .modal{background:white;width:min(760px,100%);max-height:90vh;overflow-y:auto;border-radius:19px;padding:22px}
-    .modal-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:15px}
-    .modal-head h3{font-size:17px;margin:0}
-    .close{border:0;border-radius:9px;background:#f1f5f9;width:34px;height:34px;font-size:20px}
-    @media(max-width:1100px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.quick-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-    @media(max-width:760px){.sidebar{transform:translateX(-105%);box-shadow:10px 0 30px #0001}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.mobile-btn{display:inline-block}.topbar{height:67px;padding:0 13px}.content{padding:16px 13px}.hero{padding:22px}.hero .symbol{display:none}.two-col{grid-template-columns:1fr}.quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.profile-text{display:none}}
-    @media(max-width:430px){.stats{gap:9px}.card{padding:13px}.stat-value{font-size:21px}.check-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--background);
+      color: var(--ink);
+      font-family: Inter, Arial, sans-serif;
+    }
+
+    button, input, select {
+      font: inherit;
+    }
+
+    button { cursor: pointer; }
+
+    .topbar {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 0 28px;
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand img {
+      width: 45px;
+      height: 45px;
+      object-fit: contain;
+      border-radius: 12px;
+    }
+
+    .brand-name {
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: -.5px;
+    }
+
+    .brand-subtitle {
+      margin-top: 4px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 9px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: white;
+      color: var(--ink);
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      transition: .18s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .btn-primary {
+      background: var(--blue);
+      color: white;
+      border-color: var(--blue);
+    }
+
+    .btn-primary:hover { background: var(--blue-dark); }
+
+    .btn-danger {
+      color: var(--red);
+      border-color: #fecaca;
+      background: #fff;
+    }
+
+    .btn-small {
+      padding: 7px 10px;
+      font-size: 12px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 245px minmax(0, 1fr);
+      min-height: calc(100vh - 76px);
+    }
+
+    .sidebar {
+      background: #fff;
+      border-right: 1px solid var(--border);
+      padding: 24px 14px;
+    }
+
+    .side-heading {
+      padding: 0 12px 12px;
+      color: #94a3b8;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+    }
+
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      width: 100%;
+      padding: 12px;
+      border: 1px solid transparent;
+      border-radius: 11px;
+      background: transparent;
+      color: #475569;
+      text-decoration: none;
+      text-align: left;
+      font-size: 13px;
+      font-weight: 600;
+      overflow-wrap: anywhere;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      background: var(--blue-light);
+      color: var(--blue-dark);
+      border-color: #dbeafe;
+    }
+
+    .nav-icon {
+      width: 23px;
+      text-align: center;
+      font-size: 17px;
+      flex-shrink: 0;
+    }
+
+    .side-note {
+      margin: 30px 5px 0;
+      padding: 14px;
+      border: 1px solid #dbeafe;
+      border-radius: 13px;
+      background: #f8fbff;
+      font-size: 11px;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    main {
+      padding: 30px;
+      min-width: 0;
+    }
+
+    .welcome {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(24px, 3vw, 32px);
+      letter-spacing: -1px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .eyebrow {
+      margin-bottom: 9px;
+      color: var(--blue);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+    }
+
+    .role-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 30px;
+      padding: 7px 11px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: capitalize;
+      white-space: nowrap;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      min-width: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .stat-value {
+      margin-top: 12px;
+      font-size: 25px;
+      font-weight: 800;
+      letter-spacing: -.7px;
+    }
+
+    .stat-foot {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .section {
+      margin-top: 22px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .quick-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      padding: 16px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      color: var(--ink);
+      text-decoration: none;
+      transition: .18s ease;
+    }
+
+    .quick-link:hover {
+      border-color: #93c5fd;
+      transform: translateY(-2px);
+    }
+
+    .quick-icon {
+      display: grid;
+      place-items: center;
+      width: 43px;
+      height: 43px;
+      border-radius: 12px;
+      background: var(--blue-light);
+      font-size: 21px;
+      flex-shrink: 0;
+    }
+
+    .quick-link strong {
+      display: block;
+      font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+
+    .quick-link small {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .status-box {
+      margin-top: 20px;
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: #fff;
+      font-size: 12px;
+      line-height: 1.7;
+      overflow-wrap: anywhere;
+    }
+
+    .status-box.error {
+      color: #991b1b;
+      background: #fef2f2;
+      border-color: #fecaca;
+    }
+
+    .status-box.success {
+      color: #166534;
+      background: #f0fdf4;
+      border-color: #bbf7d0;
+    }
+
+    .hidden { display: none !important; }
+
+    footer {
+      padding: 26px 12px 10px;
+      color: #94a3b8;
+      font-size: 11px;
+      line-height: 1.8;
+      text-align: center;
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(15, 23, 42, .55);
+      backdrop-filter: blur(5px);
+    }
+
+    .modal {
+      width: min(650px, 100%);
+      max-height: 90vh;
+      overflow-y: auto;
+      border: 1px solid #e2e8f0;
+      border-radius: 20px;
+      background: white;
+      box-shadow: 0 25px 100px rgba(15, 23, 42, .3);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 22px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body { padding: 22px 24px; }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    .close-btn {
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: white;
+      color: var(--muted);
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .field { margin-bottom: 17px; }
+
+    .field label, .field-label {
+      display: block;
+      margin-bottom: 8px;
+      color: #334155;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .field input, .field select {
+      width: 100%;
+      min-height: 43px;
+      padding: 11px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      background: #fff;
+      color: var(--ink);
+      outline: none;
+    }
+
+    .field input:focus, .field select:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px #dbeafe;
+    }
+
+    .help {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .check-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .check-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #f8fafc;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .check-option input { accent-color: var(--blue); }
+
+    .user-picker {
+      display: grid;
+      gap: 8px;
+      max-height: 170px;
+      overflow-y: auto;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+    }
+
+    .user-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      padding: 8px;
+      border-radius: 8px;
+      background: #f8fafc;
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .user-option input { margin-top: 2px; accent-color: var(--blue); }
+
+    .menu-manager-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .menu-manager-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .menu-manager-item strong {
+      display: block;
+      font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+
+    .menu-manager-item small {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 11px;
+      overflow-wrap: anywhere;
+    }
+
+    .item-actions {
+      display: flex;
+      gap: 7px;
+      flex-shrink: 0;
+    }
+
+    .empty {
+      padding: 20px;
+      border: 1px dashed #cbd5e1;
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    @media (max-width: 1000px) {
+      .layout { grid-template-columns: 205px minmax(0, 1fr); }
+      main { padding: 22px; }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .quick-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 700px) {
+      .topbar {
+        height: auto;
+        min-height: 72px;
+        padding: 13px 15px;
+        align-items: flex-start;
+      }
+
+      .brand-name { font-size: 16px; }
+      .brand-subtitle { display: none; }
+      .brand img { width: 38px; height: 38px; }
+
+      .top-actions { gap: 6px; }
+      .top-actions .btn { padding: 9px 10px; font-size: 11px; }
+
+      .layout { display: block; }
+
+      .sidebar {
+        padding: 12px;
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .side-heading, .side-note { display: none; }
+
+      .nav {
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 3px;
+      }
+
+      .nav-link {
+        width: auto;
+        min-width: max-content;
+        padding: 10px;
+      }
+
+      main { padding: 20px 14px; }
+      .welcome { flex-direction: column; }
+      .grid { grid-template-columns: 1fr; }
+      .quick-grid { grid-template-columns: 1fr; }
+      .check-grid { grid-template-columns: 1fr; }
+      .modal-header, .modal-body { padding: 18px; }
+      .modal-footer { padding: 14px 18px; }
+      .menu-manager-item { align-items: flex-start; }
+    }
   </style>
 </head>
 
 <body>
-  <aside class="sidebar" id="sidebar">
+  <header class="topbar">
     <div class="brand">
-      <img src="https://i.ibb.co/1Y82N0n0/Edu-GM-Learning-Logo.png" alt="EduGM">
-      <div><strong>EduGM</strong><small>Official Admin Panel</small></div>
-    </div>
-    <div class="section-label">WORKSPACE</div>
-    <nav id="menuContainer">
-      <div class="loading"><span class="spinner"></span> Loading menu...</div>
-    </nav>
-    <div class="sidebar-foot"><strong>EduGM Learning</strong><br>Build knowledge. Create opportunities.</div>
-  </aside>
-
-  <main class="main">
-    <header class="topbar">
-      <div style="display:flex;align-items:center;gap:10px">
-        <button class="icon-btn mobile-btn" id="mobileMenu" aria-label="Open menu">☰</button>
-        <div><h2 id="pageTitle">Dashboard</h2><p>EduGM management workspace</p></div>
+      <img src="https://i.ibb.co/1Y82N0n0/Edu-GM-Learning-Logo.png"
+           alt="EduGM logo">
+      <div>
+        <div class="brand-name">EduGM Admin</div>
+        <div class="brand-subtitle">Official management dashboard</div>
       </div>
-      <div class="top-actions">
-        <button class="icon-btn" id="reloadMenu" title="Reload menu">↻</button>
-        <button class="profile-btn" id="profileButton">
-          <span class="avatar" id="avatar">E</span>
-          <span class="profile-text"><strong id="userName">Loading...</strong><small id="userRole">Checking access</small></span>
+    </div>
+
+    <div class="top-actions">
+      <!-- Always visible for a logged-in Owner. -->
+      <button id="editMenuButton" class="btn btn-primary hidden" type="button">
+        ⚙ Edit Menu
+      </button>
+      <button id="refreshButton" class="btn" type="button">↻ Refresh</button>
+      <button id="logoutButton" class="btn btn-danger" type="button">
+        Logout
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="side-heading">Workspace</div>
+      <nav id="sidebarNav" class="nav" aria-label="Dashboard navigation">
+        <a class="nav-link active" href="dashboard.html">
+          <span class="nav-icon">⌂</span> Overview
+        </a>
+      </nav>
+      <div class="side-note">
+        <strong>EduGM Official Panel</strong><br>
+        Authorized staff access only. Your account permissions control the
+        menu options displayed here.
+      </div>
+    </aside>
+
+    <main>
+      <div class="welcome">
+        <div>
+          <div class="eyebrow">EduGM / Workspace</div>
+          <h1>Welcome back</h1>
+          <p id="welcomeText" class="muted">Checking your account...</p>
+        </div>
+        <div id="roleBadge" class="role-pill">Verifying account</div>
+      </div>
+
+      <div id="pageStatus" class="status-box">Connecting to Firebase...</div>
+
+      <section class="grid section" aria-label="Account overview">
+        <div class="card">
+          <div class="stat-label">Account status</div>
+          <div id="accountStatus" class="stat-value">Checking</div>
+          <div class="stat-foot">Firebase authentication and profile check</div>
+        </div>
+
+        <div class="card">
+          <div class="stat-label">Your role</div>
+          <div id="accountRole" class="stat-value">—</div>
+          <div class="stat-foot">Based on your Firestore user profile</div>
+        </div>
+
+        <div class="card">
+          <div class="stat-label">Menu items available</div>
+          <div id="menuCount" class="stat-value">—</div>
+          <div class="stat-foot">Items visible to your account</div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h2>Your workspace</h2>
+            <div class="muted">Open an authorized dashboard section.</div>
+          </div>
+        </div>
+
+        <div id="quickLinks" class="quick-grid">
+          <div class="empty">Loading workspace menu...</div>
+        </div>
+      </section>
+
+      <footer>
+        © <span id="year"></span> EduGM. All rights reserved.<br>
+        EduGM Admin Panel — Official Use Only.
+      </footer>
+    </main>
+  </div>
+
+  <!-- Owner menu editor modal -->
+  <div id="menuModal" class="modal-backdrop hidden"
+       role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <div class="eyebrow">Owner controls</div>
+          <h2 id="modalTitle">Menu Manager</h2>
+          <div class="muted">Create and manage dashboard navigation.</div>
+        </div>
+        <button id="closeModalButton" class="close-btn"
+                type="button" aria-label="Close">×</button>
+      </div>
+
+      <div class="modal-body">
+        <div id="modalStatus" class="status-box hidden"></div>
+
+        <form id="menuForm">
+          <input id="editingId" type="hidden">
+
+          <div class="field">
+            <label for="menuLabel">Menu label</label>
+            <input id="menuLabel" maxlength="60" required
+                   placeholder="Example: Articles">
+          </div>
+
+          <div class="field">
+            <label for="menuIcon">Menu icon (emoji or short symbol)</label>
+            <input id="menuIcon" maxlength="8" value="📄"
+                   placeholder="📄">
+          </div>
+
+          <div class="field">
+            <label for="menuPage">Page filename</label>
+            <input id="menuPage" maxlength="120" required
+                   placeholder="articles.html">
+            <div class="help">
+              Enter a local HTML filename, such as articles.html.
+              Only safe relative filenames are accepted.
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Visible to roles</span>
+            <div class="check-grid">
+              <label class="check-option">
+                <input type="checkbox" name="menuRole" value="owner" checked>
+                Owner
+              </label>
+              <label class="check-option">
+                <input type="checkbox" name="menuRole" value="admin">
+                Admin
+              </label>
+              <label class="check-option">
+                <input type="checkbox" name="menuRole" value="editor">
+                Editor
+              </label>
+            </div>
+            <div class="help">
+              Role access and selected-user access are combined using OR.
+              The Owner can always see every menu item.
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Or allow specific users</span>
+            <div id="userPicker" class="user-picker">
+              <div class="muted">Loading authorized user directory...</div>
+            </div>
+            <div class="help">
+              Selecting a user allows that account to see this menu item
+              even if its role is not selected above.
+            </div>
+          </div>
+
+          <div class="modal-footer" style="padding:16px 0 0">
+            <button id="cancelEditButton" class="btn" type="button">
+              Cancel
+            </button>
+            <button class="btn btn-primary" type="submit">
+              Save Menu Item
+            </button>
+          </div>
+        </form>
+
+        <div class="section-head" style="margin-top:28px">
+          <div>
+            <h2>Existing menu items</h2>
+            <div class="muted">Edit or remove saved menu entries.</div>
+          </div>
+          <button id="newMenuButton" class="btn btn-primary btn-small"
+                  type="button">+ Add Menu</button>
+        </div>
+
+        <div id="menuManagerList" class="menu-manager-list">
+          <div class="empty">Loading saved menu...</div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button id="closeModalFooterButton" class="btn" type="button">
+          Close
         </button>
       </div>
-    </header>
-
-    <div class="content">
-      <div class="loading" id="initialLoading"><span class="spinner"></span> Verifying account and loading your menu from Firebase...</div>
-
-      <div id="dashboardContent" class="hidden">
-        <section class="hero">
-          <div>
-            <h1 id="welcomeTitle">Welcome to EduGM</h1>
-            <p>Manage your workspace, content and daily activities.</p>
-            <p id="todayDate" style="margin-top:14px"></p>
-          </div>
-          <div class="symbol">✦</div>
-        </section>
-
-        <div id="ownerMenuNotice" class="hidden" style="margin-top:18px">
-          <button class="btn primary" id="openMenuManager">⚙ Manage Sidebar Menu & Permissions</button>
-          <p class="muted">Owner only · menu settings and user permissions are saved in Firestore.</p>
-        </div>
-
-        <div class="section-head">
-          <div><h3>Workspace Overview</h3><p>Your dashboard at a glance</p></div>
-          <button class="btn secondary" id="refreshStats">↻ Refresh</button>
-        </div>
-
-        <section class="stats">
-          <div class="card"><div class="stat-icon">♙</div><div class="stat-label">Your Role</div><div class="stat-value" id="roleStat">—</div><div class="stat-note">Verified account role</div></div>
-          <div class="card"><div class="stat-icon">☑</div><div class="stat-label">Open Tasks</div><div class="stat-value" id="taskStat">0</div><div class="stat-note">Saved in this browser</div></div>
-          <div class="card"><div class="stat-icon">▦</div><div class="stat-label">Upcoming Events</div><div class="stat-value" id="eventStat">0</div><div class="stat-note">Saved in this browser</div></div>
-          <div class="card"><div class="stat-icon">✧</div><div class="stat-label">Innovation Ideas</div><div class="stat-value" id="ideaStat">0</div><div class="stat-note">Saved in this browser</div></div>
-        </section>
-
-        <div class="section-head"><div><h3>Quick Actions</h3><p>Only pages you are permitted to access are shown</p></div></div>
-        <section class="quick-grid" id="quickActions"></section>
-
-        <div class="section-head"><div><h3>Account & Security</h3><p>Signed-in account details</p></div></div>
-        <section class="two-col">
-          <div class="card">
-            <h3 style="font-size:14px;margin-top:0">Account Information</h3>
-            <p class="muted">Name: <strong id="accountName"></strong></p>
-            <p class="muted">Email: <strong id="accountEmail"></strong></p>
-            <p class="muted">Role: <strong id="accountRole"></strong></p>
-            <p class="muted">Status: <strong style="color:var(--green)">Active</strong></p>
-            <button class="btn secondary" id="viewProfile">View Profile</button>
-            <button class="btn danger" id="logoutButton">Log Out</button>
-          </div>
-          <div class="card">
-            <h3 style="font-size:14px;margin-top:0">Recent Local Activity</h3>
-            <div id="activityList" class="muted">No recent activity.</div>
-          </div>
-        </section>
-
-        <footer class="footer">© <span id="year"></span> EduGM. All rights reserved.<br>EduGM Admin Panel — Official Use Only.</footer>
-      </div>
-      <div id="pageStatus" class="status"></div>
-    </div>
-  </main>
-
-  <div class="modal-bg" id="modalBg" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="modal">
-      <div class="modal-head"><h3 id="modalTitle">Menu Manager</h3><button class="close" id="closeModal" aria-label="Close">×</button></div>
-      <div id="modalBody"></div>
     </div>
   </div>
 
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+    import { initializeApp } from
+      "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+
     import {
-      getFirestore, doc, getDoc, setDoc, collection, getDocs, serverTimestamp
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      getDocs,
+      collection,
+      setDoc,
+      serverTimestamp
     } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -209,516 +831,539 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    const $ = id => document.getElementById(id);
 
-    let currentUser = null;
-    let profile = null;
-    let allUsers = [];
-    let menuItems = [];
-    let authReady = false;
+    const $ = (id) => document.getElementById(id);
 
-    const defaults = [
-      {id:"dashboard",label:"Dashboard",page:"dashboard.html",icon:"⌂",roles:["Owner","Admin","Editor"],userIds:[],group:"Workspace"},
-      {id:"notices",label:"Notices",page:"notices.html",icon:"♧",roles:["Owner","Admin"],userIds:[],group:"Workspace"},
-      {id:"messages",label:"Messages",page:"messages.html",icon:"✉",roles:["Owner","Admin"],userIds:[],group:"Workspace"},
-      {id:"calendar",label:"Calendar",page:"calendar.html",icon:"▦",roles:["Owner","Admin","Editor"],userIds:[],group:"Workspace"},
-      {id:"todo",label:"To-Do List",page:"todo.html",icon:"☑",roles:["Owner","Admin","Editor"],userIds:[],group:"Workspace"},
-      {id:"innovation",label:"Innovation",page:"innovation.html",icon:"✧",roles:["Owner","Admin","Editor"],userIds:[],group:"Workspace"},
-      {id:"articles",label:"Articles",page:"articles.html",icon:"▤",roles:["Owner","Admin","Editor"],userIds:[],group:"Management"},
-      {id:"members",label:"Members",page:"members.html",icon:"♙",roles:["Owner"],userIds:[],group:"Management"},
-      {id:"pages",label:"Pages",page:"pages.html",icon:"▣",roles:["Owner","Admin"],userIds:[],group:"Management"},
-      {id:"store",label:"EduGM Store",page:"store.html",icon:"▧",roles:["Owner","Admin","Editor"],userIds:[],group:"Management"},
-      {id:"earning",label:"Earnings",page:"earning.html",icon:"₹",roles:["Owner"],userIds:[],group:"Management"},
-      {id:"profile",label:"My Profile",page:"profile.html",icon:"◎",roles:["Owner","Admin","Editor"],userIds:[],group:"Account"},
-      {id:"settings",label:"Settings",page:"settings.html",icon:"⚙",roles:["Owner"],userIds:[],group:"Account"},
-      {id:"more",label:"More Tools",page:"more.html",icon:"•••",roles:["Owner","Admin","Editor"],userIds:[],group:"Account"}
+    const DEFAULT_MENU = [
+      { id: "articles", label: "Articles", icon: "📝",
+        page: "articles.html", roles: ["owner", "admin", "editor"], userIds: [] },
+      { id: "store", label: "EduGM Store", icon: "🛍️",
+        page: "store.html", roles: ["owner", "admin"], userIds: [] },
+      { id: "notices", label: "Notices", icon: "📢",
+        page: "notices.html", roles: ["owner", "admin"], userIds: [] },
+      { id: "calendar", label: "Calendar", icon: "📅",
+        page: "calendar.html", roles: ["owner", "admin", "editor"], userIds: [] },
+      { id: "todo", label: "ToDo", icon: "✅",
+        page: "todo.html", roles: ["owner", "admin", "editor"], userIds: [] },
+      { id: "innovation", label: "Innovation", icon: "💡",
+        page: "innovation.html", roles: ["owner", "admin", "editor"], userIds: [] },
+      { id: "earning", label: "Earning", icon: "📈",
+        page: "earning.html", roles: ["owner"], userIds: [] },
+      { id: "pages", label: "Pages", icon: "📑",
+        page: "pages.html", roles: ["owner", "admin"], userIds: [] },
+      { id: "more", label: "More", icon: "☰",
+        page: "more.html", roles: ["owner", "admin", "editor"], userIds: [] }
     ];
 
-    const reservedPages = new Set(defaults.map(x => x.page));
-    const safeId = () => "m_" + Math.random().toString(36).slice(2,10);
-    const esc = value => String(value ?? "").replace(/[&<>"']/g, c => ({
-      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-    })[c]);
+    let currentUser = null;
+    let currentProfile = null;
+    let currentRole = "";
+    let menuItems = [];
+    let staffUsers = [];
+    let isOwner = false;
+    let menuLoaded = false;
 
-    function setStatus(message, type="") {
-      $("pageStatus").textContent = message;
-      $("pageStatus").className = "status " + type;
+    $("year").textContent = new Date().getFullYear();
+
+    function showStatus(message, type = "") {
+      const el = $("pageStatus");
+      el.textContent = message;
+      el.className = "status-box" + (type ? " " + type : "");
     }
 
-    function getLocalArray(key) {
-      try {
-        const value = JSON.parse(localStorage.getItem("edugm_" + key) || "[]");
-        return Array.isArray(value) ? value : [];
-      } catch { return []; }
+    function showModalStatus(message, type = "") {
+      const el = $("modalStatus");
+      el.textContent = message;
+      el.className = "status-box" + (type ? " " + type : "");
     }
 
-    function canSee(item) {
-      if (profile?.role === "Owner") return true;
-      return (item.roles || []).includes(profile?.role) ||
-        (item.userIds || []).includes(currentUser?.uid);
+    function normalizeRole(value) {
+      return typeof value === "string" ? value.trim().toLowerCase() : "";
     }
 
-    function normalizeMenus(raw) {
-      if (!Array.isArray(raw)) throw new Error("Menu settings have an invalid format.");
-      return raw.map(item => {
-        if (!item || typeof item !== "object") throw new Error("Invalid menu item.");
-        return {
-          id: String(item.id || safeId()),
-          label: String(item.label || "").trim(),
-          page: String(item.page || "").trim(),
-          icon: String(item.icon || "▣"),
-          roles: Array.isArray(item.roles) ? item.roles.filter(x => ["Owner","Admin","Editor"].includes(x)) : [],
-          userIds: Array.isArray(item.userIds) ? item.userIds.filter(x => typeof x === "string") : [],
-          group: ["Workspace","Management","Account","Custom"].includes(item.group) ? item.group : "Custom"
-        };
-      });
+    function safePageFilename(value) {
+      if (typeof value !== "string") return false;
+
+      // Local .html pages only; no protocols, slashes, query strings,
+      // parent paths, or executable URL schemes.
+      return /^[a-zA-Z0-9_-]+\.html$/.test(value);
     }
 
-    async function fetchUsers() {
-      const snapshot = await getDocs(collection(db, "users"));
-      allUsers = snapshot.docs.map(item => {
-        const data = item.data();
-        return {
-          uid: item.id,
-          name: String(data.name || data.displayName || "Unnamed user"),
-          email: String(data.email || ""),
-          role: String(data.role || "No role"),
-          active: data.active === true
-        };
-      }).sort((a,b) => (a.email || a.name).localeCompare(b.email || b.name));
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[char]);
     }
 
-    async function loadMenus() {
-      $("menuContainer").innerHTML = '<div class="loading"><span class="spinner"></span> Loading menu from Firestore...</div>';
-      const snapshot = await getDoc(doc(db, "panelSettings", "menuConfig"));
+    function normalizeMenuItem(item, index) {
+      return {
+        id: typeof item.id === "string" && item.id
+          ? item.id : "menu-" + index,
+        label: String(item.label || "Menu item").slice(0, 60),
+        icon: String(item.icon || "📄").slice(0, 8),
+        page: String(item.page || ""),
+        roles: Array.isArray(item.roles)
+          ? item.roles.map(normalizeRole).filter(
+              role => ["owner", "admin", "editor"].includes(role)
+            ) : [],
+        userIds: Array.isArray(item.userIds)
+          ? item.userIds.filter(id => typeof id === "string").slice(0, 500)
+          : []
+      };
+    }
+
+    function canSeeItem(item) {
+      // Owner always sees all configured items and always has the editor button.
+      if (isOwner) return true;
+
+      const allowedByRole = item.roles.includes(currentRole);
+      const allowedByUser = item.userIds.includes(currentUser.uid);
+      return allowedByRole || allowedByUser;
+    }
+
+    function visibleItems() {
+      return menuItems.filter(canSeeItem);
+    }
+
+    function renderNavigation() {
+      const visible = visibleItems();
+      $("menuCount").textContent = visible.length;
+
+      const validItems = visible.filter(item => safePageFilename(item.page));
+
+      $("sidebarNav").innerHTML = `
+        <a class="nav-link active" href="dashboard.html">
+          <span class="nav-icon">⌂</span> Overview
+        </a>
+        ${validItems.map(item => `
+          <a class="nav-link" href="${escapeHtml(item.page)}">
+            <span class="nav-icon">${escapeHtml(item.icon)}</span>
+            ${escapeHtml(item.label)}
+          </a>
+        `).join("")}
+      `;
+
+      $("quickLinks").innerHTML = validItems.length
+        ? validItems.map(item => `
+          <a class="quick-link" href="${escapeHtml(item.page)}">
+            <span class="quick-icon">${escapeHtml(item.icon)}</span>
+            <span>
+              <strong>${escapeHtml(item.label)}</strong>
+              <small>Open section →</small>
+            </span>
+          </a>
+        `).join("")
+        : `<div class="empty">No menu items are available to this account.</div>`;
+    }
+
+    async function loadMenu() {
+      const ref = doc(db, "panelSettings", "menuConfig");
+      const snapshot = await getDoc(ref);
 
       if (snapshot.exists()) {
         const data = snapshot.data();
-        menuItems = normalizeMenus(data.items);
+        menuItems = Array.isArray(data.items)
+          ? data.items.map(normalizeMenuItem)
+          : [];
       } else {
-        menuItems = structuredClone(defaults);
-        // Do not create or seed the config automatically.
-        // The Owner can save the initial menu from Menu Manager.
+        // Defaults remain local until the Owner saves the menu.
+        menuItems = DEFAULT_MENU.map(normalizeMenuItem);
       }
 
-      renderMenu();
-      renderQuickActions();
+      menuLoaded = true;
+      renderNavigation();
     }
 
-    function renderMenu() {
-      const container = $("menuContainer");
-      const visible = menuItems.filter(canSee);
-      const groups = ["Workspace","Management","Custom","Account"];
-      let html = "";
-
-      for (const group of groups) {
-        const entries = visible.filter(x => x.group === group);
-        if (!entries.length) continue;
-        html += `<div class="section-label">${esc(group.toUpperCase())}</div>`;
-        html += entries.map(item => `
-          <button class="menu-link" data-menu-id="${esc(item.id)}" data-page="${esc(item.page)}">
-            <span class="menu-icon">${esc(item.icon)}</span><span>${esc(item.label)}</span>
-          </button>
-        `).join("");
-      }
-
-      if (!visible.length) html = '<p class="muted">No menu items are assigned to your account. Contact the Owner.</p>';
-      container.innerHTML = html;
-
-      container.querySelectorAll("[data-menu-id]").forEach(button => {
-        button.addEventListener("click", () => navigateMenu(button.dataset.menuId));
-      });
-
-      container.querySelectorAll(".menu-link").forEach(button => {
-        if (button.dataset.page === "dashboard.html") button.classList.add("active");
-      });
-
-      if (profile?.role === "Owner") {
-        const button = document.createElement("button");
-        button.className = "menu-link";
-        button.innerHTML = '<span class="menu-icon">⚙</span><span>Menu Manager</span>';
-        button.addEventListener("click", openMenuManager);
-        container.appendChild(button);
-      }
-    }
-
-    function navigateMenu(id) {
-      const item = menuItems.find(x => x.id === id);
-      if (!item || !canSee(item)) {
-        setStatus("You do not have permission to open this menu.", "error");
-        return;
-      }
-      if (item.page === "dashboard.html") {
-        $("pageTitle").textContent = "Dashboard";
-        document.querySelectorAll(".menu-link").forEach(x => x.classList.remove("active"));
-        document.querySelector(`[data-menu-id="${CSS.escape(id)}"]`)?.classList.add("active");
-        $("sidebar").classList.remove("open");
-        return;
-      }
-      // Page itself must independently verify authentication and permissions.
-      window.location.href = item.page;
-    }
-
-    function renderQuickActions() {
-      const items = menuItems.filter(x => canSee(x) && x.page !== "dashboard.html").slice(0,8);
-      $("quickActions").innerHTML = items.map(item => `
-        <button class="quick" data-quick-id="${esc(item.id)}">
-          <span>${esc(item.icon)}</span><strong>${esc(item.label)}</strong>
-          <small>${esc(item.page)}</small>
-        </button>
-      `).join("") || '<p class="muted">No available shortcuts.</p>';
-
-      $("quickActions").querySelectorAll("[data-quick-id]").forEach(button => {
-        button.addEventListener("click", () => navigateMenu(button.dataset.quickId));
-      });
-    }
-
-    function updateStats() {
-      const tasks = getLocalArray("tasks");
-      const ideas = getLocalArray("ideas");
-      const events = getLocalArray("events");
-      const now = new Date(); now.setHours(0,0,0,0);
-
-      $("taskStat").textContent = tasks.filter(x => !x.done).length;
-      $("ideaStat").textContent = ideas.length;
-      $("eventStat").textContent = events.filter(x => {
-        const d = new Date(String(x.date || "") + "T00:00:00");
-        return !Number.isNaN(d.getTime()) && d >= now;
-      }).length;
-
-      const logs = getLocalArray("activity").slice(-5).reverse();
-      $("activityList").innerHTML = logs.length
-        ? logs.map(x => `<div class="activity">${esc(x.title)}<small>${esc(x.time || "")}</small></div>`).join("")
-        : "No recent local activity.";
-    }
-
-    function showModal(title, html) {
-      $("modalTitle").textContent = title;
-      $("modalBody").innerHTML = html;
-      $("modalBg").classList.add("show");
-    }
-
-    function closeModal() { $("modalBg").classList.remove("show"); }
-
-    function openMenuManager() {
-      if (profile?.role !== "Owner") {
-        setStatus("Only the Owner can change menu settings.", "error");
+    async function loadStaffDirectory() {
+      if (!isOwner) {
+        staffUsers = [];
         return;
       }
 
-      const roles = ["Owner","Admin","Editor"];
-      const userOptions = allUsers.map(user => `
-        <label class="check-option">
-          <input type="checkbox" class="user-permission" value="${esc(user.uid)}">
-          <span>${esc(user.name)}<br><small>${esc(user.email || user.role)}</small></span>
-        </label>
-      `).join("");
+      const snapshot = await getDocs(collection(db, "users"));
 
-      showModal("Owner Menu Manager", `
-        <p class="muted">Add or edit menu labels, destination filenames, roles and specific user access. Changes are saved to Firestore and loaded on the next dashboard visit.</p>
-        <div id="managerStatus" class="status"></div>
+      staffUsers = snapshot.docs.map(profileDoc => {
+        const data = profileDoc.data();
+        return {
+          uid: profileDoc.id,
+          email: typeof data.email === "string" ? data.email : "",
+          displayName: typeof data.displayName === "string"
+            ? data.displayName
+            : (typeof data.name === "string" ? data.name : ""),
+          role: normalizeRole(data.role),
+          active: data.active === true
+        };
+      });
 
-        <div class="card" style="padding:15px;margin:14px 0">
-          <h4 id="editorTitle" style="margin:0 0 12px">Add a menu item</h4>
-          <form id="menuForm">
-            <input type="hidden" id="editId">
-            <div class="field"><label>Menu name</label><input id="menuLabel" maxlength="50" required placeholder="Example: Reports"></div>
-            <div class="field"><label>Page filename</label><input id="menuPage" required maxlength="100" placeholder="reports.html"><small class="muted">Use a local HTML filename. Example: reports.html</small></div>
-            <div class="field"><label>Icon or emoji</label><input id="menuIcon" maxlength="8" value="▣" placeholder="📊"></div>
-            <div class="field"><label>Menu group</label>
-              <select id="menuGroup">
-                <option>Workspace</option><option>Management</option><option>Account</option><option>Custom</option>
-              </select>
-            </div>
-
-            <div class="field">
-              <label>Who can see this menu? Select roles</label>
-              <div class="check-grid">
-                ${roles.map(role => `<label class="check-option"><input type="checkbox" class="role-permission" value="${role}"> ${role}</label>`).join("")}
-              </div>
-            </div>
-
-            <div class="field">
-              <label>Or grant access to specific users</label>
-              <div class="user-checks" id="userPermissionList">
-                ${userOptions || '<p class="muted">No user records found.</p>'}
-              </div>
-              <small class="muted">User access is matched by Firebase Authentication UID (the Firestore users document ID).</small>
-            </div>
-
-            <button type="submit" class="btn primary" id="saveMenu">Save Menu Settings</button>
-            <button type="button" class="btn secondary" id="resetMenuForm">Clear Form</button>
-          </form>
-        </div>
-
-        <div class="section-head"><div><h3>Existing menu items</h3><p>Edit, review or remove entries</p></div></div>
-        <div id="existingMenus"></div>
-        <p class="muted">Menu configuration document: panelSettings/menuConfig</p>
-      `);
-
-      renderExistingMenus();
-      $("menuForm").addEventListener("submit", saveMenuItem);
-      $("resetMenuForm").addEventListener("click", resetMenuForm);
+      renderUserPicker([]);
     }
 
-    function renderExistingMenus() {
-      const target = $("existingMenus");
-      if (!target) return;
+    function renderUserPicker(selectedIds = []) {
+      const picker = $("userPicker");
 
-      target.innerHTML = menuItems.map(item => `
-        <div class="menu-editor">
-          <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start">
-            <div>
-              <h4>${esc(item.icon)} ${esc(item.label)}</h4>
-              <div class="muted">${esc(item.page)} · ${esc(item.group)}</div>
-              <div style="margin-top:7px">
-                ${(item.roles || []).map(role => `<span class="tag">${esc(role)}</span>`).join("")}
-                ${(item.userIds || []).length ? `<span class="tag">${item.userIds.length} specific user(s)</span>` : ""}
-                ${!(item.roles || []).length && !(item.userIds || []).length ? '<span class="tag">No non-owner access</span>' : ""}
-              </div>
-            </div>
-            <div style="display:flex;gap:6px;flex-wrap:wrap">
-              <button class="btn secondary" data-edit-menu="${esc(item.id)}">Edit</button>
-              <button class="btn danger" data-delete-menu="${esc(item.id)}">Remove</button>
-            </div>
+      if (!isOwner) {
+        picker.innerHTML = '<div class="muted">Owner access required.</div>';
+        return;
+      }
+
+      if (!staffUsers.length) {
+        picker.innerHTML = '<div class="muted">No user profiles were found.</div>';
+        return;
+      }
+
+      picker.innerHTML = staffUsers.map(user => {
+        const name = user.displayName || user.email || user.uid;
+        const detail = [
+          user.email && user.email !== name ? user.email : "",
+          user.role || "no role",
+          user.active ? "active" : "inactive"
+        ].filter(Boolean).join(" · ");
+
+        return `
+          <label class="user-option">
+            <input type="checkbox" name="menuUser"
+                   value="${escapeHtml(user.uid)}"
+                   ${selectedIds.includes(user.uid) ? "checked" : ""}>
+            <span>
+              <strong>${escapeHtml(name)}</strong><br>
+              <span class="muted">${escapeHtml(detail)}</span>
+            </span>
+          </label>
+        `;
+      }).join("");
+    }
+
+    function renderManagerList() {
+      const container = $("menuManagerList");
+
+      if (!menuItems.length) {
+        container.innerHTML = '<div class="empty">No menu items yet. Select Add Menu to create one.</div>';
+        return;
+      }
+
+      container.innerHTML = menuItems.map(item => `
+        <div class="menu-manager-item">
+          <div>
+            <strong>${escapeHtml(item.icon)} ${escapeHtml(item.label)}</strong>
+            <small>${escapeHtml(item.page)}</small>
+            <small>
+              Roles: ${escapeHtml(item.roles.join(", ") || "none")}
+              · Selected users: ${item.userIds.length}
+            </small>
+          </div>
+          <div class="item-actions">
+            <button class="btn btn-small" type="button"
+                    data-edit-menu="${escapeHtml(item.id)}">Edit</button>
+            <button class="btn btn-danger btn-small" type="button"
+                    data-delete-menu="${escapeHtml(item.id)}">Delete</button>
           </div>
         </div>
-      `).join("") || '<p class="muted">No menu items. Add one above.</p>';
-
-      target.querySelectorAll("[data-edit-menu]").forEach(button => {
-        button.addEventListener("click", () => editMenu(button.dataset.editMenu));
-      });
-      target.querySelectorAll("[data-delete-menu]").forEach(button => {
-        button.addEventListener("click", () => deleteMenu(button.dataset.deleteMenu));
-      });
+      `).join("");
     }
 
-    function resetMenuForm() {
+    function openModal() {
+      if (!isOwner) {
+        showStatus("Only the Owner can edit the dashboard menu.", "error");
+        return;
+      }
+
+      $("menuModal").classList.remove("hidden");
+      showModalStatus("");
+      renderManagerList();
+      renderUserPicker([]);
+    }
+
+    function closeModal() {
+      $("menuModal").classList.add("hidden");
+      resetForm();
+    }
+
+    function resetForm() {
       $("menuForm").reset();
-      $("editId").value = "";
-      $("menuIcon").value = "▣";
-      $("editorTitle").textContent = "Add a menu item";
-      document.querySelectorAll(".role-permission,.user-permission").forEach(x => x.checked = false);
+      $("editingId").value = "";
+      $("menuIcon").value = "📄";
+      $("modalTitle").textContent = "Menu Manager";
+
+      document.querySelectorAll('input[name="menuRole"]').forEach(input => {
+        input.checked = input.value === "owner";
+      });
+
+      renderUserPicker([]);
     }
 
-    function editMenu(id) {
-      const item = menuItems.find(x => x.id === id);
+    function startNewItem() {
+      resetForm();
+      $("menuLabel").focus();
+    }
+
+    function editMenuItem(id) {
+      const item = menuItems.find(entry => entry.id === id);
       if (!item) return;
 
-      $("editId").value = item.id;
+      $("editingId").value = item.id;
       $("menuLabel").value = item.label;
-      $("menuPage").value = item.page;
       $("menuIcon").value = item.icon;
-      $("menuGroup").value = item.group;
-      $("editorTitle").textContent = "Edit menu item";
+      $("menuPage").value = item.page;
+      $("modalTitle").textContent = "Edit Menu Item";
 
-      document.querySelectorAll(".role-permission").forEach(x => {
-        x.checked = (item.roles || []).includes(x.value);
-      });
-      document.querySelectorAll(".user-permission").forEach(x => {
-        x.checked = (item.userIds || []).includes(x.value);
+      document.querySelectorAll('input[name="menuRole"]').forEach(input => {
+        input.checked = item.roles.includes(input.value);
       });
 
-      $("menuForm").scrollIntoView({behavior:"smooth",block:"start"});
+      renderUserPicker(item.userIds);
+      $("menuLabel").focus();
     }
 
-    function validatePageFilename(value) {
-      // Permit only local HTML filenames, never script URLs, path traversal, or external URLs.
-      return /^[a-zA-Z0-9_-]+\.html$/i.test(value) && !value.includes("..");
-    }
+    async function saveMenu() {
+      if (!isOwner) throw new Error("Only the Owner can save menu settings.");
 
-    async function saveMenuItem(event) {
-      event.preventDefault();
-      if (profile?.role !== "Owner") return;
+      if (!menuLoaded) throw new Error("Menu settings have not loaded yet.");
 
       const label = $("menuLabel").value.trim();
+      const icon = $("menuIcon").value.trim() || "📄";
       const page = $("menuPage").value.trim();
-      const icon = $("menuIcon").value.trim() || "▣";
-      const group = $("menuGroup").value;
-      const editId = $("editId").value;
 
-      if (!label) return managerMessage("Enter a menu name.", true);
-      if (!validatePageFilename(page)) {
-        return managerMessage("Enter a safe local filename such as reports.html. External URLs and folder paths are not allowed.", true);
+      if (!label || label.length > 60) {
+        throw new Error("Enter a menu label of 1–60 characters.");
       }
 
-      const roles = [...document.querySelectorAll(".role-permission:checked")].map(x => x.value);
-      const userIds = [...document.querySelectorAll(".user-permission:checked")].map(x => x.value);
+      if (!safePageFilename(page)) {
+        throw new Error("Use a safe HTML filename, such as articles.html.");
+      }
 
-      const existing = menuItems.find(x => x.id === editId);
-      const item = {
-        id: editId || safeId(), label, page, icon, group, roles, userIds,
-        // Preserve the default dashboard entry's identity when editing.
-        ...(existing?.id === "dashboard" ? {id:"dashboard"} : {})
-      };
+      const roles = Array.from(
+        document.querySelectorAll('input[name="menuRole"]:checked')
+      ).map(input => input.value);
 
-      if (editId) {
-        menuItems = menuItems.map(x => x.id === editId ? item : x);
+      const userIds = Array.from(
+        document.querySelectorAll('input[name="menuUser"]:checked')
+      ).map(input => input.value);
+
+      const editingId = $("editingId").value;
+      const id = editingId || (
+        "menu-" + Date.now().toString(36) +
+        "-" + Math.random().toString(36).slice(2, 8)
+      );
+
+      const item = { id, label, icon, page, roles, userIds };
+      const existingIndex = menuItems.findIndex(entry => entry.id === id);
+
+      const updated = [...menuItems];
+
+      if (existingIndex >= 0) {
+        updated[existingIndex] = item;
       } else {
-        if (menuItems.some(x => x.page.toLowerCase() === page.toLowerCase())) {
-          return managerMessage("That page filename is already assigned to a menu item.", true);
-        }
-        menuItems.push(item);
+        updated.push(item);
       }
 
-      try {
-        $("saveMenu").disabled = true;
-        $("saveMenu").textContent = "Saving...";
-        managerMessage("Saving menu settings to Firestore...");
+      showModalStatus("Saving menu configuration...");
 
-        await persistMenus();
-        renderMenu();
-        renderQuickActions();
-        renderExistingMenus();
-        updateStats();
-        managerMessage("Menu settings saved successfully.", false);
-        resetMenuForm();
-      } catch (error) {
-        console.error(error);
-        managerMessage("Save failed. Check Firestore rules and your internet connection. " + error.message, true);
-      } finally {
-        if ($("saveMenu")) {
-          $("saveMenu").disabled = false;
-          $("saveMenu").textContent = "Save Menu Settings";
-        }
-      }
-    }
-
-    function managerMessage(message, isError=false) {
-      const target = $("managerStatus");
-      if (!target) return;
-      target.textContent = message;
-      target.className = "status " + (isError ? "error" : "success");
-    }
-
-    async function persistMenus() {
-      if (profile?.role !== "Owner") throw new Error("Owner permission required.");
+      // Firestore rules must permit Owner create/update on this document.
       await setDoc(doc(db, "panelSettings", "menuConfig"), {
-        items: menuItems,
+        items: updated,
         updatedAt: serverTimestamp(),
         updatedBy: currentUser.uid
       });
+
+      menuItems = updated;
+      renderNavigation();
+      renderManagerList();
+      resetForm();
+      showModalStatus("Menu saved successfully.", "success");
+      showStatus("Menu configuration saved.", "success");
     }
 
-    async function deleteMenu(id) {
-      if (profile?.role !== "Owner") return;
-      const item = menuItems.find(x => x.id === id);
+    async function deleteMenuItem(id) {
+      if (!isOwner) return;
+
+      const item = menuItems.find(entry => entry.id === id);
       if (!item) return;
 
-      if (item.id === "dashboard") {
-        return managerMessage("The main Dashboard menu cannot be removed.", true);
-      }
+      if (!confirm(`Delete the "${item.label}" menu item?`)) return;
 
-      if (!confirm(`Remove "${item.label}" from the sidebar? This does not delete the HTML file.`)) return;
-
-      const previous = menuItems;
-      menuItems = menuItems.filter(x => x.id !== id);
+      const updated = menuItems.filter(entry => entry.id !== id);
 
       try {
-        await persistMenus();
-        renderMenu();
-        renderQuickActions();
-        renderExistingMenus();
-        managerMessage("Menu item removed.");
+        await setDoc(doc(db, "panelSettings", "menuConfig"), {
+          items: updated,
+          updatedAt: serverTimestamp(),
+          updatedBy: currentUser.uid
+        });
+
+        menuItems = updated;
+        renderNavigation();
+        renderManagerList();
+        showModalStatus("Menu item deleted.", "success");
+        showStatus("Menu item deleted.", "success");
       } catch (error) {
-        menuItems = previous;
-        managerMessage("Could not remove menu item: " + error.message, true);
+        showModalStatus("Unable to delete: " + error.message, "error");
       }
     }
 
-    async function openProfile() {
-      showModal("My Profile", `
-        <p class="muted">Name: ${esc(profile?.name || currentUser?.displayName || "EduGM user")}</p>
-        <p class="muted">Email: ${esc(currentUser?.email || "")}</p>
-        <p class="muted">Role: ${esc(profile?.role || "")}</p>
-        <p class="muted">UID: ${esc(currentUser?.uid || "")}</p>
-      `);
-    }
+    async function initializeDashboard(user) {
+      currentUser = user;
 
-    $("closeModal").addEventListener("click", closeModal);
-    $("modalBg").addEventListener("click", event => {
-      if (event.target === $("modalBg")) closeModal();
-    });
-    $("mobileMenu").addEventListener("click", () => $("sidebar").classList.toggle("open"));
-    $("profileButton").addEventListener("click", openProfile);
-    $("viewProfile").addEventListener("click", openProfile);
-
-    $("reloadMenu").addEventListener("click", async () => {
-      if (!currentUser) return;
-      try {
-        setStatus("Refreshing menu and user records...");
-        await loadMenus();
-        if (profile.role === "Owner") await fetchUsers();
-        setStatus("Menu refreshed.", "success");
-      } catch (error) {
-        setStatus("Unable to refresh: " + error.message, "error");
-      }
-    });
-
-    $("refreshStats").addEventListener("click", updateStats);
-    $("logoutButton").addEventListener("click", async () => {
-      $("logoutButton").disabled = true;
-      try {
-        await signOut(auth);
-        window.location.replace("index.html");
-      } catch (error) {
-        setStatus("Logout failed. Please retry.", "error");
-        $("logoutButton").disabled = false;
-      }
-    });
-
-    $("year").textContent = new Date().getFullYear();
-    $("todayDate").textContent = new Date().toLocaleDateString(undefined, {
-      weekday:"long",year:"numeric",month:"long",day:"numeric"
-    });
-
-    onAuthStateChanged(auth, async user => {
       if (!user) {
-        window.location.replace("index.html");
+        location.replace("index.html");
         return;
       }
 
-      currentUser = user;
-      $("initialLoading").classList.remove("hidden");
-      $("dashboardContent").classList.add("hidden");
+      showStatus("Verifying your EduGM profile...");
 
       try {
-        const userSnapshot = await getDoc(doc(db, "users", user.uid));
-        if (!userSnapshot.exists()) throw new Error("Your account has not been approved. Contact the EduGM Owner.");
+        const profileRef = doc(db, "users", user.uid);
+        const profileSnapshot = await getDoc(profileRef);
 
-        profile = userSnapshot.data();
-        if (profile.active !== true || typeof profile.role !== "string" || !profile.role.trim()) {
-          throw new Error("Your account has not been approved. Contact the EduGM Owner.");
+        if (!profileSnapshot.exists()) {
+          await signOut(auth);
+          location.replace("index.html");
+          return;
         }
 
-        profile.role = profile.role.trim();
+        currentProfile = profileSnapshot.data();
+        currentRole = normalizeRole(currentProfile.role);
 
-        $("userName").textContent = profile.name || user.displayName || user.email || "EduGM Member";
-        $("userRole").textContent = profile.role;
-        $("avatar").textContent = ($("userName").textContent[0] || "E").toUpperCase();
-        $("welcomeTitle").textContent = "Welcome, " + (profile.name || user.displayName || "EduGM Member") + "!";
-        $("roleStat").textContent = profile.role;
-        $("accountName").textContent = profile.name || user.displayName || "EduGM Member";
-        $("accountEmail").textContent = user.email || "No email";
-        $("accountRole").textContent = profile.role;
-
-        if (profile.role === "Owner") {
-          $("ownerMenuNotice").classList.remove("hidden");
-          $("openMenuManager").addEventListener("click", openMenuManager);
-          // Load the user directory for the Owner's specific-user permission picker.
-          await fetchUsers();
+        if (currentProfile.active !== true ||
+            !["owner", "admin", "editor"].includes(currentRole)) {
+          await signOut(auth);
+          alert("Your account is not approved or does not have a valid role. Contact the EduGM Owner.");
+          location.replace("index.html");
+          return;
         }
 
-        await loadMenus();
-        updateStats();
+        isOwner = currentRole === "owner";
 
-        $("initialLoading").classList.add("hidden");
-        $("dashboardContent").classList.remove("hidden");
-        authReady = true;
+        $("editMenuButton").classList.toggle("hidden", !isOwner);
+        $("welcomeText").textContent =
+          "Signed in as " +
+          (currentProfile.displayName || currentProfile.name || user.email || "EduGM staff") +
+          ". Your authorized workspace is ready.";
+
+        $("roleBadge").textContent = currentRole;
+        $("accountRole").textContent =
+          currentRole.charAt(0).toUpperCase() + currentRole.slice(1);
+        $("accountStatus").textContent = "Active";
+
+        showStatus("Account verified. Loading menu settings...", "success");
+
+        await loadMenu();
+
+        if (isOwner) {
+          try {
+            await loadStaffDirectory();
+          } catch (error) {
+            // The Owner menu editor stays available even if directory access fails.
+            staffUsers = [];
+            renderUserPicker([]);
+            showStatus(
+              "Dashboard loaded, but the staff directory could not be read. Check the users collection rules: " +
+              error.message,
+              "error"
+            );
+          }
+        }
+
+        renderNavigation();
+
+        if (!isOwner) {
+          $("editMenuButton").classList.add("hidden");
+        }
+
+        if (!document.querySelector("#pageStatus.error")) {
+          showStatus("Dashboard ready. Your account permissions have been loaded.", "success");
+        }
       } catch (error) {
-        console.error("Dashboard initialization failed:", error);
-        $("initialLoading").innerHTML = `<strong style="color:#be123c">Dashboard access failed.</strong><br><span class="muted">${esc(error.message)}<br>Check Firebase Authentication, Firestore access rules and your users/{uid} document.</span>`;
+        console.error("Dashboard initialization error:", error);
+        showStatus(
+          "Dashboard access failed: " + error.message +
+          " Check Firebase Authentication, Firestore rules, and users/" +
+          user.uid + ".",
+          "error"
+        );
+
+        $("accountStatus").textContent = "Error";
+        $("accountRole").textContent = "—";
+
+        // Keep the Owner menu button visible if the profile was successfully
+        // verified as Owner but another subsequent dashboard request failed.
+        if (isOwner) {
+          $("editMenuButton").classList.remove("hidden");
+        }
       }
+    }
+
+    $("editMenuButton").addEventListener("click", openModal);
+    $("closeModalButton").addEventListener("click", closeModal);
+    $("closeModalFooterButton").addEventListener("click", closeModal);
+    $("cancelEditButton").addEventListener("click", startNewItem);
+    $("newMenuButton").addEventListener("click", startNewItem);
+
+    $("menuModal").addEventListener("click", event => {
+      if (event.target === $("menuModal")) closeModal();
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape" && !$("menuModal").classList.contains("hidden")) {
+        closeModal();
+      }
+    });
+
+    $("menuManagerList").addEventListener("click", event => {
+      const editButton = event.target.closest("[data-edit-menu]");
+      const deleteButton = event.target.closest("[data-delete-menu]");
+
+      if (editButton) editMenuItem(editButton.dataset.editMenu);
+      if (deleteButton) deleteMenuItem(deleteButton.dataset.deleteMenu);
+    });
+
+    $("menuForm").addEventListener("submit", async event => {
+      event.preventDefault();
+
+      try {
+        await saveMenu();
+      } catch (error) {
+        console.error("Menu save error:", error);
+        showModalStatus("Could not save menu: " + error.message, "error");
+      }
+    });
+
+    $("refreshButton").addEventListener("click", async () => {
+      if (!currentUser) return;
+
+      $("refreshButton").disabled = true;
+      try {
+        await loadMenu();
+
+        if (isOwner) {
+          await loadStaffDirectory();
+        }
+
+        showStatus("Dashboard refreshed successfully.", "success");
+      } catch (error) {
+        showStatus("Unable to refresh: " + error.message, "error");
+      } finally {
+        $("refreshButton").disabled = false;
+      }
+    });
+
+    $("logoutButton").addEventListener("click", async () => {
+      $("logoutButton").disabled = true;
+
+      try {
+        await signOut(auth);
+        location.replace("index.html");
+      } catch (error) {
+        $("logoutButton").disabled = false;
+        showStatus("Logout failed: " + error.message, "error");
+      }
+    });
+
+    onAuthStateChanged(auth, user => {
+      initializeDashboard(user);
     });
   </script>
 </body>
