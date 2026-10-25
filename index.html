@@ -247,6 +247,26 @@
       color: var(--primary);
     }
 
+    .forgot-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: -9px;
+      margin-bottom: 18px;
+    }
+
+    .forgot-link {
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .forgot-link:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+
     .sign-in {
       display: flex;
       align-items: center;
@@ -346,6 +366,50 @@
       color: #4b5568;
     }
 
+    /* Full-screen EduGM loading screen */
+    .page-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: grid;
+      place-items: center;
+      background: #fff;
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+    }
+
+    .page-loader.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .loader-mark {
+      width: 58px;
+      height: 58px;
+      animation: logoSpin 1.15s linear infinite;
+      filter: drop-shadow(0 5px 10px rgba(101, 70, 232, 0.12));
+    }
+
+    .loader-mark path {
+      fill: #4054ff;
+    }
+
+    .loader-caption {
+      position: absolute;
+      top: calc(50% + 48px);
+      color: #8a91a5;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2.4px;
+      text-transform: uppercase;
+    }
+
+    @keyframes logoSpin {
+      to { transform: rotate(360deg); }
+    }
+
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
@@ -406,6 +470,16 @@
 </head>
 
 <body>
+  <!-- Initial loading screen with a continuously rotating EduGM-style mark -->
+  <div class="page-loader" id="page-loader" role="status" aria-label="Loading EduGM">
+    <svg class="loader-mark" viewBox="0 0 64 64" aria-hidden="true">
+      <path d="M32 4C22.9 4 14.6 7.8 8.8 14L32 27.3 55.2 14C49.4 7.8 41.1 4 32 4Z"/>
+      <path d="M5 21.5C2.7 29.9 4.1 39.1 9.1 46.4c4.1 6 10.4 10.3 17.9 12V31.6L5 21.5Z"/>
+      <path d="M59 21.5 37 31.6v26.8c7.5-1.7 13.8-6 17.9-12 5-7.3 6.4-16.5 4.1-24.9Z"/>
+    </svg>
+    <span class="loader-caption">EduGM</span>
+  </div>
+
   <main class="page">
 
     <section class="visual-panel" aria-label="EduGM introduction">
@@ -506,6 +580,12 @@
             </div>
           </div>
 
+          <div class="forgot-row">
+            <a class="forgot-link" href="forgot-password.html">
+              Forgot password?
+            </a>
+          </div>
+
           <button class="sign-in" id="sign-in-button" type="submit">
             <span id="button-label">Sign in securely</span>
             <span class="spinner" id="spinner" hidden></span>
@@ -545,6 +625,15 @@
     // Automatically update the copyright year.
     document.getElementById("copyright-year").textContent =
       new Date().getFullYear();
+
+    // Hide the initial loading screen after the page assets are ready.
+    // The short delay lets the rotating mark appear smoothly instead of flashing.
+    window.addEventListener("load", function () {
+      window.setTimeout(function () {
+        const pageLoader = document.getElementById("page-loader");
+        if (pageLoader) pageLoader.classList.add("is-hidden");
+      }, 650);
+    });
 
     // Discourage right-click and dragging on protected images.
     document.addEventListener("contextmenu", function (event) {
@@ -641,7 +730,7 @@
       setLoading(true);
 
       try {
-        const { initializeApp } = await import(
+        const { initializeApp, getApps, getApp } = await import(
           "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js"
         );
 
@@ -669,7 +758,7 @@
           appId: "1:236553092510:web:91f03b4434616c06846a8f"
         };
 
-        const app = initializeApp(firebaseConfig);
+        const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
